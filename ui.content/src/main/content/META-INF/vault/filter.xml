@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/gogstore" mode="merge"/>
+    <filter root="/content/gogstore" mode="merge"/>
+    <filter root="/content/dam/gogstore" mode="merge">
+        <exclude pattern="/content/dam/gogstore(/.*)?"/>
+        <include pattern="/content/dam/gogstore/jcr:content(/.*)?"/>
+    </filter>
+    <filter root="/content/dam/gogstore/asset.jpg" mode="merge"/>
+    <filter root="/content/experience-fragments/gogstore" mode="merge"/>
+</workspaceFilter>

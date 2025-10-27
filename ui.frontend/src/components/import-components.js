@@ -48,6 +48,7 @@ import {
 } from '@adobe/aem-core-components-react-base';
 import Banner from "./Banner/Banner";
 import Navigation from "./Navigation/Navigation";
+import Footer from "./Footer/Footer";
 
 //lazyload / code splitting example of an internal component
 const LazyTextComponent = withAsyncImport(() => import(`./Text/Text`));
@@ -79,6 +80,7 @@ MapTo('gogstore/components/container')(ContainerV1, {isEmpty: ContainerV1IsEmpty
 
 MapTo('gogstore/components/content/banner')(Banner, { isEmpty: false });
 MapTo('gogstore/components/content/navigation')(Navigation, { isEmpty: false });
+MapTo('gogstore/components/content/footer')(Footer, { isEmpty: false });
 
 
 //lazy load of internal component (hello world)

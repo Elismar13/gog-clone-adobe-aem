@@ -14,6 +14,11 @@
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+.aem-container {
+	min-width: 100% !important;
+padding: 0 !important;
+}
+
 :root {
     --color-dark: #1e1e1e;
     --color-light-dark: #272727;

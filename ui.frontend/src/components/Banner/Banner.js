@@ -5,7 +5,7 @@ const Banner = (props) => {
     console.log('Banner Props:', props);
     return ( 
         <div>
-            <p>Olá, mundo!</p>
+            <p>Olá, mundo! Teste</p>
         </div>
      );
 }

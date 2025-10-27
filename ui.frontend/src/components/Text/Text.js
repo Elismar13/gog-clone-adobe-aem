@@ -40,7 +40,6 @@ class Text extends Component {
   }
 
   get textContent() {
-    console.log('Teste:');
     return <div>{this.props.text}</div>;
   }
 

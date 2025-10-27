@@ -76,13 +76,8 @@ MapTo('gogstore/components/accordion')(AccordionV1, {isEmpty: AccordionV1IsEmpty
 MapTo('gogstore/components/carousel')(CarouselV1, {isEmpty: CarouselV1IsEmptyFn});
 MapTo('gogstore/components/container')(ContainerV1, {isEmpty: ContainerV1IsEmptyFn});
 
-MapTo('gogstore/components/content/banner')(Banner, 
-    { 
-        isEmpty: function () {
-            return false;
-        }
-    }
-);
+MapTo('gogstore/components/content/banner')(Banner, { isEmpty: false });
+MapTo('gogstore/components/content/navigation')(Banner, { isEmpty: false });
 
 
 //lazy load of internal component (hello world)

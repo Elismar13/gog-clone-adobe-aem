@@ -27,6 +27,7 @@ require('./Text.css');
  */
 class Text extends Component {
   get richTextContent() {
+    console.log('Teste:');
     return (
       <div
         id={extractModelId(this.props.cqPath)}
@@ -39,6 +40,7 @@ class Text extends Component {
   }
 
   get textContent() {
+    console.log('Teste:');
     return <div>{this.props.text}</div>;
   }
 

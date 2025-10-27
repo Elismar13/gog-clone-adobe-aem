@@ -46,6 +46,7 @@ import {
     SeparatorV1,SeparatorV1IsEmptyFn,
     ListV2,ListV2IsEmptyFn
 } from '@adobe/aem-core-components-react-base';
+import Banner from "./Banner/Banner";
 
 //lazyload / code splitting example of an internal component
 const LazyTextComponent = withAsyncImport(() => import(`./Text/Text`));
@@ -74,6 +75,14 @@ MapTo('gogstore/components/tabs')(TabsV1, {isEmpty: TabsV1IsEmptyFn});
 MapTo('gogstore/components/accordion')(AccordionV1, {isEmpty: AccordionV1IsEmptyFn});
 MapTo('gogstore/components/carousel')(CarouselV1, {isEmpty: CarouselV1IsEmptyFn});
 MapTo('gogstore/components/container')(ContainerV1, {isEmpty: ContainerV1IsEmptyFn});
+
+MapTo('gogstore/components/content/banner')(Banner, 
+    { 
+        isEmpty: function () {
+            return false;
+        }
+    }
+);
 
 
 //lazy load of internal component (hello world)

@@ -14,10 +14,43 @@
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-/* Global styles */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+:root {
+    --color-dark: #1e1e1e;
+    --color-light-dark: #272727;
+    --color-accent: #8e2de2; /* Roxo principal do GOG */
+    --color-accent-hover: #a745f3;
+    --color-text-light: #d4d4d4;
+    --color-text-white: #ffffff;
+    --color-text-secondary: #999999;
+    --bs-body-bg: var(--color-dark); /* Fundo Bootstrap */
+    --bs-body-color: var(--color-text-light); /* Texto Bootstrap */
+}
+
+/* Reset de Corpo e Links */
+body {
+    color: var(--color-text-light) !important;
+}
+
+a {
+    color: var(--color-text-light);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--color-text-white);
+}
+
+/* ---------------- CUSTOMIZAÇÃO GERAL DO BOOTSTRAP ---------------- */
+
+/* Customização de Fundo Escuro */
+.bg-custom-dark {
+    background-color: var(--color-light-dark) !important;
+    border-bottom: 1px solid #333;
+}
+
+.text-accent {
+    color: var(--color-accent) !important;
+}
 
 html,
 body {

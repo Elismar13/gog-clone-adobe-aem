@@ -1,12 +1,12 @@
 import React from 'react';
 
-require('./Page.css');
+import './navigation.css'
 
 const Navigation = (props: any) => {
   return (
     <header className="header bg-custom-dark sticky-top">
       <div className="header-logo text-accent">GOG.COM</div>
-
+    
       <nav className="header-nav d-none d-md-flex">
         <a href="#" className="nav-item active">Loja</a>
         <a href="#" className="nav-item">Biblioteca</a>

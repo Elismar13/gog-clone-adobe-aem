@@ -1,5 +1,5 @@
 {
-  "alloworigin": ["http://localhost:3000"],
+  "alloworigin": ["*"],
   "allowedpaths": ["/(content|conf)/gogstore.*"],
   "supportedheaders": [
     "Authorization",

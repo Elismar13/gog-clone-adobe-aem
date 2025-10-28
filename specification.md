@@ -8,9 +8,9 @@
 	 - price
 	 - score
 	 - discountValue
-	 - discountEnds
+	 - releaseDate
 	 - genre (selector)
-	 - company
+	 - developer
 	 - imageList
  
 ## Pages

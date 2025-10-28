@@ -4,7 +4,7 @@ import './navigation.css'
 
 const Navigation = (props: any) => {
   return (
-    <header className="border-bottom header bg-custom-dark sticky-top p-3 mb-3">
+    <header className="header bg-custom-dark sticky-top p-3">
       <div className="header-logo text-accent">GOG.COM</div>
     
       <nav className="header-nav d-none d-md-flex">

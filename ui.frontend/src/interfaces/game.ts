@@ -1,4 +1,5 @@
 interface Game {
+    _id: string,
     title: string,
     description: string,
     price: number,
@@ -9,3 +10,5 @@ interface Game {
     developer: any,
     imageList: any[],
 }
+
+export default Game;

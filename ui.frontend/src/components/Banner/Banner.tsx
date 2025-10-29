@@ -1,36 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../axios';
 import Game from '../../interfaces/game'
+import calculateDiscount from '../../util/calculateDiscount';
+import mockedGames from '../../api/mocked';
 // import bg from './rdr2_1.jpg'
-
-const QUERY = `{
-  jogoList(filter: {
-    discountValue: {
-      _logOp:OR
-      _expressions: {
-        value: 0
-        _operator: GREATER
-      }
-    }
-  }) {
-    items {
-      _path
-      _id
-      title
-      price
-      score
-      discountValue
-      releaseDate
-      genre
-      imageList {
-        ...on ImageRef {
-          _path
-        }
-      }
-    }
-  }
-}
-`;
 
 const Banner = (props: any) => {
 
@@ -38,41 +11,23 @@ const Banner = (props: any) => {
 
   const handleLoadGames = async () => {
     try {
-      // 🎯 CORREÇÃO DO ENDPOINT: Adicionar o seletor /graphql para execução
-      const endpoint = "/content/cq:graphql/gogstore/endpoint.json";
+      const endpoint = "/graphql/execute.json/gogstore/getGamesThatHasDiscount";
 
-      const response = await api.post(endpoint, {
-        "query": QUERY
-      });
+      const response = await api.get(endpoint);
 
       const loadedGames = response.data?.data?.jogoList?.items || [];
       setGames(loadedGames);
 
     } catch (error) {
       console.error("Erro ao carregar jogos:", error);
+      console.warn("Usando jogos mockados.");
+      setGames(mockedGames);
     }
   };
 
   useEffect(() => {
     handleLoadGames();
   }, [])
-
-  const calculateDiscount = (price: number, discountValue: number) => {
-    if (price && discountValue) {
-      const oldPrice = price;
-      const discountPercentage = discountValue / 100;
-      const currentPrice = oldPrice * (1 - discountPercentage);
-
-      const formatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
-
-      return {
-        old: formatter.format(oldPrice),
-        current: formatter.format(currentPrice),
-        percentage: `-${discountValue}%`,
-      };
-    }
-    return { old: '', current: 'Preço Indefinido', percentage: '' };
-  };
 
   if (games.length === 0) {
     return <div className="text-center text-white p-5 bg-dark">Carregando ofertas...</div>;
@@ -107,33 +62,35 @@ const Banner = (props: any) => {
             <div key={game._id} className={`carousel-item ${index === 0 ? 'active' : ''}`} data-bs-interval="5000">
               <img
                 src={`http://localhost:4502${imagePath}`}
-                className="w-100 d-block d-none d-sm-block"
+                className="w-100 d-block d-none d-sm-block opacity-75"
                 alt={game.title}
               />
 
-              <div className="carousel-caption text-start w-100 p-3 p-md-5">
+              <div className="carousel-caption text-start p-3 p-md-5">
                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-end">
                   {/* Informações do Jogo */}
                   <div className="text-start">
-                    <h5 className="lead text-light d-none d-sm-block">Disponívell hoje!</h5>
+                    <h5 className="lead text-light d-none d-sm-block">Disponível hoje!</h5>
                     <h3 className="fw-bold text-white mb-2">{game.title}</h3>
                   </div>
 
                   {/* Preços e Botão */}
-                  <div className="d-flex flex-column">
+                  <div className="d-flex flex-column align-items-end">
                     <div className="d-flex align-items-center mb-1">
-                      <span className="badge bg-warning p-2 rounded me-3 text-dark fw-bold">{discountInfo.percentage}</span>
-                      <span className="text-secondary text-decoration-line-through">{discountInfo.old}</span>
+                      <p className="badge discount-percentage h-100 rounded me-3 text-dark fs-5">{discountInfo.percentage}</p>
+                      <div className="d-flex flex-column text-end">
+                        <span className="text-decoration-line-through"><small>{discountInfo.old}</small></span>
+                        <p className="text-white fs-3"><strong>{discountInfo.current}</strong></p>
+                      </div>
                     </div>
 
-                    <div className="d-flex align-items-center mt-2">
-                      <span className="h4 fw-bold text-gog-price me-3 mb-0">{discountInfo.current}</span>
+                    <div className="d-flex align-items-center mt-1">
                       <a
                         id={`buyBtn-${game._id}`}
-                        className="btn btn-gog-primary btn-lg fw-bold"
+                        className="btn btn-success btn-lg fw-bold"
                         href="#"
                         role="button"
-                      >Buy</a>
+                      >Comprar</a>
                     </div>
                   </div>
                 </div>

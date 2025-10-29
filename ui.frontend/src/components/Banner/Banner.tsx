@@ -38,21 +38,15 @@ const Banner = (props: any) => {
 
   const handleLoadGames = async () => {
     try {
+      // 🎯 CORREÇÃO DO ENDPOINT: Adicionar o seletor /graphql para execução
       const endpoint = "/content/cq:graphql/gogstore/endpoint.json";
 
       const response = await api.post(endpoint, {
         "query": QUERY
       });
 
-      // 4. Extrai e armazena apenas a lista de jogos no estado.
       const loadedGames = response.data?.data?.jogoList?.items || [];
       setGames(loadedGames);
-
-      console.log(loadedGames)
-      console.log(loadedGames[0].imageList[0]._path)
-      console.log(loadedGames[0].imageList[0]._path)
-
-
 
     } catch (error) {
       console.error("Erro ao carregar jogos:", error);
@@ -69,7 +63,6 @@ const Banner = (props: any) => {
       const discountPercentage = discountValue / 100;
       const currentPrice = oldPrice * (1 - discountPercentage);
 
-      // Formata como moeda BRL (ajuste o 'en-US' para 'pt-BR' se preferir)
       const formatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
       return {
@@ -81,15 +74,14 @@ const Banner = (props: any) => {
     return { old: '', current: 'Preço Indefinido', percentage: '' };
   };
 
-  // Se a API ainda não carregou os jogos, exibe um carregamento ou placeholder.
   if (games.length === 0) {
     return <div className="text-center text-white p-5 bg-dark">Carregando ofertas...</div>;
   }
 
-  // 7. Renderização Dinâmica do Carrossel
   return (
+    // ✅ data-bs-ride="carousel" JÁ ESTÁ AQUI para habilitar o movimento automático
     <div id="gameList" className="carousel slide gog-highlight-carousel" data-bs-ride="carousel">
-      {/* 7.1 Indicadores Dinâmicos */}
+      {/* Indicadores Dinâmicos */}
       <ol className="carousel-indicators">
         {games.map((game, index) => (
           <li
@@ -103,28 +95,27 @@ const Banner = (props: any) => {
         ))}
       </ol>
 
-      {/* 7.2 Itens do Carrossel Dinâmicos */}
       <div className="carousel-inner" role="listbox">
         {games.map((game, index) => {
           const discountInfo = calculateDiscount(game.price, game.discountValue);
-          // O AEM Content Path para o asset deve ser prefixado com o host, mas vamos usar o path puro por enquanto
+
           const imagePath = game.imageList[0]._path;
-          
-          
+
+          if (!imagePath) return null;
+
           return (
-            <div key={game._id} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
+            <div key={game._id} className={`carousel-item ${index === 0 ? 'active' : ''}`} data-bs-interval="5000">
               <img
                 src={`http://localhost:4502${imagePath}`}
                 className="w-100 d-block d-none d-sm-block"
                 alt={game.title}
               />
-              
+
               <div className="carousel-caption text-start w-100 p-3 p-md-5">
                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-end">
-
                   {/* Informações do Jogo */}
                   <div className="text-start">
-                    <h5 className="lead text-light d-none d-sm-block">Disponível hoje!</h5>
+                    <h5 className="lead text-light d-none d-sm-block">Disponívell hoje!</h5>
                     <h3 className="fw-bold text-white mb-2">{game.title}</h3>
                   </div>
 
@@ -142,10 +133,9 @@ const Banner = (props: any) => {
                         className="btn btn-gog-primary btn-lg fw-bold"
                         href="#"
                         role="button"
-                      >Comprar</a>
+                      >Buy</a>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -153,7 +143,7 @@ const Banner = (props: any) => {
         })}
       </div>
 
-      {/* Controles de navegação (Permanecem estáticos do Bootstrap) */}
+      {/* Controles de navegação - Estão corretos para o Bootstrap */}
       <button className="carousel-control-prev" type="button" data-bs-target="#gameList" data-bs-slide="prev">
         <span className="carousel-control-prev-icon" aria-hidden="true"></span>
         <span className="visually-hidden">Previous</span>

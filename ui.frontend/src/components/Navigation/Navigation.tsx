@@ -1,6 +1,8 @@
 import React from 'react';
 
 import './navigation.css'
+import '../../assets/font.css';
+
 
 const Navigation = (props: any) => {
   return (

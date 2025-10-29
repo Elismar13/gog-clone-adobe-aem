@@ -16,19 +16,24 @@
 
 .aem-container {
 	min-width: 100% !important;
-padding: 0 !important;
+  padding: 0 !important;
 }
 
 :root {
     --color-dark: #1e1e1e;
     --color-light-dark: #272727;
-    --color-accent: #8e2de2; /* Roxo principal do GOG */
+    --color-accent: rgb(201, 154, 255); /* Roxo principal do GOG */
     --color-accent-hover: #a745f3;
     --color-text-light: #d4d4d4;
     --color-text-white: #ffffff;
     --color-text-secondary: #999999;
     --bs-body-bg: var(--color-dark); /* Fundo Bootstrap */
     --bs-body-color: var(--color-text-light); /* Texto Bootstrap */
+}
+
+.discount-percentage {
+  background-color: var(--color-accent-hover);
+  font-weight: bolder !important;
 }
 
 /* Reset de Corpo e Links */

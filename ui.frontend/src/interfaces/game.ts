@@ -1,4 +1,5 @@
 interface Game {
+    _path: string,
     _id: string,
     title: string,
     description: string,

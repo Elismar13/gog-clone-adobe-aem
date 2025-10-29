@@ -1,17 +1,45 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 
-import games from '../../api/mocked';
+import api from "../../axios";
 import calculateDiscount from "../../util/calculateDiscount";
+import Game from "../../interfaces/game";
+import mockedGames from '../../api/mocked';
+
 
 interface GamelistProps {
-
+  title: string,
+  category: string,
 }
 
-const Gamelist: FunctionComponent<GamelistProps> = () => {
+const Gamelist: FunctionComponent<GamelistProps> = ({ category, title }) => {
+
+  const [games, setGames] = useState<Game[]>([]);
+
+  const handleLoadGames = async () => {
+    try {
+      const endpoint = `/graphql/execute.json/gogstore/getGamesByGenre;gameGenre=${category}`;
+
+      const response = await api.get(endpoint);
+
+      const loadedGames = response.data?.data?.jogoList?.items || [];
+      setGames(loadedGames);
+
+    } catch (error) {
+      console.error("Erro ao carregar jogos:", error);
+      console.warn("Usando jogos mockados.");
+      setGames(mockedGames);
+    }
+  };
+
+  useEffect(() => {
+    handleLoadGames();
+  }, [])
+
+
   return (
     <div className="container text-white mt-4">
       <div className="d-flex justify-content-between p-2">
-        <p className="text-white text-start fs-4">Destaques</p>
+        <p className="text-white text-start fs-4">{title}</p>
         <span className="text-end">Veja mais</span>
       </div>
 

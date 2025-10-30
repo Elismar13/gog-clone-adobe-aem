@@ -12,7 +12,16 @@
 	 - genre (selector)
 	 - developer
 	 - imageList
- 
+
+ - developer
+	 - title
+	 - image
+
+- highlight
+	- title
+	- externalLink
+	- image
+
 ## Pages
 ### Template
  - XF para o header, com:

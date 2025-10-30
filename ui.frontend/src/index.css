@@ -13,6 +13,7 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 .aem-container {
 	min-width: 100% !important;
@@ -33,7 +34,7 @@
 
 .discount-percentage {
   background-color: var(--color-accent-hover);
-  font-weight: bolder !important;
+  font-weight: bolder;
 }
 
 /* Reset de Corpo e Links */
@@ -65,7 +66,9 @@ a:hover {
 html,
 body {
   border: 0;
-  font: inherit;
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
   font-size: 100%;
   margin: 0;
   padding: 0;
@@ -84,6 +87,6 @@ h5,
 p,
 .nav-container,
 .rw-box {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
   color: #000000;
 }

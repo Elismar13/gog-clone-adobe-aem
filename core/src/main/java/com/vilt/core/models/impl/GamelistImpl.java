@@ -30,8 +30,20 @@ public class GamelistImpl implements Gamelist, ComponentExporter {
     @ValueMapValue
     private String genre;
 
+    @ValueMapValue
+    private String orientation;
+
     public String getTitle() {
         return title;
+    }
+
+    public void setOrientation(String orientation) {
+        this.orientation = orientation;
+    }
+
+    @Override
+    public String getOrientation() {
+        return orientation;
     }
 
     public void setTitle(String title) {

@@ -35,7 +35,7 @@ const Banner = (props: any) => {
 
   return (
     // ✅ data-bs-ride="carousel" JÁ ESTÁ AQUI para habilitar o movimento automático
-    <div id="gameList" className="carousel slide gog-highlight-carousel" data-bs-ride="carousel">
+    <div id="gameList" className="container carousel slide" data-bs-ride="carousel">
       {/* Indicadores Dinâmicos */}
       <ol className="carousel-indicators">
         {games.map((game, index) => (

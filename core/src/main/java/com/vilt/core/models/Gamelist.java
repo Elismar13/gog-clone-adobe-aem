@@ -6,4 +6,6 @@ public interface Gamelist {
 
     String getTitle();
 
+    String getOrientation();
+
 }

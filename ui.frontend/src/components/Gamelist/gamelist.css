@@ -1,0 +1,27 @@
+body {
+  background-color: var(--gog-dark-bg);
+}
+
+.gog-card-hover {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.gog-card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.gog-discount-bg {
+  background-color: var(--color-accent) !important;
+  line-height: 1.5;
+}
+
+.gog-card-price {
+  color: var(--color-text-white);
+  font-size: 1.2rem !important;
+}
+
+.card-body {
+  background-color: #212121 !important;
+}

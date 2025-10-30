@@ -42,6 +42,24 @@
                                     value="rpg" />
                         </items>
                     </category>
+                    <orientation
+                            granite:class="input-size"
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                            emptyOption="{Boolean}false"
+                            fieldLabel="Orientação da lista"
+                            name="./orientation">
+                        <items jcr:primaryType="nt:unstructured">
+                            <vertical
+                                    jcr:primaryType="nt:unstructured"
+                                    text="Vertical"
+                                    value="vertical" />
+                            <horizontal
+                                    jcr:primaryType="nt:unstructured"
+                                    text="Horizontal"
+                                    value="horizontal" />
+                        </items>
+                    </orientation>
                 </items>
             </column>
         </items>

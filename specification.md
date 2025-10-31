@@ -33,6 +33,7 @@
  - XF para o footer, com:
 	 - logo
 	 - backToTop
+	 - 
 ### Components
  - banner
 	 - title
@@ -52,3 +53,10 @@
 	 - discountValue
 	 - image
 	 - link
+
+## Walkthrough
+
+### Setup
+
+- Archetype
+

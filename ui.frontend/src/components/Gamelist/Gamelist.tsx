@@ -7,14 +7,23 @@ import mockedGames from '../../api/mocked';
 
 import './gamelist.css';
 
+const AEM_HOST = 'http://localhost:4502';
+const GAME_DETAIL_PAGE_PATH = "/content/gogstore/us/en/game.html";
+
 interface GamelistProps {
   title: string,
   category: string,
-}
+  orientation: string
+};
 
-const Gamelist: FunctionComponent<GamelistProps> = ({ category, title }) => {
+
+const Gamelist: FunctionComponent<GamelistProps> = ({ category, title, orientation }) => {
 
   const [games, setGames] = useState<Game[]>([]);
+
+  const handleRedirect = (gameTitle: string) => {
+    window.location.replace(`${AEM_HOST}${GAME_DETAIL_PAGE_PATH}?gameTitle=${gameTitle}`);
+  }
 
   const handleLoadGames = async () => {
     try {
@@ -36,10 +45,7 @@ const Gamelist: FunctionComponent<GamelistProps> = ({ category, title }) => {
     handleLoadGames();
   }, [])
 
-
-// Assumindo que este código está dentro de um componente React funcional
-
-return (
+  return (
     <div className="container text-white my-5">
       {/* Título da Seção */}
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -58,23 +64,23 @@ return (
             : 'https://via.placeholder.com/300x400/1a1a1a/FFF?text=Sem+Imagem';
 
           return (
-            <div className="col gog-card-hover" key={index}>
+            <div className="col gog-card-hover" key={index} onClick={() => handleRedirect(game.title)}>
               <div className="card h-100 bg-dark border-secondary rounded-3 overflow-hidden">
-                
+
                 <img
                   className="card-img-top"
                   src={imagePath}
                   alt={game.title}
                 />
-                
+
                 <div className="card-body p-2 d-flex flex-column justify-content-between">
-                  
+
                   <h5 className="card-title text-white fs-5 text-truncate mb-2" title={game.title}>
                     {game.title}
                   </h5>
 
                   <div className="d-flex justify-content-end align-items-end p-1 mt-auto">
-                    
+
                     {game.discountValue > 0 && (
                       <span className="badge gog-discount-bg rounded me-2 text-white fw-bold fs-6">
                         {discountInfo.percentage}

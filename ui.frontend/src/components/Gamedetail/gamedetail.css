@@ -1,0 +1,77 @@
+/* GameDetailsPage.css */
+
+/* Variáveis de Cor (Aproveite o tema Dark) */
+:root {
+  --gog-dark-bg: #1a1a1a;
+  --gog-discount-red: rgb(201, 154, 255); 
+  --gog-buy-green: #4caf50; /* Verde para botão de compra */
+  --gog-secondary-dark: #212121; /* Cor para cards secundários */
+}
+
+/* Garante que o fundo secundário do Bootstrap seja o tom correto */
+.bg-dark {
+    background-color: var(--gog-dark-bg) !important;
+}
+.bg-secondary {
+    background-color: var(--gog-secondary-dark) !important;
+}
+
+/* 1. Background com efeito Blur (Similar ao GOG) */
+.gog-details-page-wrapper {
+    position: relative;
+    overflow: hidden; /* Importante para o fundo */
+}
+
+.gog-background-banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 720px; /* Altura do banner de fundo */
+    background-size: cover;
+    background-position: center top;
+    
+    /* Aplica o efeito de esmaecimento e desfoque */
+    filter: blur(5px) brightness(50%); /* Desfoque e escurece a imagem */
+    opacity: 0.8;
+    z-index: 0;
+}
+
+/* 2. Estilo do Botão de Compra */
+.gog-buy-btn {
+    background-color: var(--gog-buy-green);
+    border-color: var(--gog-buy-green);
+    color: white;
+    transition: background-color 0.2s;
+}
+
+.gog-buy-btn:hover {
+    background-color: #5cb85c; /* Tom ligeiramente mais claro */
+    border-color: #5cb85c;
+    color: white;
+}
+
+/* 3. Estilo de Desconto */
+.gog-discount-bg {
+    background-color: var(--gog-discount-red) !important;
+}
+
+/* 4. Estilos para a Descrição (para que o HTML do CF pareça bom) */
+.gog-description h2 {
+    color: white;
+    font-size: 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.8rem;
+    font-weight: bold;
+    border-bottom: 1px solid #333;
+    padding-bottom: 5px;
+}
+.gog-description p {
+    color: #eee;
+    line-height: 1.6;
+}
+
+/* 5. Garante que o conteúdo fique acima do fundo desfocado */
+.container {
+    z-index: 10;
+}

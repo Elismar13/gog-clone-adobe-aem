@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../axios';
 
-import './gamedetail.css';
 import mockedGames from '../../api/mocked';
 import calculateDiscount from '../../util/calculateDiscount';
+import { AEM_HOST } from '../../constants/constants';
 
-const AEM_HOST = 'http://localhost:4502';
+import './gamedetail.css';
+
 const MOCKED_GAME_DATA = mockedGames[0];
 
 const GameDetail = ({ gameTitle }) => {
@@ -30,11 +31,11 @@ const GameDetail = ({ gameTitle }) => {
       });
 
       const loadedGames = response.data?.data?.jogoList?.items || [];
-      console.log("Jogo: ", loadedGames)
 
-      setGame(loadedGames > 0 ? loadedGames[0] : "");
-
-      console.log("Jogo usado: ", game);
+      if(loadedGames.length > 0)
+        setGame(loadedGames[0]);
+      else
+        setGame(MOCKED_GAME_DATA);
 
     } catch (error) {
       console.error("Erro ao carregar jogos:", error);
@@ -45,10 +46,10 @@ const GameDetail = ({ gameTitle }) => {
 
   useEffect(() => {
     handleLoadGames();
-  }, []);
+  });
 
   if (!game) {
-    return <div className="text-center text-white p-5 bg-dark min-vh-100">Carregando detalhes do jogo...</div>;
+    return <div className="text-center text-white p-5 bg-dark">Carregando detalhes do jogo...</div>;
   }
 
   const { current, old, percentage } = calculateDiscount(game.price, game.discountValue);
@@ -63,7 +64,7 @@ const GameDetail = ({ gameTitle }) => {
 
   return (
     // 1. Container Geral com background semi-transparente
-    <div className="bg-dark text-white min-vh-100 gog-details-page-wrapper">
+    <div className="bg-dark text-white gog-details-page-wrapper">
 
       {/* Banner de Fundo (Blurry effect do GOG) */}
       <div
@@ -106,7 +107,7 @@ const GameDetail = ({ gameTitle }) => {
               />
             </div>
 
-            <h3 className="mt-5">Imagens</h3>
+            <h3 className="mt-5 text-white">Imagens</h3>
             <div className="row row-cols-2 row-cols-md-3 g-3">
               {game.imageList.map((img, i) => (
                 <div className="col" key={i}>
@@ -151,7 +152,7 @@ const GameDetail = ({ gameTitle }) => {
             </div>
 
             <div className="card bg-secondary text-white border-0 p-3 rounded-3">
-              <h5 className="text-center mb-3">Detalhes</h5>
+              <h5 className="text-white text-center mb-3">Detalhes</h5>
               <hr />
               <ul className="list-unstyled small">
                 <li>Desenvolvedor: {game.developer.name}</li>

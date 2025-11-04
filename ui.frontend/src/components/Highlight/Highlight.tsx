@@ -22,7 +22,7 @@ const Highlight: FunctionComponent<HighlightProps> = ({
         rel="noopener noreferrer"
         >
           <img 
-            className="w-100 d-block d-sm-block opacity-75"
+            className="w-100 d-block d-sm-block"
             src={resolveImage(highlightPath)}
             alt={title}
           />

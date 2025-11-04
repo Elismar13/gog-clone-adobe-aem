@@ -2,6 +2,7 @@ import React from 'react';
 
 import './navigation.css';
 import logo from '../../assets/gog_logo.png';
+import { AEM_HOST, STORE_PAGE_PATH } from '../../constants/constants';
 
 
 const Navigation = (props: any) => {
@@ -15,9 +16,9 @@ const Navigation = (props: any) => {
         />
 
         <nav className="header-nav d-none d-md-flex">
-          <a href="#" className="nav-link nav-item active">Loja</a>
-          <a href="#" className="nav-link nav-item">Biblioteca</a>
-          <a href="#" className="nav-link nav-item">Comunidade</a>
+          <a href={`${AEM_HOST}${STORE_PAGE_PATH}`} className="nav-link nav-item active">Loja</a>
+          <a href={`${AEM_HOST}${STORE_PAGE_PATH}`} className="nav-link nav-item">Biblioteca</a>
+          <a href={`${AEM_HOST}${STORE_PAGE_PATH}`} className="nav-link nav-item">Comunidade</a>
         </nav>
 
         <div className="header-user-actions d-flex align-items-center">

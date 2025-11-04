@@ -3,6 +3,7 @@ import api from '../../axios';
 import Game from '../../interfaces/game'
 import calculateDiscount from '../../util/calculateDiscount';
 import mockedGames from '../../api/mocked';
+import { AEM_HOST } from '../../constants/constants';
 // import bg from './rdr2_1.jpg'
 
 const Banner = (props: any) => {
@@ -56,14 +57,17 @@ const Banner = (props: any) => {
 
           const imagePath = game.imageList[0]._path;
 
+          const isDiscounted = game.discountValue > 0;
+
           if (!imagePath) return null;
 
           return (
             <div key={game._id} className={`carousel-item ${index === 0 ? 'active' : ''}`} data-bs-interval="5000">
               <img
-                src={`http://localhost:4502${imagePath}`}
+                src={`${AEM_HOST}${imagePath}`}
                 className="w-100 d-block d-none d-sm-block"
                 alt={game.title}
+                style={{ opacity: 90 }}
               />
 
               <div className="carousel-caption text-start py-md-5">
@@ -77,9 +81,13 @@ const Banner = (props: any) => {
                   {/* Preços e Botão */}
                   <div className="d-flex flex-column align-items-end">
                     <div className="d-flex align-items-center mb-1">
-                      <p className="badge discount-percentage h-100 rounded me-3 text-dark fs-5">{discountInfo.percentage}</p>
+                      {isDiscounted && (
+                        <p className="badge discount-percentage h-100 rounded me-3 text-dark fs-5">{discountInfo.percentage}</p>
+                      )}
                       <div className="d-flex flex-column text-end">
-                        <span className="text-decoration-line-through"><small>{discountInfo.old}</small></span>
+                        {isDiscounted && (
+                          <span className="text-decoration-line-through"><small>{discountInfo.old}</small></span>
+                        )}
                         <p className="text-white fs-3"><strong>{discountInfo.current}</strong></p>
                       </div>
                     </div>

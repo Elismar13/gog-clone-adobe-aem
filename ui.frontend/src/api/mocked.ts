@@ -8,7 +8,7 @@ const data = [
     },
     "price": 249.0,
     "score": 80,
-    "discountValue": 49,
+    "discountValue": 0,
     "releaseDate": "2025-08-18",
     "genre": [
       "genre:action",

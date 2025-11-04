@@ -6,9 +6,7 @@ import Game from "../../interfaces/game";
 import mockedGames from '../../api/mocked';
 
 import './gamelist.css';
-
-const AEM_HOST = 'http://localhost:4502';
-const GAME_DETAIL_PAGE_PATH = "/content/gogstore/us/en/game.html";
+import { AEM_HOST, GAME_DETAIL_PAGE_PATH } from "../../constants/constants";
 
 interface GamelistProps {
   title: string,
@@ -22,7 +20,7 @@ const Gamelist: FunctionComponent<GamelistProps> = ({ category, title, orientati
   const [games, setGames] = useState<Game[]>([]);
 
   const handleRedirect = (gameTitle: string) => {
-    window.location.replace(`${AEM_HOST}${GAME_DETAIL_PAGE_PATH}?gameTitle=${gameTitle}`);
+    window.location.href = `${AEM_HOST}${GAME_DETAIL_PAGE_PATH}?gameTitle=${gameTitle}`;
   }
 
   const handleLoadGames = async () => {
@@ -43,7 +41,7 @@ const Gamelist: FunctionComponent<GamelistProps> = ({ category, title, orientati
 
   useEffect(() => {
     handleLoadGames();
-  }, [])
+  })
 
   return (
     <div className="container text-white my-5">
@@ -60,7 +58,7 @@ const Gamelist: FunctionComponent<GamelistProps> = ({ category, title, orientati
         {games.map((game, index) => {
           const discountInfo = calculateDiscount(game.price, game.discountValue);
           const imagePath = game.imageList && game.imageList.length > 0
-            ? `http://localhost:4502${game.imageList[0]._path}`
+            ? `${AEM_HOST}${game.imageList[0]._path}`
             : 'https://via.placeholder.com/300x400/1a1a1a/FFF?text=Sem+Imagem';
 
           return (

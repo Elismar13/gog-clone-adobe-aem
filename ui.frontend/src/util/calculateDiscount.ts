@@ -1,5 +1,5 @@
 const calculateDiscount = (price: number, discountValue: number) => {
-  if (price && discountValue) {
+  if (price) {
     const oldPrice = price;
     const discountPercentage = discountValue / 100;
     const currentPrice = oldPrice * (1 - discountPercentage);

@@ -65,16 +65,15 @@ const Banner = (props: any) => {
             <div key={game._id} className={`carousel-item ${index === 0 ? 'active' : ''}`} data-bs-interval="5000">
               <img
                 src={`${AEM_HOST}${imagePath}`}
-                className="w-100 d-block d-none d-sm-block"
+                className="w-100 d-block opacity-75"
                 alt={game.title}
-                style={{ opacity: 90 }}
               />
 
               <div className="carousel-caption text-start py-md-5">
-                <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-end">
+                <div className="d-flex flex-column flex-md-row justify-content-between align-items-end align-items-md-end">
                   {/* Informações do Jogo */}
                   <div className="text-start">
-                    <h5 className="lead text-light d-none d-sm-block">Disponível hoje!</h5>
+                    <h5 className="lead text-light d-none d-md-block">Disponível hoje!</h5>
                     <h3 className="fw-bold text-white mb-2">{game.title}</h3>
                   </div>
 

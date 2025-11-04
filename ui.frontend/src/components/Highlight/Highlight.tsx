@@ -12,6 +12,10 @@ const Highlight: FunctionComponent<HighlightProps> = ({
   externalLink,
   highlightPath
 }) => {
+
+  if(!title || !highlightPath) {
+    return <div className="text-center text-white p-5 bg-dark">Preencha a Dialog do componente...</div>;
+  }
   
   return ( 
     <div className="container">

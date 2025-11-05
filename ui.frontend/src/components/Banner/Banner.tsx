@@ -3,7 +3,7 @@ import api from '../../axios';
 import Game from '../../interfaces/game'
 import calculateDiscount from '../../util/calculateDiscount';
 import mockedGames from '../../api/mocked';
-import { AEM_HOST } from '../../constants/constants';
+import { AEM_HOST, GAME_DETAIL_PAGE_PATH } from '../../constants/constants';
 // import bg from './rdr2_1.jpg'
 
 const Banner = (props: any) => {
@@ -95,7 +95,7 @@ const Banner = (props: any) => {
                       <a
                         id={`buyBtn-${game._id}`}
                         className="btn btn-success btn-lg fw-bold"
-                        href="#"
+                        href={`${AEM_HOST}${GAME_DETAIL_PAGE_PATH}?gameTitle=${game.title}`}
                         role="button"
                       >Comprar</a>
                     </div>

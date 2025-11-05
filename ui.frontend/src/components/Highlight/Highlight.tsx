@@ -19,6 +19,11 @@ const Highlight: FunctionComponent<HighlightProps> = ({
   
   return ( 
     <div className="container">
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <p className="text-white text-start fs-4 fw-bold mb-0">{title}</p>
+      </div>
+
+      <hr />
       <a 
         className="w-100"
         href={externalLink}

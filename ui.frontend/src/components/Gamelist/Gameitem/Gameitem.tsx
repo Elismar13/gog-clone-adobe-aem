@@ -1,54 +1,63 @@
 import React, { FunctionComponent } from "react";
 import Game from "../../../interfaces/game";
+import calculateDiscount from "../../../util/calculateDiscount";
+import { AEM_HOST, GAME_DETAIL_PAGE_PATH } from "../../../constants/constants";
+
+import './gameitem.css';
 
 interface GameitemProps {
-  imagePath: string,
   game: Game
-  discountInfo: {
-    percentage: string,
-    old: string,
-    current: string
-  }
 }
 
-const GameitemVertical: FunctionComponent<GameitemProps> = ({ imagePath, game, discountInfo }) => {
+const Gameitem: FunctionComponent<GameitemProps> = ({ game }) => {
+  const handleRedirect = (gameTitle: string) => {
+    window.location.href = `${AEM_HOST}${GAME_DETAIL_PAGE_PATH}?gameTitle=${gameTitle}`;
+  }
+
+  const discountInfo = calculateDiscount(game.price, game.discountValue);
+  const imagePath = game.imageList && `${AEM_HOST}${game.imageList[0]._path}`;
+
   return (
-    <>
-      <img
-        className="card-img-top"
-        src={imagePath}
-        alt={game.title}
-      />
+    <div className="col gog-card-hover" key={game._id} onClick={() => handleRedirect(game.title)}>
 
-      <div className="card-body p-2 d-flex flex-column justify-content-between">
+      <div className="card h-100 bg-dark border-secondary rounded-3 overflow-hidden">
+        <img
+          className="card-img-top"
+          src={imagePath}
+          alt={game.title}
+        />
 
-        <h5 className="card-title text-white fs-5 text-truncate mb-2" title={game.title}>
-          {game.title}
-        </h5>
+        <div className="card-body p-2 d-flex flex-column justify-content-between">
 
-        <div className="d-flex justify-content-end align-items-end p-1 mt-auto">
+          <h5 className="card-title text-white fs-5 text-truncate mb-2" title={game.title}>
+            {game.title}
+          </h5>
 
-          {game.discountValue > 0 && (
-            <span className="badge gog-discount-bg rounded me-2 text-white fw-bold fs-6">
-              {discountInfo.percentage}
-            </span>
-          )}
+          <div className="d-flex justify-content-end align-items-end p-1 mt-auto">
 
-          <div className="d-flex flex-column text-end">
             {game.discountValue > 0 && (
-              <span className="text-light text-decoration-line-through opacity-75">
-                {discountInfo.old}
+              <span className="badge gog-discount-bg rounded me-2 text-white fw-bold fs-6">
+                {discountInfo.percentage}
               </span>
             )}
-            <span className="gog-card-price fs-6">
-              <strong>{discountInfo.current}</strong>
-            </span>
-          </div>
 
+            <div className="d-flex flex-column text-end">
+              {game.discountValue > 0 && (
+                <span className="text-light text-decoration-line-through opacity-75">
+                  {discountInfo.old}
+                </span>
+              )}
+              <span className="gog-card-price fs-6">
+                <strong>{discountInfo.current}</strong>
+              </span>
+            </div>
+
+          </div>
         </div>
+
       </div>
-    </>
+    </div>
   );
 }
 
-export default GameitemVertical;
+export default Gameitem;

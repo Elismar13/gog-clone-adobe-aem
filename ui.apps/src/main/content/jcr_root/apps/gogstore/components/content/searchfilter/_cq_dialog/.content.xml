@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          jcr:primaryType="nt:unstructured"
+          jcr:title="Propriedades da Listagem de Jogos"
+          sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns">
+        <items jcr:primaryType="nt:unstructured">
+            <column
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                <items jcr:primaryType="nt:unstructured">
+
+                    <listType
+                            granite:class="cq-dialog-dropdown-showhide"
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                            fieldLabel="Tipo de Listagem"
+                            name="./listType">
+                        <granite:data
+                                jcr:primaryType="nt:unstructured"
+                                cq-dialog-dropdown-showhide-target=".list-type-visibility"/>
+                        <items jcr:primaryType="nt:unstructured">
+                            <filter
+                                    jcr:primaryType="nt:unstructured"
+                                    text="Listagem por Filtro (Gênero)"
+                                    value="filter"/>
+                            <search
+                                    jcr:primaryType="nt:unstructured"
+                                    text="Resultado de Busca (QueryParam)"
+                                    value="search"/>
+                        </items>
+                    </listType>
+
+                    <filterContainer
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/container"
+                            granite:class="list-type-visibility showhide-target"
+                            hidden="{Boolean}true">
+                        <granite:data
+                                jcr:primaryType="nt:unstructured"
+                                showhidetargetvalue="filter"/>
+                        <items jcr:primaryType="nt:unstructured">
+                            <title
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                    fieldLabel="Título dos destaques"
+                                    name="./title"/>
+                            <genre
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                    emptyText="Escolha o gênero a ser listado."
+                                    fieldDescription="Filtra a lista de jogos por essa Tag."
+                                    fieldLabel="Gênero (Filtro)"
+                                    fieldRequired="{Boolean}true"
+                                    rootPath="/content/cq:tags/genre"
+                                    name="./genre"
+                                    required="{Boolean}true"/>
+                        </items>
+                    </filterContainer>
+
+                    <searchContainer
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/container"
+                            granite:class="list-type-visibility showhide-target"
+                            hidden="{Boolean}true">
+                        <granite:data
+                                jcr:primaryType="nt:unstructured"
+                                showhidetargetvalue="search"/>
+                        <items jcr:primaryType="nt:unstructured">
+                            <searchTitle
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                    fieldLabel="Título da Seção de Busca"
+                                    fieldDescription="Ex: Resultados da busca"
+                                    emptyText="Resultados da busca"
+                                    name="./searchTitle"/>
+                        </items>
+                    </searchContainer>
+
+                    <orientation
+                            granite:class="input-size"
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                            emptyOption="{Boolean}false"
+                            fieldLabel="Orientação da lista"
+                            name="./orientation">
+                        <items jcr:primaryType="nt:unstructured">
+                            <vertical
+                                    jcr:primaryType="nt:unstructured"
+                                    text="Vertical"
+                                    value="vertical" />
+                            <horizontal
+                                    jcr:primaryType="nt:unstructured"
+                                    text="Horizontal"
+                                    value="horizontal" />
+                        </items>
+                    </orientation>
+                </items>
+            </column>
+        </items>
+    </content>
+</jcr:root>

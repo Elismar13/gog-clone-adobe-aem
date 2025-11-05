@@ -4,6 +4,7 @@ package com.vilt.core.models.impl;
 import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.export.json.ExporterConstants;
 import com.vilt.core.models.Gamelist;
+import com.vilt.core.models.SearchFilter;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.models.annotations.DefaultInjectionStrategy;
 import org.apache.sling.models.annotations.Exporter;
@@ -14,60 +15,22 @@ import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
         adaptables = SlingHttpServletRequest.class,
         adapters = {Gamelist.class},
         defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL,
-        resourceType = GamelistImpl.RESOURCE_TYPE
+        resourceType = SearchFilterImpl.RESOURCE_TYPE
 )
 @Exporter(
         name = ExporterConstants.SLING_MODEL_EXPORTER_NAME,
         extensions = ExporterConstants.SLING_MODEL_EXTENSION
 )
-public class GamelistImpl implements Gamelist, ComponentExporter {
+public class SearchFilterImpl implements SearchFilter, ComponentExporter {
 
-    public static final String RESOURCE_TYPE = "gogstore/components/content/gamelist";
+    public static final String RESOURCE_TYPE = "gogstore/components/content/searchfilter";
 
     @ValueMapValue
     private String title;
 
-    @ValueMapValue
-    private String genre;
-
-    @ValueMapValue
-    private String orientation;
-
-    @ValueMapValue
-    private String searchTitle;
 
     public String getTitle() {
         return title;
-    }
-
-    public void setOrientation(String orientation) {
-        this.orientation = orientation;
-    }
-
-    @Override
-    public String getOrientation() {
-        return orientation;
-    }
-
-    @Override
-    public String getSearchTitle() {
-        return searchTitle;
-    }
-
-    public void setSearchTitle(String searchTitle) {
-        this.searchTitle = searchTitle;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
     }
 
     @Override

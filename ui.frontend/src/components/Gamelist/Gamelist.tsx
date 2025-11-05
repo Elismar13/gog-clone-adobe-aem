@@ -43,7 +43,6 @@ const Gamelist: FunctionComponent<GamelistProps> = (props: GamelistProps) => {
 
   return (
     <div className="container text-white my-5">
-      {/* Título da Seção */}
       <div className="d-flex justify-content-between align-items-center mb-3">
         <p className="text-white text-start fs-4 fw-bold mb-0">{title}</p>
         <span className="text-end">Veja mais</span>

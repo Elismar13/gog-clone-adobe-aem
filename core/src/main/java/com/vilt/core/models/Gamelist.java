@@ -8,4 +8,6 @@ public interface Gamelist {
 
     String getOrientation();
 
+    String getSearchTitle();
+
 }

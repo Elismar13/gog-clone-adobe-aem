@@ -61,6 +61,7 @@ a:hover {
 
 .text-accent {
     color: var(--color-accent) !important;
+    border-color: var(--color-accent) !important;
 }
 
 html,

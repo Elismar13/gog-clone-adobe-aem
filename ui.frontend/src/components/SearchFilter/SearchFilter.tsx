@@ -59,9 +59,6 @@ const SearchFilter = () => {
     }
 
     return filtersParts;
-
-    return filtersParts;
-
   }, [searchTerm, filters]);
 
   const fetchGames = useCallback(async() => {
@@ -71,9 +68,6 @@ const SearchFilter = () => {
     try{
       const endpoint = `/graphql/execute.json/gogstore/getGamesWithFilter`;
 
-      const response = await api.post(endpoint, {
-        "variables": filterObject
-      });
       const response = await api.post(endpoint, {
         "variables": filterObject
       });
@@ -90,7 +84,7 @@ const SearchFilter = () => {
   // 6. Componente de Filtro Lateral (Sidebar)
   const FilterSidebar = () => (
     <div className="sidebar p-4 bg-gog-light-dark rounded-3 shadow-md">
-      <h4 className="text-white mb-4 border-gog-accent">Filtros Ativos</h4>
+      <h4 className="text-light mb-4 border-gog-accent">Filtros Ativos</h4>
 
       {/* 6.2. Filtro de Desconto */}
       <div className="form-check mb-4">
@@ -101,14 +95,14 @@ const SearchFilter = () => {
           onChange={(e) => handleFilterChange('isDiscounted', e.target.checked)}
           id="discountCheck"
         />
-        <label className="form-check-label text-white" htmlFor="discountCheck">
+        <label className="form-check-label text-light" htmlFor="discountCheck">
           Apenas com Desconto
         </label>
       </div>
 
       {/* 6.3. Filtro de Gênero (Checkboxes) */}
       <div className="mb-4">
-        <h5 className="text-secondary mb-3">Gênero</h5>
+        <h5 className=".text-light mb-3">Gênero</h5>
         {genreOptions.map(genre => (
           <div className="form-check" key={genre}>
             <input
@@ -118,7 +112,7 @@ const SearchFilter = () => {
               onChange={() => handleGenreChange(genre)}
               id={`genre-${genre}`}
             />
-            <label className="form-check-label text-white" htmlFor={`genre-${genre}`}>
+            <label className="form-check-label text-light" htmlFor={`genre-${genre}`}>
               {genre}
             </label>
           </div>
@@ -127,9 +121,9 @@ const SearchFilter = () => {
 
       {/* 6.4. Filtro de Ano */}
       <div className="mb-4">
-        <h5 className="text-secondary mb-3">Década de Lançamento</h5>
+        <h5 className=".text-light mb-3">Década de Lançamento</h5>
         <select
-          className="form-select bg-gog-dark text-white border-gog-accent"
+          className="form-select bg-gog-dark text-light border-gog-accent"
           value={filters.releaseYear}
           onChange={(e) => handleFilterChange('releaseYear', e.target.value)}
         >
@@ -142,9 +136,9 @@ const SearchFilter = () => {
 
       {/* 6.5. Filtro de Desenvolvedor (Exemplo de Select) */}
       <div className="mb-4">
-        <h5 className="text-secondary mb-3">Desenvolvedora</h5>
+        <h5 className=".text-light mb-3">Desenvolvedora</h5>
         <select
-          className="form-select bg-gog-dark text-white border-gog-accent"
+          className="form-select bg-gog-dark text-light border-gog-accent"
           value={filters.developers[0] || ''} // Simplificado para um único select
           onChange={(e) => handleFilterChange('developers', [e.target.value])}
         >
@@ -170,7 +164,7 @@ const SearchFilter = () => {
             <div className="input-group input-group-lg bg-gog-light-dark rounded-3 shadow-lg p-2">
               <input
                 type="text"
-                className="form-control bg-gog-dark text-white border-0"
+                className="form-control bg-gog-dark text-light border-0"
                 placeholder="Digite para buscar títulos, tags ou desenvolvedoras..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -199,12 +193,12 @@ const SearchFilter = () => {
 
           {/* Resultados: Ocupa largura total em Mobile (col-12) e o restante em Desktop (col-lg-9) */}
           <div className="col-12 col-lg-9">
-            <h3 className="text-secondary mb-4">{isLoading ? "Buscando..." : `${games.length} Resultados Encontrados`}</h3>
+            <h3 className=".text-light mb-4">{isLoading ? "Buscando..." : `${games.length} Resultados Encontrados`}</h3>
 
             {isLoading ? (
               <div className="text-center p-5">
                 <i className="fas fa-spinner fa-spin fa-3x text-accent"></i>
-                <p className="text-white mt-3">Carregando jogos...</p>
+                <p className="text-light mt-3">Carregando jogos...</p>
               </div>
             ) : (
               <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4">

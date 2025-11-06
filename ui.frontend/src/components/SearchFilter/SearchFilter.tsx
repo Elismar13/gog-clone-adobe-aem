@@ -60,6 +60,8 @@ const SearchFilter = () => {
 
     return filtersParts;
 
+    return filtersParts;
+
   }, [searchTerm, filters]);
 
   const fetchGames = useCallback(async() => {
@@ -69,6 +71,9 @@ const SearchFilter = () => {
     try{
       const endpoint = `/graphql/execute.json/gogstore/getGamesWithFilter`;
 
+      const response = await api.post(endpoint, {
+        "variables": filterObject
+      });
       const response = await api.post(endpoint, {
         "variables": filterObject
       });

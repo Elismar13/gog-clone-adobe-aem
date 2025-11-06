@@ -5,16 +5,18 @@ import Game from "../../interfaces/game";
 import mockedGames from '../../api/mocked';
 import Gameitem from "../Gamelist/Gameitem/Gameitem";
 
-const genreOptions = ["Action", "RPG", "Strategy", "Indie"];
+import './searchFilter.css';
+
+const genreOptions = ["Action", "Adventure", "OpenWorld", "RPG"];
 const yearOptions = ["2020s", "2010s", "2000s"];
-const developerOptions = ["CD Projekt", "Larian Studios", "Supergiant Games"];
+const developerOptions = ["CD Project Red", "Rockstar Games", "Square Enix"];
 
 interface FilterState {
-  maxPrice: number;
-  isDiscounted: boolean;
-  releaseYear: string; // Ex: '2020s', '2010s'
-  genres: string[];
-  developers: string[];
+  gameTitle?: string;
+  isDiscounted: boolean | number;
+  releaseYear?: string;
+  genres: string;
+  developer: string;
   minScore: number;
 }
 
@@ -24,11 +26,10 @@ const SearchFilter = () => {
   const [games, setGames] = useState<Game[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
-    maxPrice: 300,
     isDiscounted: false,
     releaseYear: '',
-    genres: [],
-    developers: [],
+    developer: '',
+    genres: '',
     minScore: 0,
   });
 
@@ -49,14 +50,13 @@ const SearchFilter = () => {
   };
 
   const buildGraphQLFilter = useCallback(() => {
-    let filtersParts = { }
-    
-    if(searchTerm) {
-      filtersParts = {
-        ...filtersParts,
-        "gameTitle": searchTerm
-      }
-    }
+    const filtersParts: FilterState = {
+      gameTitle: searchTerm || "",
+      isDiscounted: filters.isDiscounted ? 0 : -1,
+      genres: filters.genres,
+      developer: filters.developer,
+      minScore: filters.minScore = filters.minScore || 0
+    };
 
     return filtersParts;
   }, [searchTerm, filters]);
@@ -81,17 +81,17 @@ const SearchFilter = () => {
     }
   }, [buildGraphQLFilter, searchTerm, filters])
 
-  // 6. Componente de Filtro Lateral (Sidebar)
+  // 1. Componente de Filtro Lateral (Sidebar)
   const FilterSidebar = () => (
     <div className="sidebar p-4 bg-gog-light-dark rounded-3 shadow-md">
       <h4 className="text-light mb-4 border-gog-accent">Filtros Ativos</h4>
 
-      {/* 6.2. Filtro de Desconto */}
+      {/* 1.1. Filtro de Desconto */}
       <div className="form-check mb-4">
         <input
           className="form-check-input"
           type="checkbox"
-          checked={filters.isDiscounted}
+          checked={filters.isDiscounted as}
           onChange={(e) => handleFilterChange('isDiscounted', e.target.checked)}
           id="discountCheck"
         />
@@ -100,47 +100,28 @@ const SearchFilter = () => {
         </label>
       </div>
 
-      {/* 6.3. Filtro de Gênero (Checkboxes) */}
-      <div className="mb-4">
-        <h5 className=".text-light mb-3">Gênero</h5>
-        {genreOptions.map(genre => (
-          <div className="form-check" key={genre}>
-            <input
-              className="form-check-input"
-              type="checkbox"
-              checked={filters.genres.includes(genre)}
-              onChange={() => handleGenreChange(genre)}
-              id={`genre-${genre}`}
-            />
-            <label className="form-check-label text-light" htmlFor={`genre-${genre}`}>
-              {genre}
-            </label>
-          </div>
-        ))}
-      </div>
-
-      {/* 6.4. Filtro de Ano */}
-      <div className="mb-4">
-        <h5 className=".text-light mb-3">Década de Lançamento</h5>
+      {/* 1.2. Filtro de Gênero (Checkboxes) */}
+       <div className="mb-4">
+        <h5 className="text-light mb-3">Gênero:</h5>
         <select
           className="form-select bg-gog-dark text-light border-gog-accent"
-          value={filters.releaseYear}
-          onChange={(e) => handleFilterChange('releaseYear', e.target.value)}
+          value={filters.genres}
+          onChange={(e) => handleFilterChange('genres', e.target.value)}
         >
           <option value="">Qualquer</option>
-          {yearOptions.map(year => (
+          {genreOptions.map(year => (
             <option key={year} value={year}>{year}</option>
           ))}
         </select>
       </div>
 
-      {/* 6.5. Filtro de Desenvolvedor (Exemplo de Select) */}
+      {/* 1.3. Filtro de Desenvolvedor (Exemplo de Select) */}
       <div className="mb-4">
-        <h5 className=".text-light mb-3">Desenvolvedora</h5>
+        <h5 className="text-light mb-3">Desenvolvedora</h5>
         <select
           className="form-select bg-gog-dark text-light border-gog-accent"
-          value={filters.developers[0] || ''} // Simplificado para um único select
-          onChange={(e) => handleFilterChange('developers', [e.target.value])}
+          value={filters.developer || ''}
+          onChange={(e) => handleFilterChange('developer', e.target.value)}
         >
           <option value="">Todas</option>
           {developerOptions.map(dev => (
@@ -149,16 +130,30 @@ const SearchFilter = () => {
         </select>
       </div>
 
+      {/* 1.4. Filtro de Score */}
+      <div className="mb-4">
+          <label className="form-label text-light">Nota mínima do jogo: {filters.minScore}</label>
+          <input 
+              type="range" 
+              className="form-range" 
+              min="0" 
+              max="100" 
+              step="20" 
+              value={filters.minScore}
+              onChange={(e) => handleFilterChange('minScore', parseInt(e.target.value))}
+          />
+      </div>
+
     </div>
   );
 
-  // 7. Renderização Principal
+  // 2. Renderização Principal
   return (
     <>
 
-      <div className="container-fluid game-filter-container p-4">
+      <div className="container-fluid game-filter-container p-4 text-white">
 
-        {/* 7.1. BARRA DE PESQUISA SUPERIOR */}
+        {/* 2.1. BARRA DE PESQUISA SUPERIOR */}
         <div className="row mb-4">
           <div className="col-12">
             <div className="input-group input-group-lg bg-gog-light-dark rounded-3 shadow-lg p-2">
@@ -183,17 +178,15 @@ const SearchFilter = () => {
           </div>
         </div>
 
-        {/* 7.2. LAYOUT PRINCIPAL: FILTROS + RESULTADOS */}
+        {/* 2.2. LAYOUT PRINCIPAL: FILTROS + RESULTADOS */}
         <div className="row">
 
-          {/* Filtros: Visível em Desktop (col-lg-3) e oculto em Mobile (d-none) */}
           <div className="col-lg-3 d-none d-lg-block">
             <FilterSidebar />
           </div>
 
-          {/* Resultados: Ocupa largura total em Mobile (col-12) e o restante em Desktop (col-lg-9) */}
           <div className="col-12 col-lg-9">
-            <h3 className=".text-light mb-4">{isLoading ? "Buscando..." : `${games.length} Resultados Encontrados`}</h3>
+            <h3 className="text-light mb-4">{isLoading ? "Buscando..." : `${games.length} Resultados Encontrados`}</h3>
 
             {isLoading ? (
               <div className="text-center p-5">

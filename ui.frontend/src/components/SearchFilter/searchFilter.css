@@ -1,0 +1,57 @@
+.bg-gog-dark {
+  background-color: var(--color-dark) !important;
+}
+
+.bg-gog-light-dark {
+  background-color: var(--color-light-dark) !important;
+}
+
+.text-accent {
+  color: var(--color-accent) !important;
+}
+
+.text-gog-price {
+  color: var(--color-gog-price) !important;
+}
+
+.border-gog-accent {
+  border-color: var(--color-accent) !important;
+}
+
+.transition-hover {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.transition-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5) !important;
+}
+
+.form-range {
+  height: 1rem;
+  padding: 0;
+  background-color: transparent;
+}
+
+.form-range::-webkit-slider-thumb {
+  background: var(--color-accent);
+}
+
+.form-range::-moz-range-thumb {
+  background: var(--color-accent);
+}
+
+.form-select.bg-gog-dark {
+  background-color: #333 !important;
+  color: var(--color-text-light) !important;
+  border: 1px solid #444;
+}
+
+.form-select.bg-gog-dark:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 0.25rem rgba(142, 45, 226, 0.25);
+}
+
+.game-filter-container .row {
+  padding-top: 20px;
+}

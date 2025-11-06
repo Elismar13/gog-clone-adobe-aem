@@ -2,7 +2,7 @@
 
 ## Content Fragments
 
- - game
+ - Jogo
 	 - title
 	 - description
 	 - price
@@ -13,11 +13,11 @@
 	 - developer
 	 - imageList
 
- - developer
+ - Desenvolvedor
 	 - title
 	 - image
 
-- highlight
+- Destaque
 	- title
 	- externalLink
 	- image

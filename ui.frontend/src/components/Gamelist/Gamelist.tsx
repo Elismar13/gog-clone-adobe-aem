@@ -39,7 +39,7 @@ const Gamelist: FunctionComponent<GamelistProps> = (props: GamelistProps) => {
 
   useEffect(() => {
     handleLoadGames();
-  })
+  }, []);
 
   return (
     <div className="container text-white my-5">

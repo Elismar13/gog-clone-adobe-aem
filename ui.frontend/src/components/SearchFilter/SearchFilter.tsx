@@ -20,7 +20,6 @@ interface FilterState {
 
 const SearchFilter = () => {
 
-  // 1. Estado Principal
   const [searchTerm, setSearchTerm] = useState('');
   const [games, setGames] = useState<Game[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +32,6 @@ const SearchFilter = () => {
     minScore: 0,
   });
 
-  // 5. Handlers para atualizar o estado
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({
       ...prev,
@@ -56,9 +54,11 @@ const SearchFilter = () => {
     if(searchTerm) {
       filtersParts = {
         ...filtersParts,
-        gameTitle: { value: searchTerm, _operator: "CONTAINS" }
+        "gameTitle": searchTerm
       }
     }
+
+    return filtersParts;
 
   }, [searchTerm, filters]);
 
@@ -66,37 +66,26 @@ const SearchFilter = () => {
     setIsLoading(true);
     const filterObject = buildGraphQLFilter();
 
-    console.log("GraphQL Filter Object:", filterObject);
+    try{
+      const endpoint = `/graphql/execute.json/gogstore/getGamesWithFilter`;
 
-    const endpoint = `/graphql/execute.json/gogstore/getGamesWithFilter`;
+      const response = await api.post(endpoint, {
+        "variables": filterObject
+      });
 
-    const response = await api.post(endpoint, {
-      variables: filterObject
-    });
-
-    const loadedGames = response.data?.data?.jogoList?.items || [];
-    setGames(loadedGames);
-
+      const loadedGames = response.data?.data?.jogoList?.items || [];
+      setGames(loadedGames);
+    } catch (error) {
+      setGames(mockedGames);
+    } finally {
+      setIsLoading(false);
+    }
   }, [buildGraphQLFilter, searchTerm, filters])
 
   // 6. Componente de Filtro Lateral (Sidebar)
   const FilterSidebar = () => (
     <div className="sidebar p-4 bg-gog-light-dark rounded-3 shadow-md">
       <h4 className="text-white mb-4 border-gog-accent">Filtros Ativos</h4>
-
-      {/* 6.1. Filtro de Preço */}
-      <div className="mb-4">
-        <label className="form-label text-secondary">Preço Máximo: R$ {filters.maxPrice.toFixed(0)}</label>
-        <input
-          type="range"
-          className="form-range"
-          min="0"
-          max="300"
-          step="10"
-          value={filters.maxPrice}
-          onChange={(e) => handleFilterChange('maxPrice', parseInt(e.target.value))}
-        />
-      </div>
 
       {/* 6.2. Filtro de Desconto */}
       <div className="form-check mb-4">

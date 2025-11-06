@@ -20,7 +20,6 @@ interface FilterState {
 
 const SearchFilter = () => {
 
-  // 1. Estado Principal
   const [searchTerm, setSearchTerm] = useState('');
   const [games, setGames] = useState<Game[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +32,6 @@ const SearchFilter = () => {
     minScore: 0,
   });
 
-  // 5. Handlers para atualizar o estado
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({
       ...prev,
@@ -56,9 +54,11 @@ const SearchFilter = () => {
     if(searchTerm) {
       filtersParts = {
         ...filtersParts,
-        gameTitle: { value: searchTerm, _operator: "CONTAINS" }
+        "gameTitle": searchTerm
       }
     }
+
+    return filtersParts;
 
   }, [searchTerm, filters]);
 
@@ -68,15 +68,20 @@ const SearchFilter = () => {
 
     console.log("GraphQL Filter Object:", filterObject);
 
-    const endpoint = `/graphql/execute.json/gogstore/getGamesWithFilter`;
+    try{
+      const endpoint = `/graphql/execute.json/gogstore/getGamesWithFilter`;
 
-    const response = await api.post(endpoint, {
-      variables: filterObject
-    });
+      const response = await api.post(endpoint, {
+        "variables": filterObject
+      });
 
-    const loadedGames = response.data?.data?.jogoList?.items || [];
-    setGames(loadedGames);
+      const loadedGames = response.data?.data?.jogoList?.items || [];
+      setGames(loadedGames);
+    } catch (error) {
+      setGames(mockedGames);
+    }
 
+    setIsLoading(false);
   }, [buildGraphQLFilter, searchTerm, filters])
 
   // 6. Componente de Filtro Lateral (Sidebar)

@@ -46,7 +46,7 @@ const GameDetail = ({ gameTitle }) => {
 
   useEffect(() => {
     handleLoadGames();
-  });
+  }, []);
 
   if (!game) {
     return <div className="text-center text-white p-5 bg-dark">Carregando detalhes do jogo...</div>;

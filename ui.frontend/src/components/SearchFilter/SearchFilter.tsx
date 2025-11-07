@@ -8,7 +8,6 @@ import Gameitem from "../Gamelist/Gameitem/Gameitem";
 import './searchFilter.css';
 
 const genreOptions = ["Action", "Adventure", "OpenWorld", "RPG"];
-const yearOptions = ["2020s", "2010s", "2000s"];
 const developerOptions = ["CD Project Red", "Rockstar Games", "Square Enix"];
 
 interface FilterState {
@@ -91,7 +90,7 @@ const SearchFilter = () => {
         <input
           className="form-check-input"
           type="checkbox"
-          checked={filters.isDiscounted as}
+          checked={filters.isDiscounted as boolean}
           onChange={(e) => handleFilterChange('isDiscounted', e.target.checked)}
           id="discountCheck"
         />
@@ -100,7 +99,7 @@ const SearchFilter = () => {
         </label>
       </div>
 
-      {/* 1.2. Filtro de Gênero (Checkboxes) */}
+      {/* 1.2. Filtro de Gênero (Select) */}
        <div className="mb-4">
         <h5 className="text-light mb-3">Gênero:</h5>
         <select
@@ -115,7 +114,7 @@ const SearchFilter = () => {
         </select>
       </div>
 
-      {/* 1.3. Filtro de Desenvolvedor (Exemplo de Select) */}
+      {/* 1.3. Filtro de Desenvolvedor (Select) */}
       <div className="mb-4">
         <h5 className="text-light mb-3">Desenvolvedora</h5>
         <select
@@ -160,7 +159,7 @@ const SearchFilter = () => {
               <input
                 type="text"
                 className="form-control bg-gog-dark text-light border-0"
-                placeholder="Digite para buscar títulos, tags ou desenvolvedoras..."
+                placeholder="Digite para buscar títulos..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={(e) => {

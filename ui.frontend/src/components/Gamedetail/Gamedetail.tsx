@@ -8,7 +8,7 @@ import { useCart } from '../../state/CartContext';
 
 import './gamedetail.css';
 
-const MOCKED_GAME_DATA = mockedGames[0];
+const MOCKED_GAME_DATA = mockedGames[Math.floor(Math.random() * mockedGames.length)];
 
 const GameDetail = ({ gameTitle }) => {
 
@@ -67,8 +67,11 @@ const GameDetail = ({ gameTitle }) => {
   const handleAddToCart = () => {
     const image = game.imageList?.length > 0 ? `${AEM_HOST}${game.imageList[0]._path}` : undefined;
     // Using title as id assuming unique titles. If an id field exists, prefer that.
+
+    console.log("Add item to cart: ", game)
+    
     addItem({
-      id: game.id,
+      id: game._id,
       title: game.title,
       image,
       price: game.price,

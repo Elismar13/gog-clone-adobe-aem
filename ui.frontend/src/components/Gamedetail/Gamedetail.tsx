@@ -5,6 +5,7 @@ import mockedGames from '../../api/mocked';
 import calculateDiscount from '../../util/calculateDiscount';
 import { AEM_HOST } from '../../constants/constants';
 import { useCart } from '../../state/CartContext';
+import { FiShoppingCart, FiStar, FiCalendar, FiUser } from 'react-icons/fi';
 
 import './gamedetail.css';
 
@@ -105,10 +106,10 @@ const GameDetail = ({ gameTitle }) => {
 
               <div className="text-white">
                 <h1 className="text-white fw-bold mb-2">{game.title}</h1>
-                <p className="text-white small">Desenvolvedor: {game.developer.name}</p>
-                <p className="text-white small">Lançamento: {game.releaseDate}</p>
+                <p className="text-white small d-flex align-items-center mb-1"><FiUser className="me-2" /> Desenvolvedor: {game.developer.name}</p>
+                <p className="text-white small d-flex align-items-center mb-1"><FiCalendar className="me-2" /> Lançamento: {game.releaseDate}</p>
                 <div className="d-flex">
-                  <span className="badge bg-success p-2 me-2">Nota: {game.score}/100</span>
+                  <span className="badge bg-success p-2 me-2 d-flex align-items-center"><FiStar className="me-1" /> Nota: {game.score}/100</span>
                   <span className="badge bg-info p-2">DRM-FREE</span>
                 </div>
               </div>
@@ -161,8 +162,8 @@ const GameDetail = ({ gameTitle }) => {
                 </div>
               </div>
 
-              <button className="btn btn-success text-black btn-lg fw-bold" onClick={handleAddToCart}>
-                Adicionar ao Carrinho
+              <button className="btn btn-success text-black btn-lg fw-bold d-flex align-items-center" onClick={handleAddToCart}>
+                <FiShoppingCart className="me-2" /> Adicionar ao Carrinho
               </button>
 
               <p className="text-center text-white small mt-3">DRM-FREE &bull; Dinheiro de volta em 30 dias</p>

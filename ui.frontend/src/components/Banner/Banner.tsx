@@ -5,6 +5,7 @@ import calculateDiscount from '../../util/calculateDiscount';
 import mockedGames from '../../api/mocked';
 import { AEM_HOST, GAME_DETAIL_PAGE_PATH } from '../../constants/constants';
 // import bg from './rdr2_1.jpg'
+import { FiTag, FiShoppingBag } from 'react-icons/fi';
 
 const Banner = (props: any) => {
 
@@ -81,7 +82,9 @@ const Banner = (props: any) => {
                   <div className="d-flex flex-column align-items-end">
                     <div className="d-flex align-items-center mb-1">
                       {isDiscounted && (
-                        <p className="badge discount-percentage h-100 rounded me-3 text-dark fs-5">{discountInfo.percentage}</p>
+                        <p className="badge discount-percentage h-100 rounded me-3 text-dark fs-5">
+                          <FiTag className="me-1" /> {discountInfo.percentage}
+                        </p>
                       )}
                       <div className="d-flex flex-column text-end">
                         {isDiscounted && (
@@ -94,10 +97,12 @@ const Banner = (props: any) => {
                     <div className="d-flex align-items-center mt-1">
                       <a
                         id={`buyBtn-${game._id}`}
-                        className="btn btn-success btn-lg fw-bold"
+                        className="btn btn-success btn-lg fw-bold d-flex align-items-center"
                         href={`${AEM_HOST}${GAME_DETAIL_PAGE_PATH}?gameTitle=${game.title}`}
                         role="button"
-                      >Comprar</a>
+                      >
+                        <FiShoppingBag className="me-2" /> Comprar
+                      </a>
                     </div>
                   </div>
                 </div>

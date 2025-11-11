@@ -4,6 +4,7 @@ import './navigation.css';
 import logo from '../../assets/gog_logo.png';
 import { AEM_HOST, STORE_PAGE_PATH } from '../../constants/constants';
 import MiniCart from '../Cart/MiniCart';
+import { FiSearch } from 'react-icons/fi';
 
 
 const Navigation = (props: any) => {
@@ -31,6 +32,9 @@ const Navigation = (props: any) => {
               aria-label="Search"
             />
           </form>
+          <button className="btn btn-outline-light me-3" aria-label="Buscar">
+            <FiSearch />
+          </button>
           <MiniCart />
         </div>
       </div>

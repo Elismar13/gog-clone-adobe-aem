@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCart } from '../../state/CartContext';
+import { FiShoppingCart, FiTrash2 } from 'react-icons/fi';
 import './minicart.css';
 
 const MiniCart: React.FC = () => {
@@ -10,8 +11,8 @@ const MiniCart: React.FC = () => {
 
   return (
     <div className="minicart-wrapper position-relative">
-      <button className="btn btn-outline-light position-relative" onClick={() => setOpen(!open)}>
-        Carrinho
+      <button className="btn btn-outline-light position-relative d-flex align-items-center" onClick={() => setOpen(!open)}>
+        <FiShoppingCart className="me-2" /> Carrinho
         <span className="badge bg-success text-dark ms-2">{itemCount}</span>
       </button>
 
@@ -39,8 +40,8 @@ const MiniCart: React.FC = () => {
                         value={it.quantity}
                         onChange={(e) => updateQuantity(it.id, parseInt(e.target.value || '1', 10))}
                       />
-                      <button className="btn btn-sm btn-outline-danger" onClick={() => removeItem(it.id)}>
-                        Remover
+                      <button className="btn btn-sm btn-outline-danger d-flex align-items-center" onClick={() => removeItem(it.id)}>
+                        <FiTrash2 className="me-1" /> Remover
                       </button>
                     </div>
                   </div>

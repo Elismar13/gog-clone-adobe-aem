@@ -3,6 +3,7 @@ import React from 'react';
 import './navigation.css';
 import logo from '../../assets/gog_logo.png';
 import { AEM_HOST, STORE_PAGE_PATH } from '../../constants/constants';
+import MiniCart from '../Cart/MiniCart';
 
 
 const Navigation = (props: any) => {
@@ -30,6 +31,7 @@ const Navigation = (props: any) => {
               aria-label="Search"
             />
           </form>
+          <MiniCart />
         </div>
       </div>
 

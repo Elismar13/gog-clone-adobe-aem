@@ -15,6 +15,7 @@ import './index.css';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { CartProvider } from './state/CartContext.js';
 
 const modelManagerOptions = {};
 if(process.env.REACT_APP_PROXY_ENABLED) {
@@ -26,14 +27,16 @@ const renderApp = () => {
         const history = createBrowserHistory();
         render(
             <Router history={history}>
-                <App
-                    history={history}
-                    cqChildren={pageModel[Constants.CHILDREN_PROP]}
-                    cqItems={pageModel[Constants.ITEMS_PROP]}
-                    cqItemsOrder={pageModel[Constants.ITEMS_ORDER_PROP]}
-                    cqPath={pageModel[Constants.PATH_PROP]}
-                    locationPathname={window.location.pathname}
-                />
+                <CartProvider>
+                    <App
+                        history={history}
+                        cqChildren={pageModel[Constants.CHILDREN_PROP]}
+                        cqItems={pageModel[Constants.ITEMS_PROP]}
+                        cqItemsOrder={pageModel[Constants.ITEMS_ORDER_PROP]}
+                        cqPath={pageModel[Constants.PATH_PROP]}
+                        locationPathname={window.location.pathname}
+                    />
+                </CartProvider>
             </Router>,
             document.getElementById('spa-root')
         );

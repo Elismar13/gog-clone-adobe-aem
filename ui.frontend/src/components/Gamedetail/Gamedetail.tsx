@@ -4,6 +4,7 @@ import api from '../../axios';
 import mockedGames from '../../api/mocked';
 import calculateDiscount from '../../util/calculateDiscount';
 import { AEM_HOST } from '../../constants/constants';
+import { useCart } from '../../state/CartContext.js';
 
 import './gamedetail.css';
 
@@ -12,6 +13,7 @@ const MOCKED_GAME_DATA = mockedGames[0];
 const GameDetail = ({ gameTitle }) => {
 
   const [game, setGame] = useState(null);
+  const { addItem } = useCart();
 
   const handleLoadGames = async () => {
 
@@ -61,6 +63,18 @@ const GameDetail = ({ gameTitle }) => {
 
   const discountClass = 'gog-discount-bg';
   const priceColorClass = 'gog-price-color';
+
+  const handleAddToCart = () => {
+    const image = game.imageList?.length > 0 ? `${AEM_HOST}${game.imageList[0]._path}` : undefined;
+    // Using title as id assuming unique titles. If an id field exists, prefer that.
+    addItem({
+      id: game.title,
+      title: game.title,
+      image,
+      price: game.price,
+      discountValue: game.discountValue,
+    });
+  };
 
   return (
     // 1. Container Geral com background semi-transparente
@@ -144,7 +158,7 @@ const GameDetail = ({ gameTitle }) => {
                 </div>
               </div>
 
-              <button className="btn btn-success text-black btn-lg fw-bold">
+              <button className="btn btn-success text-black btn-lg fw-bold" onClick={handleAddToCart}>
                 Adicionar ao Carrinho
               </button>
 

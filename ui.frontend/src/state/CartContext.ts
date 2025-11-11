@@ -31,6 +31,8 @@ function cartReducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
     case 'ADD_ITEM': {
       const { id, title, image, price, discountValue, quantity = 1 } = action.payload;
+      console.log("STATE", state)
+      console.log("Payload", action.payload)
       const existing = state.items.find((i) => i.id === id);
       if (existing) {
         return {

@@ -91,7 +91,7 @@ const SearchFilter = () => {
         <input
           className="form-check-input"
           type="checkbox"
-          checked={filters.isDiscounted as}
+          checked={filters.isDiscounted as boolean}
           onChange={(e) => handleFilterChange('isDiscounted', e.target.checked)}
           id="discountCheck"
         />

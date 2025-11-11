@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useCart } from '../../state/CartContext.js';
+import { useCart } from '../../state/CartContext';
 import './minicart.css';
 
 const MiniCart: React.FC = () => {

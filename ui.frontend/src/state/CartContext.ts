@@ -35,9 +35,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       if (existing) {
         return {
           ...state,
-          items: state.items.map((i) =>
-            i.id === id ? { ...i, quantity: i.quantity + quantity } : i
-          )
+          items: state.items.map((i) => (i.id === id ? { ...i, quantity: i.quantity + quantity } : i))
         };
       }
       return {
@@ -54,10 +52,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       if (quantity <= 0) {
         return { ...state, items: state.items.filter((i) => i.id !== id) };
       }
-      return {
-        ...state,
-        items: state.items.map((i) => (i.id === id ? { ...i, quantity } : i))
-      };
+      return { ...state, items: state.items.map((i) => (i.id === id ? { ...i, quantity } : i)) };
     }
     case 'CLEAR':
       return { ...state, items: [] };
@@ -68,13 +63,9 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 
 function getInitialState(): CartState {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      return JSON.parse(raw) as CartState;
-    }
-  } catch (e) {
-    // ignore
-  }
+    const raw = typeof window !== 'undefined' ? window.localStorage.getItem(STORAGE_KEY) : null;
+    if (raw) return JSON.parse(raw) as CartState;
+  } catch {}
   return initialState;
 }
 
@@ -83,22 +74,20 @@ const CartContext = createContext<{
   dispatch: React.Dispatch<CartAction>;
 } | null>(null);
 
-type CartProviderProps = { children: React.ReactNode };
-
-export const CartProvider = ({ children }: CartProviderProps) => {
+export function CartProvider({ children }: { children: React.ReactNode }): React.ReactElement {
   const [state, dispatch] = useReducer(cartReducer, undefined as unknown as CartState, getInitialState);
 
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch (e) {
-      // ignore
-    }
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      }
+    } catch {}
   }, [state]);
 
   const value = useMemo(() => ({ state, dispatch }), [state]);
-  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
-};
+  return React.createElement(CartContext.Provider, { value }, children as any);
+}
 
 export function useCart() {
   const ctx = useContext(CartContext);
@@ -117,7 +106,6 @@ export function useCart() {
   function clear() {
     dispatch({ type: 'CLEAR' });
   }
-
   function getSubtotal(item: CartItem) {
     const discount = item.discountValue ? (item.price * item.discountValue) / 100 : 0;
     const finalUnit = item.price - discount;

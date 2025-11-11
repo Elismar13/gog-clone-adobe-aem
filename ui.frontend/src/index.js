@@ -15,7 +15,7 @@ import './index.css';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import { CartProvider } from './state/CartContext.js';
+import { CartProvider } from './state/CartContext';
 
 const modelManagerOptions = {};
 if(process.env.REACT_APP_PROXY_ENABLED) {

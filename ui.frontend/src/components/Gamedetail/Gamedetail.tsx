@@ -4,7 +4,7 @@ import api from '../../axios';
 import mockedGames from '../../api/mocked';
 import calculateDiscount from '../../util/calculateDiscount';
 import { AEM_HOST } from '../../constants/constants';
-import { useCart } from '../../state/CartContext.js';
+import { useCart } from '../../state/CartContext';
 
 import './gamedetail.css';
 
@@ -68,7 +68,7 @@ const GameDetail = ({ gameTitle }) => {
     const image = game.imageList?.length > 0 ? `${AEM_HOST}${game.imageList[0]._path}` : undefined;
     // Using title as id assuming unique titles. If an id field exists, prefer that.
     addItem({
-      id: game.title,
+      id: game.id,
       title: game.title,
       image,
       price: game.price,

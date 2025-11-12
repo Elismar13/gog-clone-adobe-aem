@@ -67,7 +67,6 @@ const GameDetail = ({ gameTitle }) => {
 
   const handleAddToCart = () => {
     const image = game.imageList?.length > 0 ? `${AEM_HOST}${game.imageList[0]._path}` : undefined;
-    // Using title as id assuming unique titles. If an id field exists, prefer that.
 
     console.log("Add item to cart: ", game)
     

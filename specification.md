@@ -87,9 +87,8 @@ A GOG.com inspired game store built with Adobe Experience Manager (AEM) as a Sin
 
 ### Frontend
 - Built with React
-- Styled Components for styling
+- Bootstrap and CSS for styling
 - Redux for state management
-- React Router for navigation
 - Responsive Design
 
 ### Backend
@@ -106,18 +105,17 @@ A GOG.com inspired game store built with Adobe Experience Manager (AEM) as a Sin
 - [x] Game Detail Pages
 - [x] Search & Filter Functionality
 - [x] Responsive Design
-- [ ] Shopping Cart (Basic)
-  - Add to Cart
-  - Remove from Cart
-  - Update Quantity
-  - Mini-cart Preview
+- [x] Shopping Cart (Basic)
+- [x] Add to Cart
+- [x] Remove from Cart
+- [x] Update Quantity
+- [x] Mini-cart Preview
 
 ### Phase 2: User Accounts & Checkout
-- [ ] User Authentication
+- [ ] User Authentication - KeyCloack
   - Registration
   - Login/Logout
   - Password Recovery
-  - Social Login (Google, Facebook)
 - [ ] Enhanced Shopping Cart
   - Save for Later
   - Gift Options
@@ -149,7 +147,6 @@ A GOG.com inspired game store built with Adobe Experience Manager (AEM) as a Sin
 - [ ] Gift Cards
 - [ ] Subscription Service
 - [ ] Download Manager
-- [ ] Cloud Saves
 
 ### Phase 5: Performance & Optimization
 - [ ] Lazy Loading
@@ -164,13 +161,6 @@ A GOG.com inspired game store built with Adobe Experience Manager (AEM) as a Sin
 - [ ] E2E Tests
 - [ ] Performance Audits
 - [ ] Accessibility Improvements
-
-## Future Considerations
-- Mobile App Development
-- Desktop Client Integration
-- VR/AR Game Previews
-- Community Features
-- Developer Portal
 
 ## Getting Started
 
@@ -187,8 +177,3 @@ A GOG.com inspired game store built with Adobe Experience Manager (AEM) as a Sin
 4. Install the UI package
 5. Start the development server
 
-## Contributing
-Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests.
-
-## License
-This project is licensed under the Apache 2.0 License - see the LICENSE file for details.

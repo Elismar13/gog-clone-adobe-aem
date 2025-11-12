@@ -4,7 +4,6 @@ import './navigation.css';
 import logo from '../../assets/gog_logo.png';
 import { AEM_HOST, STORE_PAGE_PATH } from '../../constants/constants';
 import MiniCart from '../Cart/MiniCart';
-import { FiSearch } from 'react-icons/fi';
 
 
 const Navigation = (props: any) => {
@@ -27,14 +26,11 @@ const Navigation = (props: any) => {
           <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
             <input
               type="search"
-              className="form-control"
+              className="form-control bg-white"
               placeholder="Search..."
               aria-label="Search"
             />
           </form>
-          <button className="btn btn-outline-light me-3" aria-label="Buscar">
-            <FiSearch />
-          </button>
           <MiniCart />
         </div>
       </div>

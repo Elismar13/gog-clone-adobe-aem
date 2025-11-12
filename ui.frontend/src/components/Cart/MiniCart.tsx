@@ -12,7 +12,7 @@ const MiniCart: React.FC = () => {
   return (
     <div className="minicart-wrapper position-relative">
       <button className="btn btn-outline-light position-relative d-flex align-items-center" onClick={() => setOpen(!open)}>
-        <FiShoppingCart className="me-2" /> Carrinho
+        <FiShoppingCart className="me-2" /> 
         <span className="badge bg-success text-dark ms-2">{itemCount}</span>
       </button>
 

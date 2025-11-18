@@ -1,18 +1,18 @@
 import React from 'react';
-import { useAuth } from '../../auth/AuthContext';
+import { useKeycloak } from '@react-keycloak/web';
 import { useCart } from '../../state/CartContext';
 
 const Checkout: React.FC = () => {
-  const { state: auth, login } = useAuth();
+  const { keycloak } = useKeycloak();
   const { items, total } = useCart();
 
-  if (!auth.isAuthenticated) {
+  if (!keycloak?.authenticated) {
     return (
       <div className="container text-white my-5">
         <div className="card bg-dark text-white p-4">
           <h2 className="mb-3">Checkout</h2>
           <p>Você precisa estar logado para continuar.</p>
-          <button className="btn btn-success" onClick={login}>Fazer login</button>
+          <button className="btn btn-success" onClick={() => keycloak?.login({ redirectUri: window.location.href })}>Fazer login</button>
         </div>
       </div>
     );

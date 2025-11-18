@@ -16,7 +16,8 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { CartProvider } from './state/CartContext';
-import { AuthProvider } from './auth/AuthContext';
+import { ReactKeycloakProvider } from '@react-keycloak/web';
+import keycloak from './auth/keycloak';
 
 const modelManagerOptions = {};
 if(process.env.REACT_APP_PROXY_ENABLED) {
@@ -28,7 +29,10 @@ const renderApp = () => {
         const history = createBrowserHistory();
         render(
             <Router history={history}>
-                <AuthProvider>
+                <ReactKeycloakProvider
+                    authClient={keycloak}
+                    initOptions={{ onLoad: 'check-sso', silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html' }}
+                >
                     <CartProvider>
                         <App
                             history={history}
@@ -39,7 +43,7 @@ const renderApp = () => {
                             locationPathname={window.location.pathname}
                         />
                     </CartProvider>
-                </AuthProvider>
+                </ReactKeycloakProvider>
             </Router>,
             document.getElementById('spa-root')
         );

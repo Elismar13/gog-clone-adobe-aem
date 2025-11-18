@@ -150,7 +150,7 @@ const SearchFilter = () => {
   return (
     <>
 
-      <div className="container-fluid game-filter-container p-4 text-white">
+      <div className="container game-filter-container p-4 text-white">
 
         {/* 2.1. BARRA DE PESQUISA SUPERIOR */}
         <div className="row mb-4">

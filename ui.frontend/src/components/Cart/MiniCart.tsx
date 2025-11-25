@@ -2,12 +2,26 @@ import React, { useState } from 'react';
 import { useCart } from '../../state/CartContext';
 import { FiShoppingCart, FiTrash2 } from 'react-icons/fi';
 import './minicart.css';
+import { useAuth } from '../../auth/AuthContext';
+import { AEM_HOST, STORE_PAGE_PATH } from '../../constants/constants';
 
 const MiniCart: React.FC = () => {
   const { items, total, removeItem, updateQuantity, clear } = useCart();
   const [open, setOpen] = useState(false);
+  const { authenticated, login } = useAuth();
 
   const itemCount = items.reduce((sum, it) => sum + it.quantity, 0);
+
+  function handleCheckoutClick() {
+    if (!items.length) return;
+    const redirectUri = window.location.href;
+    if (!authenticated) {
+      login({ redirectUri });
+      return;
+    }
+    // Placeholder checkout flow: redirect to store page (or replace with checkout page when available)
+    window.location.href = `${AEM_HOST}${STORE_PAGE_PATH}`;
+  }
 
   return (
     <div className="minicart-wrapper position-relative">
@@ -53,9 +67,14 @@ const MiniCart: React.FC = () => {
             <span>Total</span>
             <strong>R$ {total.toFixed(2)}</strong>
           </div>
-          <a href="#checkout" className="btn btn-success text-dark w-100 mt-2 disabled" aria-disabled>
-            Finalizar compra (em breve)
-          </a>
+          <button
+            type="button"
+            className="btn btn-success text-dark w-100 mt-2"
+            onClick={handleCheckoutClick}
+            disabled={items.length === 0}
+          >
+            {authenticated ? 'Ir para checkout' : 'Fazer login e finalizar compra'}
+          </button>
         </div>
       )}
     </div>

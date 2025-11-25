@@ -3,12 +3,13 @@ import { useCart } from '../../state/CartContext';
 import { FiShoppingCart, FiTrash2 } from 'react-icons/fi';
 import './minicart.css';
 import { useAuth } from '../../auth/AuthContext';
-import { AEM_HOST, STORE_PAGE_PATH } from '../../constants/constants';
+import { useHistory } from 'react-router-dom';
 
 const MiniCart: React.FC = () => {
   const { items, total, removeItem, updateQuantity, clear } = useCart();
   const [open, setOpen] = useState(false);
   const { authenticated, login } = useAuth();
+  const history = useHistory();
 
   const itemCount = items.reduce((sum, it) => sum + it.quantity, 0);
 
@@ -19,8 +20,8 @@ const MiniCart: React.FC = () => {
       login({ redirectUri });
       return;
     }
-    // Placeholder checkout flow: redirect to store page (or replace with checkout page when available)
-    window.location.href = `${AEM_HOST}${STORE_PAGE_PATH}`;
+    // Navigate to protected checkout route
+    history.push('/checkout');
   }
 
   return (

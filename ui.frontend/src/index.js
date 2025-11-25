@@ -6,7 +6,7 @@ import { Constants, ModelManager } from '@adobe/aem-spa-page-model-manager';
 import { createBrowserHistory } from 'history';
 import React from 'react';
 import { render } from 'react-dom';
-import { Router } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
 import App from './App';
 import LocalDevModelClient from './LocalDevModelClient';
 import './components/import-components';
@@ -17,6 +17,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { CartProvider } from './state/CartContext';
 import { AuthProvider } from './auth/AuthContext';
+import ProtectedRoute from './auth/ProtectedRoute';
+import Checkout from './pages/Checkout';
 
 const modelManagerOptions = {};
 if(process.env.REACT_APP_PROXY_ENABLED) {
@@ -30,14 +32,21 @@ const renderApp = () => {
             <Router history={history}>
                 <AuthProvider>
                     <CartProvider>
-                        <App
-                            history={history}
-                            cqChildren={pageModel[Constants.CHILDREN_PROP]}
-                            cqItems={pageModel[Constants.ITEMS_PROP]}
-                            cqItemsOrder={pageModel[Constants.ITEMS_ORDER_PROP]}
-                            cqPath={pageModel[Constants.PATH_PROP]}
-                            locationPathname={window.location.pathname}
-                        />
+                        <Switch>
+                            <ProtectedRoute path="/checkout" exact>
+                                <Checkout />
+                            </ProtectedRoute>
+                            <Route path="/">
+                                <App
+                                    history={history}
+                                    cqChildren={pageModel[Constants.CHILDREN_PROP]}
+                                    cqItems={pageModel[Constants.ITEMS_PROP]}
+                                    cqItemsOrder={pageModel[Constants.ITEMS_ORDER_PROP]}
+                                    cqPath={pageModel[Constants.PATH_PROP]}
+                                    locationPathname={window.location.pathname}
+                                />
+                            </Route>
+                        </Switch>
                     </CartProvider>
                 </AuthProvider>
             </Router>,

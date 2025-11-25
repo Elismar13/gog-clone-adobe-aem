@@ -7,35 +7,26 @@ A GOG.com inspired game store built with Adobe Experience Manager (AEM) as a Sin
 
 ### Content Fragments
 
-#### Game
-- Title
-- Description
-- Price
-- Score/Rating
-- Discount Value
-- Release Date
-- Genre (selector)
-- Developer
-- Image Gallery
-- System Requirements
-- Tags
-- Supported platforms
-- Languages
+#### Jogo
+  - title
+  - description
+  - price
+  - score
+  - discountValue
+  - releaseDate
+  - genre (selector)
+  - developer
+  - imageList
 
-#### Developer
-- Name
-- Logo
-- Description
-- Website URL
-- Social Media Links
+#### Desenvolvedor
+  - title
+  - image
 
-#### Highlight
-- Title
-- Subtitle
-- Description
-- Background Image
-- Call-to-Action Button
-- External Link
+#### Destaque
+  - title
+  - externalLink
+  - image
+
 
 ### Implemented Components
 
@@ -85,7 +76,7 @@ A GOG.com inspired game store built with Adobe Experience Manager (AEM) as a Sin
 
 ## Technical Implementation
 
-### Frontend
+### Frontend (ui.frontend)
 - Built with React
 - Bootstrap and CSS for styling
 - Redux for state management
@@ -115,7 +106,6 @@ A GOG.com inspired game store built with Adobe Experience Manager (AEM) as a Sin
 - [ ] User Authentication - KeyCloack
   - Registration
   - Login/Logout
-  - Password Recovery
 - [ ] Enhanced Shopping Cart
   - Save for Later
   - Gift Options

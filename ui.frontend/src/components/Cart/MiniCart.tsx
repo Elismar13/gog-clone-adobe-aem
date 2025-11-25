@@ -15,7 +15,10 @@ const MiniCart: React.FC = () => {
 
   function handleCheckoutClick() {
     if (!items.length) return;
-    const redirectUri = window.location.href;
+    // Build redirect back to current page with instruction to go to /checkout after login
+    const url = new URL(window.location.origin + window.location.pathname + window.location.search);
+    url.searchParams.set('goto', '/checkout');
+    const redirectUri = url.toString();
     if (!authenticated) {
       login({ redirectUri });
       return;

@@ -19,6 +19,7 @@ import { CartProvider } from './state/CartContext';
 import { AuthProvider } from './auth/AuthContext';
 import ProtectedRoute from './auth/ProtectedRoute';
 import Checkout from './pages/Checkout';
+import PostLoginRedirect from './auth/PostLoginRedirect';
 
 const modelManagerOptions = {};
 if(process.env.REACT_APP_PROXY_ENABLED) {
@@ -32,6 +33,8 @@ const renderApp = () => {
             <Router history={history}>
                 <AuthProvider>
                     <CartProvider>
+                        {/* Handles navigation after login when `goto` param is present */}
+                        <PostLoginRedirect />
                         <Switch>
                             <ProtectedRoute path="/checkout" exact>
                                 <Checkout />

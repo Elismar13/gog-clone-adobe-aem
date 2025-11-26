@@ -23,7 +23,7 @@ const Navigation = (props: any) => {
         </nav>
 
         <div className="header-user-actions d-flex align-items-center">
-          <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+          <form className="d-none d-lg-flex col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
             <input
               type="search"
               className="form-control bg-white"

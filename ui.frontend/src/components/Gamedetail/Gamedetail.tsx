@@ -161,8 +161,8 @@ const GameDetail = ({ gameTitle }) => {
                 </div>
               </div>
 
-              <button className="btn btn-success text-black btn-lg fw-bold d-flex align-items-center" onClick={handleAddToCart}>
-                <FiShoppingCart className="me-2" />
+              <button className="btn btn-success text-light btn-lg fw-bold d-flex align-items-center justify-content-center" onClick={handleAddToCart}>
+                <FiShoppingCart className="me-2" /> Adicionar
               </button>
 
               <p className="text-center text-white small mt-3">DRM-FREE &bull; Dinheiro de volta em 30 dias</p>

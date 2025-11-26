@@ -7,35 +7,26 @@ A GOG.com inspired game store built with Adobe Experience Manager (AEM) as a Sin
 
 ### Content Fragments
 
-#### Game
-- Title
-- Description
-- Price
-- Score/Rating
-- Discount Value
-- Release Date
-- Genre (selector)
-- Developer
-- Image Gallery
-- System Requirements
-- Tags
-- Supported platforms
-- Languages
+#### Jogo
+	 - title
+	 - description
+	 - price
+	 - score
+	 - discountValue
+	 - releaseDate
+	 - genre (selector)
+	 - developer
+	 - imageList
 
-#### Developer
-- Name
-- Logo
-- Description
-- Website URL
-- Social Media Links
+#### Desenvolvedor
+	 - title
+	 - image
 
-#### Highlight
-- Title
-- Subtitle
-- Description
-- Background Image
-- Call-to-Action Button
-- External Link
+#### Destaque
+	- title
+	- externalLink
+	- image
+
 
 ### Implemented Components
 
@@ -96,7 +87,6 @@ A GOG.com inspired game store built with Adobe Experience Manager (AEM) as a Sin
 - Sling Models
 - Content Fragments
 - Experience Fragments
-- Dispatcher Configuration
 
 ## Roadmap
 
@@ -116,15 +106,6 @@ A GOG.com inspired game store built with Adobe Experience Manager (AEM) as a Sin
   - Registration
   - Login/Logout
   - Password Recovery
-- [ ] Enhanced Shopping Cart
-  - Save for Later
-  - Gift Options
-  - Promo Codes
-- [ ] Checkout Process
-  - Shipping Information
-  - Payment Methods
-  - Order Review
-  - Order Confirmation
 
 ### Phase 3: Enhanced Features
 - [ ] User Dashboard
@@ -136,31 +117,14 @@ A GOG.com inspired game store built with Adobe Experience Manager (AEM) as a Sin
   - User Reviews
   - Star Ratings
   - helpful Votes
-- [ ] Recommendation Engine
-  - "You May Also Like"
-  - "Recently Viewed"
-  - Personalized recommendations
 
 ### Phase 4: Advanced Features
 - [ ] Multi-language Support
 - [ ] Regional Pricing
-- [ ] Gift Cards
-- [ ] Subscription Service
-- [ ] Download Manager
-
-### Phase 5: Performance & Optimization
-- [ ] Lazy Loading
-- [ ] Image Optimization
-- [ ] Code Splitting
-- [ ] Caching Strategy
-- [ ] SEO Optimization
 
 ## Technical Debt & Improvements
 - [ ] Unit Tests
-- [ ] Integration Tests
 - [ ] E2E Tests
-- [ ] Performance Audits
-- [ ] Accessibility Improvements
 
 ## Getting Started
 

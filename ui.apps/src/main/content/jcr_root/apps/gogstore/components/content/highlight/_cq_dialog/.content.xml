@@ -26,7 +26,7 @@
                             sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
                             emptyText="Selecione o banner."
                             fieldDescription="Selecione o banner."
-                            fieldLabel="Link Interno"
+                            fieldLabel="Selecione o banner."
                             fieldRequired="{Boolean}true"
                             rootPath="/content/dam/gogstore/img"
                             name="./highlightPath"

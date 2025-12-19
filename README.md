@@ -1,124 +1,143 @@
-# Sample AEM project template
+# GOG Clone - AEM SPA Project
 
-This is a project template for AEM-based applications. It is intended as a best-practice set of examples as well as a potential starting point to develop your own functionality.
+## Project Overview
+A GOG.com inspired game store built with Adobe Experience Manager (AEM) as a Single Page Application (SPA) using React.
 
-## Modules
+## Current Implementation
 
-The main parts of the template are:
+### Content Fragments
 
-* [core:](core/README.md) Java bundle containing all core functionality like OSGi services, listeners or schedulers, as well as component-related Java code such as servlets or request filters.
-* [it.tests:](it.tests/README.md) Java based integration tests
-* [ui.apps:](ui.apps/README.md) contains the /apps (and /etc) parts of the project, ie JS&CSS clientlibs, components, and templates
-* [ui.content:](ui.content/README.md) contains sample content using the components from the ui.apps
-* ui.config: contains runmode specific OSGi configs for the project
-* [ui.frontend:](ui.frontend.general/README.md) an optional dedicated front-end build mechanism (Angular, React or general Webpack project)
-* [ui.tests:](ui.tests/README.md) Cypress based UI tests (for other frameworks check [aem-test-samples](https://github.com/adobe/aem-test-samples) repository
-* all: a single content package that embeds all of the compiled modules (bundles and content packages) including any vendor dependencies
-* analyse: this module runs analysis on the project which provides additional validation for deploying into AEMaaCS
+#### Jogo
+	 - title
+	 - description
+	 - price
+	 - score
+	 - discountValue
+	 - releaseDate
+	 - genre (selector)
+	 - developer
+	 - imageList
 
-## How to build
+#### Desenvolvedor
+	 - title
+	 - image
 
-To build all the modules run in the project root directory the following command with Maven 3:
+#### Destaque
+	- title
+	- externalLink
+	- image
 
-    mvn clean install
 
-To build all the modules and deploy the `all` package to a local instance of AEM, run in the project root directory the following command:
+### Implemented Components
 
-    mvn clean install -PautoInstallSinglePackage
+1. **Banner**
+   - Title
+   - Subtitle
+   - Background Image
+   - Call-to-Action Button
+   - Price Information
+   - Discount Badge
 
-Or to deploy it to a publish instance, run
+2. **Game List**
+   - Grid/List View Toggle
+   - Filtering Options
+   - Sorting Options
+   - Pagination
+   - Game Cards
 
-    mvn clean install -PautoInstallSinglePackagePublish
+3. **Game Detail**
+   - Game Title
+   - Hero Image
+   - Screenshots Gallery
+   - Description
+   - Price & Purchase Options
+   - System Requirements
+   - Reviews & Ratings
 
-Or alternatively
+4. **Search & Filter**
+   - Search Bar
+   - Genre Filter
+   - Price Range
+   - Platform Filter
+   - Release Date Filter
+   - Sort Options
 
-    mvn clean install -PautoInstallSinglePackage -Daem.port=4503
+5. **Navigation**
+   - Main Menu
+   - User Menu
+   - Breadcrumbs
+   - Footer Navigation
 
-Or to deploy only the bundle to the author, run
+6. **Highlight**
+   - Featured Content
+   - Promotional Banners
+   - New Releases
+   - Special Offers
 
-    mvn clean install -PautoInstallBundle
+## Technical Implementation
 
-Or to deploy only a single content package, run in the sub-module directory (i.e `ui.apps`)
+### Frontend
+- Built with React
+- Bootstrap and CSS for styling
+- Redux for state management
+- Responsive Design
 
-    mvn clean install -PautoInstallPackage
+### Backend
+- AEM SPA Editor
+- Sling Models
+- Content Fragments
+- Experience Fragments
 
-## Documentation
+## Roadmap
 
-The build process also generates documentation in the form of README.md files in each module directory for easy reference. Depending on the options you select at build time, the content may be customized to your project.
+### Phase 1: Core Shopping Experience (Current)
+- [x] Basic Game Listing
+- [x] Game Detail Pages
+- [x] Search & Filter Functionality
+- [x] Responsive Design
+- [x] Shopping Cart (Basic)
+- [x] Add to Cart
+- [x] Remove from Cart
+- [x] Update Quantity
+- [x] Mini-cart Preview
 
-## Testing
+### Phase 2: User Accounts & Checkout
+- [ ] User Authentication - KeyCloack
+  - Registration
+  - Login/Logout
+  - Password Recovery
 
-There are three levels of testing contained in the project:
+### Phase 3: Enhanced Features
+- [ ] User Dashboard
+  - Order History
+  - Wishlist
+  - Payment Methods
+  - Account Settings
+- [ ] Reviews & Ratings
+  - User Reviews
+  - Star Ratings
+  - helpful Votes
 
-### Unit tests
+### Phase 4: Advanced Features
+- [ ] Multi-language Support
+- [ ] Regional Pricing
 
-This show-cases classic unit testing of the code contained in the bundle. To
-test, execute:
+## Technical Debt & Improvements
+- [ ] Unit Tests
+- [ ] E2E Tests
 
-    mvn clean test
+## Getting Started
 
-### Integration tests
+### Prerequisites
+- Java 11+
+- Maven 3.6.3+
+- Node.js 14+
+- AEM 6.5+
 
-This allows running integration tests that exercise the capabilities of AEM via
-HTTP calls to its API. To run the integration tests, run:
+### Installation
+1. Clone the repository
+2. Run `mvn clean install`
+3. Deploy to AEM
+4. Install the UI package
+5. Start the development server
 
-    mvn clean verify -Plocal
-
-Test classes must be saved in the `src/main/java` directory (or any of its
-subdirectories), and must be contained in files matching the pattern `*IT.java`.
-
-The configuration provides sensible defaults for a typical local installation of
-AEM. If you want to point the integration tests to different AEM author and
-publish instances, you can use the following system properties via Maven's `-D`
-flag.
-
-| Property              | Description                                         | Default value           |
-|-----------------------|-----------------------------------------------------|-------------------------|
-| `it.author.url`       | URL of the author instance                          | `http://localhost:4502` |
-| `it.author.user`      | Admin user for the author instance                  | `admin`                 |
-| `it.author.password`  | Password of the admin user for the author instance  | `admin`                 |
-| `it.publish.url`      | URL of the publish instance                         | `http://localhost:4503` |
-| `it.publish.user`     | Admin user for the publish instance                 | `admin`                 |
-| `it.publish.password` | Password of the admin user for the publish instance | `admin`                 |
-
-The integration tests in this archetype use the [AEM Testing
-Clients](https://github.com/adobe/aem-testing-clients) and showcase some
-recommended [best
-practices](https://github.com/adobe/aem-testing-clients/wiki/Best-practices) to
-be put in use when writing integration tests for AEM.
-
-## Static Analysis
-
-The `analyse` module performs static analysis on the project for deploying into AEMaaCS. It is automatically
-run when executing
-
-    mvn clean install
-
-from the project root directory. Additional information about this analysis and how to further configure it
-can be found here https://github.com/adobe/aemanalyser-maven-plugin
-
-### UI tests
-
-They will test the UI layer of your AEM application using Cypress framework.
-
-Check README file in `ui.tests` module for more details.
-
-Examples of UI tests in different frameworks can be found here: https://github.com/adobe/aem-test-samples
-
-## ClientLibs
-
-The frontend module is made available using an [AEM ClientLib](https://helpx.adobe.com/experience-manager/6-5/sites/developing/using/clientlibs.html). When executing the NPM build script, the app is built and the [`aem-clientlib-generator`](https://github.com/wcm-io-frontend/aem-clientlib-generator) package takes the resulting build output and transforms it into such a ClientLib.
-
-A ClientLib will consist of the following files and directories:
-
-- `css/`: CSS files which can be requested in the HTML
-- `css.txt` (tells AEM the order and names of files in `css/` so they can be merged)
-- `js/`: JavaScript files which can be requested in the HTML
-- `js.txt` (tells AEM the order and names of files in `js/` so they can be merged
-- `resources/`: Source maps, non-entrypoint code chunks (resulting from code splitting), static assets (e.g. icons), etc.
-
-## Maven settings
-
-The project comes with the auto-public repository configured. To setup the repository in your Maven settings, refer to:
-
-    http://helpx.adobe.com/experience-manager/kb/SetUpTheAdobeMavenRepository.html

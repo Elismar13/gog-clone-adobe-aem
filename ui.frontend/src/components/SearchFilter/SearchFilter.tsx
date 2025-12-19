@@ -4,11 +4,11 @@ import api from "../../axios";
 import Game from "../../interfaces/game";
 import mockedGames from '../../api/mocked';
 import Gameitem from "../Gamelist/Gameitem/Gameitem";
+import { useDevelopers } from "../../hooks/useDevelopers";
 
 import './searchFilter.css';
 
 const genreOptions = ["Action", "Adventure", "OpenWorld", "RPG"];
-const developerOptions = ["CD Project Red", "Rockstar Games", "Square Enix"];
 
 interface FilterState {
   gameTitle?: string;
@@ -31,6 +31,8 @@ const SearchFilter = () => {
     genres: '',
     minScore: 0,
   });
+
+  const { data: developers, loading: loadingDevs } = useDevelopers();
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({
@@ -123,8 +125,9 @@ const SearchFilter = () => {
           onChange={(e) => handleFilterChange('developer', e.target.value)}
         >
           <option value="">Todas</option>
-          {developerOptions.map(dev => (
-            <option key={dev} value={dev}>{dev}</option>
+          {loadingDevs && <option disabled>Carregando...</option>}
+          {!loadingDevs && developers.map(dev => (
+            <option key={dev._path} value={dev.name}>{dev.name}</option>
           ))}
         </select>
       </div>

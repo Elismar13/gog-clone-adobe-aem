@@ -5,10 +5,11 @@ import Game from "../../interfaces/game";
 import mockedGames from '../../api/mocked';
 import Gameitem from "../Gamelist/Gameitem/Gameitem";
 import { useDevelopers } from "../../hooks/useDevelopers";
+import { useGenres } from "../../hooks/useGenres";
 
 import './searchFilter.css';
 
-const genreOptions = ["Action", "Adventure", "OpenWorld", "RPG"];
+// Genres are loaded dynamically via useGenres
 
 interface FilterState {
   gameTitle?: string;
@@ -32,6 +33,7 @@ const SearchFilter = () => {
     minScore: 0,
   });
 
+  const { data: genres, loading: loadingGenres } = useGenres();
   const { data: developers, loading: loadingDevs } = useDevelopers();
 
   const handleFilterChange = (key, value) => {
@@ -106,12 +108,14 @@ const SearchFilter = () => {
         <h5 className="text-light mb-3">Gênero:</h5>
         <select
           className="form-select bg-gog-dark text-light border-gog-accent"
+          aria-label="Selecionar gênero"
           value={filters.genres}
           onChange={(e) => handleFilterChange('genres', e.target.value)}
         >
           <option value="">Qualquer</option>
-          {genreOptions.map(year => (
-            <option key={year} value={year}>{year}</option>
+          {loadingGenres && <option disabled>Carregando...</option>}
+          {!loadingGenres && genres.map(g => (
+            <option key={g.path} value={g.name}>{g.title || g.name}</option>
           ))}
         </select>
       </div>
@@ -121,6 +125,7 @@ const SearchFilter = () => {
         <h5 className="text-light mb-3">Desenvolvedora</h5>
         <select
           className="form-select bg-gog-dark text-light border-gog-accent"
+          aria-label="Selecionar desenvolvedora"
           value={filters.developer || ''}
           onChange={(e) => handleFilterChange('developer', e.target.value)}
         >

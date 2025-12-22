@@ -7,7 +7,7 @@ export function useGame(params: { id?: string; title?: string }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>(undefined);
 
-  // Currently only title endpoint exists; if id is provided, we can adapt later.
+  // Hoje uso o título, mas vou migrar para o id.
   const key = params.title || params.id || '';
 
   const fetchData = useCallback(async () => {

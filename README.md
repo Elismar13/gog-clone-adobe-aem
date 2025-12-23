@@ -30,13 +30,8 @@ A GOG.com inspired game store built with Adobe Experience Manager (AEM) as a Sin
 
 ### Implemented Components
 
-1. **Banner**
+1. **Carousel**
    - Title
-   - Subtitle
-   - Background Image
-   - Call-to-Action Button
-   - Price Information
-   - Discount Badge
 
 2. **Game List**
    - Grid/List View Toggle
@@ -102,6 +97,10 @@ A GOG.com inspired game store built with Adobe Experience Manager (AEM) as a Sin
 - [x] Mini-cart Preview
 
 ### Phase 2: User Accounts & Checkout
+   - migrar para o cloud
+   - keycloack
+   - testes unitários (junit) enzo amorim
+   - Estratégias de Busca dinâmica
 - [ ] User Authentication - KeyCloack
   - Registration
   - Login/Logout

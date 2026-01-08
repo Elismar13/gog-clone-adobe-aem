@@ -97,10 +97,9 @@ A GOG.com inspired game store built with Adobe Experience Manager (AEM) as a Sin
 - [x] Mini-cart Preview
 
 ### Phase 2: User Accounts & Checkout
-   - migrar para o cloud
-   - keycloack
-   - testes unitários (junit) enzo amorim
-   - Estratégias de Busca dinâmica
+- [ ] Migrar para o cloud - gravar / documentar
+- [ ] Testes unitários (junit) enzo amorim
+- [ ] Estratégias de Busca dinâmica
 - [ ] User Authentication - KeyCloack
   - Registration
   - Login/Logout

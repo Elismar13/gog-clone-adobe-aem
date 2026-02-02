@@ -1,4 +1,4 @@
-const AEM_HOST = "http://localhost:4502";
+import { AEM_HOST } from '../constants/constants';
 
 const resolveImage = (url: string) => {
   return `${AEM_HOST}${url}`;

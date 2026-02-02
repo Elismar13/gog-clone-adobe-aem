@@ -3,9 +3,9 @@ import api from '../../axios';
 
 import mockedGames from '../../api/mocked';
 import calculateDiscount from '../../util/calculateDiscount';
-import { AEM_HOST } from '../../constants/constants';
 import { useCart } from '../../state/CartContext';
 import { FiShoppingCart, FiStar, FiCalendar, FiUser } from 'react-icons/fi';
+import resolveImage from '../../util/resolveImage';
 
 import './gamedetail.css';
 
@@ -57,7 +57,7 @@ const GameDetail = ({ gameTitle }) => {
 
   const { current, old, percentage } = calculateDiscount(game.price, game.discountValue);
 
-  const coverImageUrl = game.imageList?.length > 0 ? `${AEM_HOST}${game.imageList[0]._path}` : 'https://via.placeholder.com/600x900/1a1a1a/FFF?text=Capa';
+  const coverImageUrl = game.imageList?.length > 0 ? resolveImage(game.imageList[0]._path) : 'https://via.placeholder.com/600x900/1a1a1a/FFF?text=Capa';
 
   const backgroundUrl = coverImageUrl;
   const isDiscounted = game.discountValue > 0;
@@ -66,7 +66,7 @@ const GameDetail = ({ gameTitle }) => {
   const priceColorClass = 'gog-price-color';
 
   const handleAddToCart = () => {
-    const image = game.imageList?.length > 0 ? `${AEM_HOST}${game.imageList[0]._path}` : undefined;
+    const image = game.imageList?.length > 0 ? resolveImage(game.imageList[0]._path) : undefined;
 
     console.log("Add item to cart: ", game)
     
@@ -129,7 +129,7 @@ const GameDetail = ({ gameTitle }) => {
               {game.imageList.map((img, i) => (
                 <div className="col" key={i}>
                   <img
-                    src={`${AEM_HOST}${img._path}`}
+                    src={resolveImage(img._path)}
                     alt={`Screenshot ${i + 1}`}
                     className="img-fluid rounded"
                     style={{ aspectRatio: '16/9', objectFit: 'cover' }}

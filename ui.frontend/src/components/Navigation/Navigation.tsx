@@ -2,8 +2,9 @@ import React from 'react';
 
 import './navigation.css';
 import logo from '../../assets/gog_logo.png';
-import { AEM_HOST, STORE_PAGE_PATH } from '../../constants/constants';
+import { STORE_PAGE_PATH } from '../../constants/constants';
 import MiniCart from '../Cart/MiniCart';
+import { Link } from 'react-router-dom';
 
 
 const Navigation = (props: any) => {
@@ -17,9 +18,9 @@ const Navigation = (props: any) => {
         />
 
         <nav className="header-nav d-none d-md-flex">
-          <a href={`${AEM_HOST}${STORE_PAGE_PATH}`} className="nav-link nav-item active">Loja</a>
-          <a href={`${AEM_HOST}${STORE_PAGE_PATH}`} className="nav-link nav-item">Biblioteca</a>
-          <a href={`${AEM_HOST}${STORE_PAGE_PATH}`} className="nav-link nav-item">Comunidade</a>
+          <Link to={STORE_PAGE_PATH} className="nav-link nav-item active">Loja</Link>
+          <Link to={STORE_PAGE_PATH} className="nav-link nav-item">Biblioteca</Link>
+          <Link to={STORE_PAGE_PATH} className="nav-link nav-item">Comunidade</Link>
         </nav>
 
         <div className="header-user-actions d-flex align-items-center">

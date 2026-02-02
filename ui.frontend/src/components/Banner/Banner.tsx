@@ -3,9 +3,11 @@ import api from '../../axios';
 import Game from '../../interfaces/game'
 import calculateDiscount from '../../util/calculateDiscount';
 import mockedGames from '../../api/mocked';
-import { AEM_HOST, GAME_DETAIL_PAGE_PATH } from '../../constants/constants';
+import { GAME_DETAIL_PAGE_PATH } from '../../constants/constants';
 // import bg from './rdr2_1.jpg'
 import { FiTag, FiShoppingBag } from 'react-icons/fi';
+import resolveImage from '../../util/resolveImage';
+import { Link } from 'react-router-dom';
 
 const Banner = (props: any) => {
 
@@ -65,7 +67,7 @@ const Banner = (props: any) => {
           return (
             <div key={game._id} className={`carousel-item ${index === 0 ? 'active' : ''}`} data-bs-interval="5000">
               <img
-                src={`${AEM_HOST}${imagePath}`}
+                src={resolveImage(imagePath)}
                 className="w-100 d-block opacity-75"
                 alt={game.title}
               />
@@ -95,14 +97,14 @@ const Banner = (props: any) => {
                     </div>
 
                     <div className="d-flex align-items-center mt-1">
-                      <a
+                      <Link
                         id={`buyBtn-${game._id}`}
                         className="btn btn-success btn-lg fw-bold d-flex align-items-center"
-                        href={`${AEM_HOST}${GAME_DETAIL_PAGE_PATH}?gameTitle=${game.title}`}
+                        to={`${GAME_DETAIL_PAGE_PATH}?gameTitle=${encodeURIComponent(game.title)}`}
                         role="button"
                       >
                         <FiShoppingBag className="me-2" /> Comprar
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>

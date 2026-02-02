@@ -2,6 +2,7 @@ import React, { FunctionComponent } from "react";
 import Game from "../../../interfaces/game";
 import calculateDiscount from "../../../util/calculateDiscount";
 import { AEM_HOST, GAME_DETAIL_PAGE_PATH } from "../../../constants/constants";
+import { useHistory } from "react-router-dom";
 
 import './gameitem.css';
 
@@ -10,8 +11,9 @@ interface GameitemProps {
 }
 
 const Gameitem: FunctionComponent<GameitemProps> = ({ game }) => {
+  const history = useHistory();
   const handleRedirect = (gameTitle: string) => {
-    window.location.href = `${AEM_HOST}${GAME_DETAIL_PAGE_PATH}?gameTitle=${gameTitle}`;
+    history.push(`${GAME_DETAIL_PAGE_PATH}?gameTitle=${encodeURIComponent(gameTitle)}`);
   }
 
   const discountInfo = calculateDiscount(game.price, game.discountValue);

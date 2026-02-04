@@ -6,7 +6,7 @@ import { Constants, ModelManager } from '@adobe/aem-spa-page-model-manager';
 import { createBrowserHistory } from 'history';
 import React from 'react';
 import { render } from 'react-dom';
-import { Router } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
 import App from './App';
 import LocalDevModelClient from './LocalDevModelClient';
 import './components/import-components';
@@ -16,6 +16,11 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { CartProvider } from './state/CartContext';
+import { AuthProvider } from './auth/AuthContext';
+import ProtectedRoute from './auth/ProtectedRoute';
+import PostLoginRedirect from './auth/PostLoginRedirect';
+import Checkout from './pages/Checkout';
+import Login from './pages/Login';
 
 const modelManagerOptions = {};
 if(process.env.REACT_APP_PROXY_ENABLED) {
@@ -27,16 +32,29 @@ const renderApp = () => {
         const history = createBrowserHistory();
         render(
             <Router history={history}>
-                <CartProvider>
-                    <App
-                        history={history}
-                        cqChildren={pageModel[Constants.CHILDREN_PROP]}
-                        cqItems={pageModel[Constants.ITEMS_PROP]}
-                        cqItemsOrder={pageModel[Constants.ITEMS_ORDER_PROP]}
-                        cqPath={pageModel[Constants.PATH_PROP]}
-                        locationPathname={window.location.pathname}
-                    />
-                </CartProvider>
+                <AuthProvider>
+                    <CartProvider>
+                        <PostLoginRedirect />
+                        <Switch>
+                            <Route path="/login" exact>
+                                <Login />
+                            </Route>
+                            <ProtectedRoute path="/checkout" exact>
+                                <Checkout />
+                            </ProtectedRoute>
+                            <Route path="/">
+                                <App
+                                    history={history}
+                                    cqChildren={pageModel[Constants.CHILDREN_PROP]}
+                                    cqItems={pageModel[Constants.ITEMS_PROP]}
+                                    cqItemsOrder={pageModel[Constants.ITEMS_ORDER_PROP]}
+                                    cqPath={pageModel[Constants.PATH_PROP]}
+                                    locationPathname={window.location.pathname}
+                                />
+                            </Route>
+                        </Switch>
+                    </CartProvider>
+                </AuthProvider>
             </Router>,
             document.getElementById('spa-root')
         );

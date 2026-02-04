@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import { useCart } from '../../state/CartContext';
 import { FiShoppingCart, FiTrash2 } from 'react-icons/fi';
 import './minicart.css';
+import { useHistory } from 'react-router-dom';
+import { useAuth } from '../../auth/AuthContext';
 
 const MiniCart: React.FC = () => {
   const { items, total, removeItem, updateQuantity, clear } = useCart();
   const [open, setOpen] = useState(false);
+  const history = useHistory();
+  const { authenticated } = useAuth();
 
   const itemCount = items.reduce((sum, it) => sum + it.quantity, 0);
 
@@ -53,9 +57,20 @@ const MiniCart: React.FC = () => {
             <span>Total</span>
             <strong>R$ {total.toFixed(2)}</strong>
           </div>
-          <a href="#checkout" className="btn btn-success text-dark w-100 mt-2 disabled" aria-disabled>
-            Finalizar compra (em breve)
-          </a>
+          <button
+            className="btn btn-success text-dark w-100 mt-2"
+            disabled={items.length === 0}
+            onClick={() => {
+              if (!items.length) return;
+              if (!authenticated) {
+                history.push('/login?goto=/checkout');
+              } else {
+                history.push('/checkout');
+              }
+            }}
+          >
+            {authenticated ? 'Ir para checkout' : 'Fazer login e finalizar compra'}
+          </button>
         </div>
       )}
     </div>

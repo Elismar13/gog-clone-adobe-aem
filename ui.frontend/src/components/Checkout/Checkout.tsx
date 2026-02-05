@@ -65,7 +65,7 @@ const Checkout: React.FC = () => {
           <div className="auth-required">
             <FiLock className="lock-icon" />
             <h2>Autenticação Necessária</h2>
-            <p>Você precisa estar autenticado para continuar com o checkout.</p>
+            <p className="text-white">Você precisa estar autenticado para continuar com o checkout.</p>
             <button className="btn-login" onClick={handleLogin}>
               Entrar com Keycloak
             </button>

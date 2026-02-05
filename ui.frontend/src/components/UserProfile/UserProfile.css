@@ -1,27 +1,20 @@
 /* User Profile Container */
 .user-profile {
   position: relative;
-  margin-left: 15px;
 }
 
 /* User Profile Button */
 .user-profile-button {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  padding: 8px 12px;
-  color: white;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  padding: 8px 12px !important;
   font-size: 0.9rem;
+  transition: all 0.3s ease;
 }
 
 .user-profile-button:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
   transform: translateY(-1px);
 }
 
@@ -29,25 +22,10 @@
 .user-avatar {
   width: 32px;
   height: 32px;
-  border-radius: 50%;
-  background: linear-gradient(45deg, #4CAF50, #8BC34A);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-weight: 700;
   font-size: 0.9rem;
   color: white;
   border: 2px solid rgba(255, 255, 255, 0.2);
-}
-
-/* User Name */
-.user-name {
-  font-weight: 600;
-  color: white;
-  max-width: 120px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 /* Dropdown Icon */
@@ -63,114 +41,123 @@
 
 /* User Dropdown */
 .user-dropdown {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  background: rgba(30, 30, 46, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  min-width: 280px;
+  background: rgba(30, 30, 46, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 0.5rem !important;
+  min-width: 320px;
+  max-width: 380px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
-  z-index: 1000;
-  overflow: hidden;
 }
 
 /* Dropdown Header */
 .dropdown-header {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .dropdown-avatar {
   width: 48px;
   height: 48px;
-  border-radius: 50%;
-  background: linear-gradient(45deg, #4CAF50, #8BC34A);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-weight: 700;
   font-size: 1.2rem;
   color: white;
   border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
-.dropdown-user-info {
-  flex: 1;
-}
-
 .dropdown-name {
-  font-weight: 600;
   color: white;
-  font-size: 1rem;
-  margin-bottom: 4px;
 }
 
 .dropdown-email {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6) !important;
 }
 
-/* Dropdown Divider */
-.dropdown-divider {
-  height: 1px;
-  background: rgba(255, 255, 255, 0.1);
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  animation: pulse 2s infinite;
 }
 
-/* Dropdown Menu */
-.dropdown-menu {
-  padding: 8px 0;
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
 }
 
-.dropdown-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  padding: 12px 20px;
-  background: transparent;
-  border: none;
-  color: rgba(255, 255, 255, 0.8);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
-  text-align: left;
+.status-text {
+  color: rgba(255, 255, 255, 0.6) !important;
 }
 
-.dropdown-item:hover {
+/* Dropdown Stats */
+.dropdown-stats {
   background: rgba(255, 255, 255, 0.05);
+}
+
+.stat-item {
+  background: rgba(255, 255, 255, 0.02);
+  transition: background 0.3s ease;
+}
+
+.stat-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.stat-icon {
+  font-size: 1.2rem;
+}
+
+.stat-value {
   color: white;
 }
 
-.dropdown-item.logout {
-  color: #ff6b6b;
+.stat-label {
+  color: rgba(255, 255, 255, 0.6) !important;
 }
 
-.dropdown-item.logout:hover {
-  background: rgba(255, 107, 107, 0.1);
+/* Dropdown Menu Items */
+.dropdown-menu-list .dropdown-item {
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  transition: all 0.3s ease;
 }
 
-.dropdown-item svg {
-  font-size: 1rem;
-  min-width: 16px;
+.dropdown-menu-list .dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: white !important;
+}
+
+.dropdown-menu-list .dropdown-item.text-danger:hover {
+  background: rgba(255, 107, 107, 0.1) !important;
+}
+
+.item-content small {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Dropdown Offers */
+.dropdown-offers {
+  background: rgba(76, 175, 80, 0.1) !important;
+}
+
+.offers-header {
+  color: #4CAF50 !important;
+}
+
+.offers-content .badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+/* Custom Grid for Stats (Bootstrap 5 doesn't have grid-cols-3) */
+.d-grid.grid-cols-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .user-profile {
     margin-left: 10px;
-  }
-  
-  .user-name {
-    display: none;
-  }
-  
-  .user-profile-button {
-    padding: 8px 10px;
   }
   
   .user-avatar {
@@ -180,12 +167,8 @@
   }
   
   .user-dropdown {
-    min-width: 240px;
+    min-width: 280px;
     right: -10px;
-  }
-  
-  .dropdown-header {
-    padding: 15px;
   }
   
   .dropdown-avatar {
@@ -194,12 +177,26 @@
     font-size: 1rem;
   }
   
-  .dropdown-name {
-    font-size: 0.9rem;
+  .dropdown-stats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    margin: 10px;
   }
   
-  .dropdown-email {
-    font-size: 0.8rem;
+  .stat-item {
+    padding: 12px 8px !important;
+  }
+  
+  .stat-icon {
+    font-size: 1rem;
+  }
+  
+  .stat-value {
+    font-size: 1rem;
+  }
+  
+  .stat-label {
+    font-size: 0.7rem;
   }
 }
 
@@ -209,7 +206,7 @@
   }
   
   .user-profile-button {
-    padding: 6px 8px;
+    padding: 6px 8px !important;
   }
   
   .user-avatar {
@@ -220,5 +217,36 @@
   
   .dropdown-icon {
     display: none;
+  }
+  
+  .user-dropdown {
+    min-width: 260px;
+    right: -5px;
+  }
+  
+  .dropdown-stats {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin: 10px;
+  }
+  
+  .stat-item {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 15px !important;
+  }
+  
+  .stat-icon {
+    margin-bottom: 0;
+  }
+  
+  .dropdown-offers {
+    padding: 12px 15px !important;
+  }
+  
+  .offers-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
   }
 }

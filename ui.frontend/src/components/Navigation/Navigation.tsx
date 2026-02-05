@@ -4,6 +4,7 @@ import './navigation.css';
 import logo from '../../assets/gog_logo.png';
 import { STORE_PAGE_PATH } from '../../constants/constants';
 import MiniCart from '../Cart/MiniCart';
+import UserProfile from '../UserProfile/UserProfile';
 import { Link } from 'react-router-dom';
 
 
@@ -33,6 +34,7 @@ const Navigation = (props: any) => {
             />
           </form>
           <MiniCart />
+          <UserProfile />
         </div>
       </div>
 

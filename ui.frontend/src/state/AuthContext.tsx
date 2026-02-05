@@ -25,9 +25,9 @@ function getEnv(name: string, fallback?: string) {
 }
 
 function getKeycloakConfig() {
-  const url = getEnv('REACT_APP_KEYCLOAK_URL');
-  const realm = getEnv('REACT_APP_KEYCLOAK_REALM');
-  const clientId = getEnv('REACT_APP_KEYCLOAK_CLIENT_ID');
+  const url = getEnv('REACT_APP_KEYCLOAK_URL', 'http://localhost:8080');
+  const realm = getEnv('REACT_APP_KEYCLOAK_REALM', 'gogstore');
+  const clientId = getEnv('REACT_APP_KEYCLOAK_CLIENT_ID', 'gogstore-spa');
   if (!url || !realm || !clientId) {
     // eslint-disable-next-line no-console
     console.warn('[Auth] Missing Keycloak config envs: REACT_APP_KEYCLOAK_URL, REACT_APP_KEYCLOAK_REALM, REACT_APP_KEYCLOAK_CLIENT_ID');
@@ -48,11 +48,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    const kc = Keycloak({
+    const isKeycloakRedirect = window.location.search.includes('code=');
+    if (isKeycloakRedirect) {
+      console.log('[Auth] Detected Keycloak redirect, processing callback');
+      // Processar o callback do Keycloak sem verificar SSO automaticamente
+      const kc = new Keycloak({
+        url: cfg.url,
+        realm: cfg.realm,
+        clientId: cfg.clientId,
+      });
+      kcRef.current = kc;
+      
+      kc.init({ checkLoginIframe: false })
+        .then((auth: boolean) => {
+          console.log('[Auth] Keycloak callback processed, authenticated:', auth);
+          setAuthenticated(auth);
+          setToken(kc.token);
+          setInitialized(true);
+        })
+        .catch((e: unknown) => {
+          console.error('[Auth] Keycloak callback error', e);
+          setInitialized(true);
+        });
+      return;
+    }
+
+    const kc = new Keycloak({
       url: cfg.url,
       realm: cfg.realm,
       clientId: cfg.clientId,
     });
+    kcRef.current = kc;
 
     kc.init({ onLoad: 'check-sso', checkLoginIframe: false })
       .then((auth: boolean) => {
@@ -79,8 +105,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     authenticated,
     token,
     login: (options?: { redirectUri?: string }) => {
+      console.log('[Auth] Login called, kcRef.current:', !!kcRef.current);
       const kc = kcRef.current;
-      if (kc) kc.login({ redirectUri: options?.redirectUri });
+      if (kc) {
+        console.log('[Auth] Calling kc.login with redirectUri:', options?.redirectUri);
+        kc.login({ redirectUri: options?.redirectUri });
+      } else {
+        console.error('[Auth] Keycloak instance not available for login');
+      }
     },
     logout: (options?: { redirectUri?: string }) => {
       const kc = kcRef.current;

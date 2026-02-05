@@ -5,10 +5,22 @@ const LoginPrompt: React.FC = () => {
   const { authenticated, initialized, login, logout } = useAuth();
 
   const handleLogin = () => {
-    const url = new URL(window.location.href);
+    console.log('is initialized', initialized);
+    console.log('is authenticated', authenticated);
+    
+    // Para página do AEM, usar a URL atual como base
+    const currentUrl = window.location.href;
+    const url = new URL(currentUrl);
+    
     // Preserve current page as goto destination after login
-    url.searchParams.set('goto', window.location.pathname);
-    login({ redirectUri: url.toString() });
+    const goto = url.searchParams.get('goto') || window.location.pathname;
+    
+    // Construir a URL de redirecionamento para o Keycloak
+    const redirectUri = new URL(window.location.origin + window.location.pathname);
+    redirectUri.searchParams.set('goto', goto);
+    
+    console.log('Redirecting to Keycloak with redirectUri:', redirectUri.toString());
+    login({ redirectUri: redirectUri.toString() });
   };
 
   const handleLogout = () => {

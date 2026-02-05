@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { useCart } from '../../state/CartContext';
 import { FiShoppingCart, FiTrash2 } from 'react-icons/fi';
 import './minicart.css';
-import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
+import { useHistory } from 'react-router-dom';
 
 const MiniCart: React.FC = () => {
   const { items, total, removeItem, updateQuantity, clear } = useCart();
   const [open, setOpen] = useState(false);
   const history = useHistory();
-  const { authenticated } = useAuth();
+  const { authenticated, login } = useAuth();
 
   const itemCount = items.reduce((sum, it) => sum + it.quantity, 0);
 
@@ -62,10 +62,13 @@ const MiniCart: React.FC = () => {
             disabled={items.length === 0}
             onClick={() => {
               if (!items.length) return;
+              const checkoutPath = '/content/gogstore/us/en/gamecheckout.html';
               if (!authenticated) {
-                history.push('/login?goto=/checkout');
+                const params = new URLSearchParams();
+                params.set('goto', checkoutPath);
+                history.push(`/login?${params.toString()}`);
               } else {
-                history.push('/checkout');
+                history.push(checkoutPath);
               }
             }}
           >

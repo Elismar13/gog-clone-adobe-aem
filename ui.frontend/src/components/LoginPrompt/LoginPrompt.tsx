@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth } from '../../auth/AuthContext';
+import { useAuth } from '../../state/AuthContext';
 
 const LoginPrompt: React.FC = () => {
   const { authenticated, initialized, login, logout } = useAuth();

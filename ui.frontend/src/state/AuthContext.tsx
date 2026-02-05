@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import Keycloak from 'keycloak-js';
 
 // Minimal typing to avoid depending on keycloak-js types
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -41,21 +42,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const kcRef = useRef<KeycloakInstance | null>(null);
 
   useEffect(() => {
-    const anyWindow = window as any;
-    if (!anyWindow.Keycloak) {
-      console.warn('[Auth] Keycloak script not found. Add the CDN script tag to public/index.html');
-      setInitialized(true);
-      return;
-    }
-
     const cfg = getKeycloakConfig();
     if (!cfg.url || !cfg.realm || !cfg.clientId) {
       setInitialized(true);
       return;
     }
 
-    const kc: KeycloakInstance = anyWindow.Keycloak({ url: cfg.url, realm: cfg.realm, clientId: cfg.clientId });
-    kcRef.current = kc;
+    const kc = Keycloak({
+      url: cfg.url,
+      realm: cfg.realm,
+      clientId: cfg.clientId,
+    });
 
     kc.init({ onLoad: 'check-sso', checkLoginIframe: false })
       .then((auth: boolean) => {

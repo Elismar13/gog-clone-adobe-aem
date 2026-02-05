@@ -16,11 +16,10 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { CartProvider } from './state/CartContext';
-import { AuthProvider } from './auth/AuthContext';
+import { AuthProvider } from './state/AuthContext';
 import ProtectedRoute from './auth/ProtectedRoute';
 import PostLoginRedirect from './auth/PostLoginRedirect';
-import Checkout from './pages/Checkout';
-import Login from './pages/Login';
+// import Checkout from './pages/Checkout';
 
 const modelManagerOptions = {};
 if(process.env.REACT_APP_PROXY_ENABLED) {
@@ -36,12 +35,9 @@ const renderApp = () => {
                     <CartProvider>
                         <PostLoginRedirect />
                         <Switch>
-                            <Route path="/login" exact>
-                                <Login />
-                            </Route>
-                            <ProtectedRoute path="/checkout" exact>
+                            {/* <ProtectedRoute path="/checkout" exact>
                                 <Checkout />
-                            </ProtectedRoute>
+                            </ProtectedRoute> */}
                             <Route path="/">
                                 <App
                                     history={history}

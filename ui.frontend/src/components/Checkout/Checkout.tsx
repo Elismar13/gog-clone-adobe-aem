@@ -1,6 +1,6 @@
 import React from 'react';
 import { useCart } from '../../state/CartContext';
-import { useAuth } from '../../auth/AuthContext';
+import { useAuth } from '../../state/AuthContext';
 
 const Checkout: React.FC = () => {
   const { items, total, updateQuantity, removeItem } = useCart();

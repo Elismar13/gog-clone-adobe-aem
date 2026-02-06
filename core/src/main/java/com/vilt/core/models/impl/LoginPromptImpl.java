@@ -29,6 +29,15 @@ public class LoginPromptImpl implements LoginPrompt, ComponentExporter {
     @ValueMapValue
     private Boolean showLogout;
 
+    @ValueMapValue
+    private String postLoginDestination;
+
+    @ValueMapValue
+    private Integer redirectionTimeout;
+
+    @ValueMapValue
+    private Boolean shouldRedirect;
+
     @Override
     public String getGotoPath() {
         return gotoPath;
@@ -37,6 +46,21 @@ public class LoginPromptImpl implements LoginPrompt, ComponentExporter {
     @Override
     public Boolean getShowLogout() {
         return showLogout != null ? showLogout : Boolean.TRUE;
+    }
+
+    @Override
+    public String getPostLoginDestination() {
+        return postLoginDestination;
+    }
+
+    @Override
+    public Integer getRedirectionTimeout() {
+        return redirectionTimeout != null ? redirectionTimeout : 3;
+    }
+
+    @Override
+    public Boolean getShouldRedirect() {
+        return shouldRedirect != null ? shouldRedirect : Boolean.TRUE;
     }
 
     @Override

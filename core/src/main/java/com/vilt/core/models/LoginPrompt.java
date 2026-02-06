@@ -5,4 +5,7 @@ import com.adobe.cq.export.json.ComponentExporter;
 public interface LoginPrompt extends ComponentExporter {
     String getGotoPath();
     Boolean getShowLogout();
+    String getPostLoginDestination();
+    Integer getRedirectionTimeout();
+    Boolean getShouldRedirect();
 }

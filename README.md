@@ -69,43 +69,76 @@ A GOG.com inspired game store built with Adobe Experience Manager (AEM) as a Sin
    - New Releases
    - Special Offers
 
+7. **MiniCart**
+   - Dropdown with cart items
+   - Quantity controls
+   - Remove items
+   - Checkout button with auth check
+
+8. **UserProfile** (Header Component)
+   - User avatar and name from Keycloak
+   - Dropdown menu with profile options
+   - Quick stats (cart items, favorites, orders)
+   - Logout functionality
+   - Bootstrap styling
+
+9. **LoginPrompt** (AEM Component)
+   - Keycloak integration
+   - Configurable post-login redirect
+   - Visual countdown with progress bar
+   - Configurable via AEM dialog:
+     - `postLoginDestination`: Página de destino
+     - `redirectionTimeout`: Tempo de redirecionamento (segundos)
+     - `shouldRedirect`: Ativar/desativar redirecionamento
+     - `showLogout`: Exibir botão de logout
+
+10. **Checkout** (Modular)
+    - OrderSummary: Resumo do pedido com desconto de 10%
+    - PaymentForm: Formulário de pagamento (Cartão/PIX)
+    - AuthRequired: Tela para usuários não autenticados
+    - EmptyCart: Tela para carrinho vazio
+    - Integração com CartContext e AuthContext
+
 ## Technical Implementation
 
 ### Frontend
-- Built with React
-- Bootstrap and CSS for styling
-- Redux for state management
+- Built with React + TypeScript
+- Bootstrap 5 and CSS for styling
+- Context API for state management (Cart, Auth)
 - Responsive Design
+- Keycloak integration for authentication
 
 ### Backend
 - AEM SPA Editor
-- Sling Models
+- Sling Models with exporter framework
 - Content Fragments
 - Experience Fragments
+- Keycloak authentication server
 
 ## Roadmap
 
-### Phase 1: Core Shopping Experience (Current)
+### Phase 1: Core Shopping Experience ✅ COMPLETED
 - [x] Basic Game Listing
 - [x] Game Detail Pages
 - [x] Search & Filter Functionality
 - [x] Responsive Design
-- [x] Shopping Cart (Basic)
+- [x] Shopping Cart (Full)
 - [x] Add to Cart
 - [x] Remove from Cart
 - [x] Update Quantity
 - [x] Mini-cart Preview
+- [x] Checkout Page with Payment Forms
 
-### Phase 2: User Accounts & Checkout
-- [ ] Migrar para o cloud - gravar / documentar
-- [ ] Testes unitários (junit) enzo amorim
-- [ ] Estratégias de Busca dinâmica
-- [ ] User Authentication - KeyCloack
-  - Registration
+### Phase 2: User Accounts & Authentication ✅ COMPLETED
+- [x] User Authentication - Keycloak
   - Login/Logout
-  - Password Recovery
+  - JWT Token Integration
+  - User Profile Component
+- [x] Protected Routes
+- [x] Login Prompt Component with configurable redirect
+- [x] Header with conditional login button
 
-### Phase 3: Enhanced Features
+### Phase 3: Enhanced Features (In Progress)
 - [ ] User Dashboard
   - Order History
   - Wishlist
@@ -114,11 +147,16 @@ A GOG.com inspired game store built with Adobe Experience Manager (AEM) as a Sin
 - [ ] Reviews & Ratings
   - User Reviews
   - Star Ratings
-  - helpful Votes
+  - Helpful Votes
+- [ ] Backend payment integration
 
-### Phase 4: Advanced Features
+### Phase 4: Infrastructure & Optimization
+- [ ] Migrar para o cloud
+- [ ] Testes unitários (JUnit)
+- [ ] Estratégias de Busca dinâmica
 - [ ] Multi-language Support
 - [ ] Regional Pricing
+- [ ] E2E Tests
 
 ## Technical Debt & Improvements
 - [ ] Unit Tests

@@ -14,6 +14,12 @@ This document provides an authoritative, machine-actionable overview of the curr
   - Components are mapped and rendered by AEM SPA runtime (`./components/import-components`)
 - State:
   - Cart state via `CartContext` in `src/state/CartContext.ts` (localStorage persistence)
+  - Auth state via `AuthContext` in `src/state/AuthContext.tsx` (Keycloak integration)
+- Authentication:
+  - Keycloak integration via `keycloak-js` library
+  - Login prompt component with configurable post-login redirect
+  - JWT token parsing for user information
+  - User profile component in header with dropdown menu
 
 
 ## 3. Content Model (AEM Content Fragments)
@@ -25,27 +31,57 @@ Defined in README and used by components/pages:
 ## 4. Frontend Modules and Responsibilities
 - `src/index.js`
   - Initializes AEM `ModelManager` and Browser History
-  - Mounts `CartProvider`
+  - Mounts `CartProvider` and `AuthProvider`
   - Declares routes:
     - `GET /checkout` → `pages/Checkout`
+    - `GET /login` → `pages/Login`
     - `GET /` (fallback) → AEM-controlled SPA (`App`)
   - Can host additional global utilities (e.g., telemetry) if needed
 - `src/App.js`
   - AEM page container rendering `childComponents` and `childPages`
+- `src/state/AuthContext.tsx`
+  - `AuthProvider` with Keycloak integration
+  - Public API via hook `useAuth()`:
+    - `authenticated`, `initialized`, `token`, `userInfo`
+    - `login`, `logout`
 - `src/components/Navigation/Navigation.tsx`
-  - Header/nav and embeds `MiniCart`
+  - Header/nav, embeds `MiniCart` and `UserProfile`
+  - Conditional login button (shows when not authenticated)
+- `src/components/UserProfile/UserProfile.tsx`
+  - User avatar and name from Keycloak JWT
+  - Dropdown menu with: profile, library, wishlist, orders, settings
+  - Logout functionality
+  - Quick stats (cart items, favorites, orders)
 - `src/components/Cart/MiniCart.tsx`
   - Mini-cart dropdown: list items, edit quantities, remove, clear
-  - Button “Finalizar compra”
-    - Navega para `/checkout`
-- `src/pages/Checkout.tsx`
-  - Displays cart summary, allows editing quantities/removal, shows total
+  - Button "Finalizar compra"
+    - Navega para `/checkout` (authenticated users)
+    - Navega para página de login (unauthenticated users)
+- `src/components/Checkout/Checkout.tsx`
+  - Modular checkout with components:
+    - `CheckoutHeader`: Header com título
+    - `OrderSummary`: Resumo do pedido com itens e controle de quantidade
+    - `PaymentForm`: Formulário de pagamento (cartão/PIX)
+    - `AuthRequired`: Tela para usuários não autenticados
+    - `EmptyCart`: Tela para carrinho vazio
+  - Integração com `useAuth` e `useCart`
+  - Cálculo automático de desconto de 10%
+- `src/components/LoginPrompt/LoginPrompt.tsx`
+  - Componente AEM com propriedades configuráveis:
+    - `gotoPath`: Destino pós-login
+    - `postLoginDestination`: Página AEM para redirecionamento
+    - `redirectionTimeout`: Tempo de espera (segundos)
+    - `shouldRedirect`: Ativar/desativar redirecionamento
+    - `showLogout`: Exibir botão de logout
+  - Countdown visual com barra de progresso
+  - Interface moderna com glassmorphism
 - `src/state/CartContext.ts`
   - `CartProvider` with reducer/persistence
   - Public API via hook `useCart()`:
     - `addItem`, `removeItem`, `updateQuantity`, `clear`, `total`, `items`
 - `src/constants/constants.ts`
   - AEM host and page paths used by navigation/links
+    - `STORE_PAGE_PATH`, `LOGIN_PAGE_PATH`, `CHECKOUT_PAGE_PATH`
 
 ## 5. Data Flow
 - Content:
@@ -70,28 +106,40 @@ Defined in README and used by components/pages:
 - AEM client libs/CSS loaded via `public/index.html` and dispatcher
 
 ## 8. Routes and Navigation
-- `/checkout`
+- `/checkout` – Checkout page with payment forms (requires auth)
+- `/login` – Login page with Keycloak integration
 - `/` fallback → AEM SPA (pages handled by AEM SPA editor)
 
+## 9. Keycloak Authentication Configuration
+- Environment variables for Keycloak:
+  - `REACT_APP_KEYCLOAK_URL` – Keycloak server URL
+  - `REACT_APP_KEYCLOAK_REALM` – Realm name
+  - `REACT_APP_KEYCLOAK_CLIENT_ID` – Client ID for SPA
+- Login flow:
+  1. User clicks login button
+  2. `AuthContext` calls `kc.login()` with redirectUri
+  3. Keycloak redirects to login page
+  4. After authentication, redirect back to app
+  5. `LoginPrompt` component handles post-login redirect with countdown
 
-## 9. Build, Run, Deploy
+## 10. Build, Run, Deploy
 - Frontend: CRA scripts in `ui.frontend/package.json`
   - `start` (dev), `build` (build + clientlib generator), `sync` (aemsync)
 - AEM: Maven build at repo root → deploy UI apps/content packages into AEM 6.5+
 - Dispatcher: Not detailed here; assumed standard AEM dispatcher setup
 
-## 10. Coding Conventions and Constraints
+## 11. Coding Conventions and Constraints
 - React 16 + TypeScript files in some modules (TS lint errors may appear in IDE; runtime is JS-compatible)
 - Do not break AEM SPA Editor contract in `App.js`/`ModelManager` usage
 - Use `CartContext` for shopping cart state; do not create parallel state stores
 - React Router v5 API only (no hooks like `useNavigate` from v6)
 
-## 11. Security Considerations
+## 12. Security Considerations
 - Validate/sanitize any user-generated content rendered in components
 - Avoid storing sensitive credentials in the client; rely on AEM/dispatcher for protection of server endpoints
 - Follow AEM dispatcher best practices for caching and access control
 
-## 12. Extension Guidelines for AI Agents
+## 13. Extension Guidelines for AI Agents
 - Adding a new page/route:
   1) Create component under `src/pages/YourPage.tsx`
   2) Add `<Route path="/your-page">` in `index.js`
@@ -100,24 +148,34 @@ Defined in README and used by components/pages:
   1) Implement React component under `src/components/...`
   2) Map it in `./components/import-components`
   3) Ensure Sling Model/Content Fragment delivers required fields
-- Modifying the cart:
-  - Use `useCart()` API and keep reducer pure; storage key is `cart`
+- Modifying authentication:
+  - Use `useAuth()` API from `AuthContext`
+  - Keycloak integration is managed centrally; do not create separate auth instances
 
-- ## 13. Known Limitations / TODOs
+## 14. Known Limitations / TODOs
 - Some TypeScript lints are relaxed; consider adding `@types/node` and stricter TS config if desired
-- Checkout is a basic page (no payment/shipping integration yet)
+- Checkout has payment form UI but no backend payment integration yet
 - README mentions Redux; current cart uses Context/Reducer (no Redux store configured)
 - Missing automated tests
+- Keycloak integration works but could benefit from token refresh optimization
 
-## 14. Key Files Index
+## 15. Key Files Index
 - `ui.frontend/src/index.js` – SPA bootstrap, Router, Providers
 - `ui.frontend/src/App.js` – AEM page wrapper
-- `ui.frontend/src/components/Navigation/Navigation.tsx` – Header + MiniCart
+- `ui.frontend/src/state/AuthContext.tsx` – Keycloak authentication
+- `ui.frontend/src/state/CartContext.ts` – Shopping cart state
+- `ui.frontend/src/components/Navigation/Navigation.tsx` – Header + MiniCart + UserProfile
+- `ui.frontend/src/components/UserProfile/UserProfile.tsx` – User dropdown menu
 - `ui.frontend/src/components/Cart/MiniCart.tsx` – Mini-cart UI and checkout trigger
-- `ui.frontend/src/pages/Checkout.tsx` – Checkout page
-- `ui.frontend/src/state/CartContext.ts` – Cart state
+- `ui.frontend/src/components/Checkout/Checkout.tsx` – Checkout page orchestrator
+- `ui.frontend/src/components/Checkout/OrderSummary/` – Order summary component
+- `ui.frontend/src/components/Checkout/PaymentForm/` – Payment form component
+- `ui.frontend/src/components/LoginPrompt/LoginPrompt.tsx` – AEM login component with redirect
 - `ui.frontend/src/constants/constants.ts` – AEM host/paths
 
-## 15. Acceptance Heuristics for Agents
-- The app renders AEM-driven pages under `/`, and a functional `/checkout`
+## 16. Acceptance Heuristics for Agents
+- The app renders AEM-driven pages under `/`, and functional `/checkout` and `/login`
 - Cart operations persist and compute `total` correctly
+- User authentication works via Keycloak
+- Authenticated users see UserProfile in header with dropdown menu
+- LoginPrompt component respects AEM-configured redirect settings

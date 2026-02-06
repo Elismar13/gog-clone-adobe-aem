@@ -1,14 +1,18 @@
 import React from 'react';
+import { useAuth } from '../../state/AuthContext';
 
 import './navigation.css';
 import logo from '../../assets/gog_logo.png';
-import { STORE_PAGE_PATH } from '../../constants/constants';
+import { STORE_PAGE_PATH, LOGIN_PAGE_PATH } from '../../constants/constants';
 import MiniCart from '../Cart/MiniCart';
 import UserProfile from '../UserProfile/UserProfile';
+import { FiLogIn } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 
 
 const Navigation = (props: any) => {
+  const { authenticated, initialized } = useAuth();
+
   return (
     <header className="header bg-custom-dark sticky-top p-3">
       <div className="container d-flex justify-content-around">
@@ -34,7 +38,17 @@ const Navigation = (props: any) => {
             />
           </form>
           <MiniCart />
-          <UserProfile />
+          {initialized && authenticated ? (
+            <UserProfile />
+          ) : (
+            <Link 
+              to={LOGIN_PAGE_PATH} 
+              className="btn btn-outline-light d-flex align-items-center"
+            >
+              <FiLogIn className="me-2" />
+              <span className="d-none d-md-inline">Fazer Login</span>
+            </Link>
+          )}
         </div>
       </div>
 

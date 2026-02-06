@@ -142,13 +142,20 @@ const Checkout: React.FC = () => {
                 <span>Subtotal:</span>
                 <span>R$ {total.toFixed(2)}</span>
               </div>
+              <div className="total-line discount">
+                <span>
+                  <span className="discount-badge">Desconto 10%</span>
+                  <span className="discount-text">Promoção especial!</span>
+                </span>
+                <span className="discount-amount">-R$ {(total * 0.1).toFixed(2)}</span>
+              </div>
               <div className="total-line">
                 <span>Tax:</span>
                 <span>R$ 0.00</span>
               </div>
               <div className="total-line final">
                 <span>Total:</span>
-                <span>R$ {total.toFixed(2)}</span>
+                <span>R$ {(total * 0.9).toFixed(2)}</span>
               </div>
             </div>
           </div>

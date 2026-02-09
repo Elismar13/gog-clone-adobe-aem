@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import api from "../../axios";
 import Game from "../../interfaces/game";
@@ -6,6 +6,7 @@ import mockedGames from '../../api/mocked';
 import Gameitem from "../Gamelist/Gameitem/Gameitem";
 import { useDevelopers } from "../../hooks/useDevelopers";
 import { useGenres } from "../../hooks/useGenres";
+import { useLocation } from 'react-router-dom';
 
 import './searchFilter.css';
 
@@ -21,7 +22,7 @@ interface FilterState {
 }
 
 const SearchFilter = () => {
-
+  const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
   const [games, setGames] = useState<Game[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -32,6 +33,15 @@ const SearchFilter = () => {
     genres: '',
     minScore: 0,
   });
+
+  // Extrai parâmetro de busca da URL
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const query = params.get('q');
+    if (query) {
+      setSearchTerm(query);
+    }
+  }, [location.search]);
 
   const { data: genres, loading: loadingGenres } = useGenres();
   const { data: developers, loading: loadingDevs } = useDevelopers();
@@ -64,11 +74,11 @@ const SearchFilter = () => {
     return filtersParts;
   }, [searchTerm, filters]);
 
-  const fetchGames = useCallback(async() => {
+  const fetchGames = useCallback(async () => {
     setIsLoading(true);
     const filterObject = buildGraphQLFilter();
 
-    try{
+    try {
       const endpoint = `/graphql/execute.json/gogstore/getGamesWithFilter`;
 
       const response = await api.post(endpoint, {
@@ -82,7 +92,14 @@ const SearchFilter = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [buildGraphQLFilter, searchTerm, filters])
+  }, [buildGraphQLFilter, searchTerm, filters]);
+
+  // Busca automática quando searchTerm muda
+  useEffect(() => {
+    if (searchTerm) {
+      fetchGames();
+    }
+  }, [searchTerm]);
 
   // 1. Componente de Filtro Lateral (Sidebar)
   const FilterSidebar = () => (

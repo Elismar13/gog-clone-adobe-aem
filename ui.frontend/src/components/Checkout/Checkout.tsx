@@ -13,6 +13,7 @@ const Checkout: React.FC = () => {
     email: '',
     fullName: '',
     cpf: '',
+    phone: '',
     cardNumber: '',
     cardName: '',
     cardExpiry: '',
@@ -33,11 +34,146 @@ const Checkout: React.FC = () => {
   };
 
   const handleInputChange = (field: string, value: string | boolean) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    let processedValue = value;
+    
+    // Validações e formatações específicas
+    switch (field) {
+      case 'cpf':
+        // Formata CPF: 111.111.111-11
+        const numbers = (value as string).replace(/\D/g, '');
+        if (numbers.length <= 11) {
+          processedValue = numbers
+            .replace(/^(\d{3})(\d)/, '$1.$2')
+            .replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3')
+            .replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3-$4');
+        }
+        break;
+        
+      case 'cardNumber':
+        // Formata cartão: 1111 1111 1111 1111
+        const cardNumbers = (value as string).replace(/\D/g, '');
+        if (cardNumbers.length <= 16) {
+          processedValue = cardNumbers.replace(/(\d{4})(?=\d)/g, '$1 ');
+        }
+        break;
+        
+      case 'cardExpiry':
+        // Formata validade: MM/AA
+        const expiryNumbers = (value as string).replace(/\D/g, '');
+        if (expiryNumbers.length <= 4) {
+          processedValue = expiryNumbers.replace(/^(\d{2})(\d)/, '$1/$2');
+        }
+        break;
+        
+      case 'cardCvv':
+        // Apenas números, máximo 4 dígitos
+        processedValue = (value as string).replace(/\D/g, '').slice(0, 4);
+        break;
+        
+      case 'zipCode':
+        // Formata CEP: 11111-111
+        const zipNumbers = (value as string).replace(/\D/g, '');
+        if (zipNumbers.length <= 8) {
+          processedValue = zipNumbers.replace(/^(\d{5})(\d)/, '$1-$2');
+        }
+        break;
+        
+      case 'phone':
+        // Formata telefone: (11) 11111-1111
+        const phoneNumbers = (value as string).replace(/\D/g, '');
+        if (phoneNumbers.length <= 11) {
+          if (phoneNumbers.length <= 10) {
+            // Telefone fixo: (11) 1111-1111
+            processedValue = phoneNumbers.replace(/^(\d{2})(\d)/, '($1) $2')
+              .replace(/^(\(\d{2}\) \d{4})(\d)/, '$1-$2');
+          } else {
+            // Celular: (11) 11111-1111
+            processedValue = phoneNumbers.replace(/^(\d{2})(\d)/, '($1) $2')
+              .replace(/^(\(\d{2}\) \d{5})(\d)/, '$1-$2');
+          }
+        }
+        break;
+        
+      case 'state':
+        // Apenas letras maiúsculas, máximo 2 caracteres
+        processedValue = (value as string).toUpperCase().slice(0, 2);
+        break;
+        
+      case 'email':
+        // Converte para minúsculas
+        processedValue = (value as string).toLowerCase();
+        break;
+    }
+    
+    setFormData(prev => ({ ...prev, [field]: processedValue }));
+  };
+
+  const validateForm = () => {
+    const errors: string[] = [];
+    
+    // Validações básicas
+    if (!formData.fullName || formData.fullName.length < 3) {
+      errors.push('Nome completo deve ter pelo menos 3 caracteres');
+    }
+    
+    if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.push('E-mail inválido');
+    }
+    
+    if (!formData.cpf || formData.cpf.replace(/\D/g, '').length !== 11) {
+      errors.push('CPF deve ter 11 dígitos');
+    }
+    
+    if (!formData.address || formData.address.length < 5) {
+      errors.push('Endereço deve ter pelo menos 5 caracteres');
+    }
+    
+    if (!formData.city || formData.city.length < 2) {
+      errors.push('Cidade deve ter pelo menos 2 caracteres');
+    }
+    
+    if (!formData.state || formData.state.length !== 2) {
+      errors.push('Estado deve ter 2 caracteres');
+    }
+    
+    if (!formData.zipCode || formData.zipCode.replace(/\D/g, '').length !== 8) {
+      errors.push('CEP deve ter 8 dígitos');
+    }
+    
+    if (paymentMethod === 'credit') {
+      if (!formData.cardNumber || formData.cardNumber.replace(/\D/g, '').length !== 16) {
+        errors.push('Número do cartão deve ter 16 dígitos');
+      }
+      
+      if (!formData.cardName || formData.cardName.length < 3) {
+        errors.push('Nome no cartão é obrigatório');
+      }
+      
+      if (!formData.cardExpiry || !/^\d{2}\/\d{2}$/.test(formData.cardExpiry)) {
+        errors.push('Validade deve estar no formato MM/AA');
+      }
+      
+      if (!formData.cardCvv || formData.cardCvv.length < 3) {
+        errors.push('CVV deve ter pelo menos 3 dígitos');
+      }
+    }
+    
+    if (!formData.termsAccepted) {
+      errors.push('Você deve aceitar os termos de serviço');
+    }
+    
+    return errors;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const errors = validateForm();
+    if (errors.length > 0) {
+      alert('Erros de validação:\n' + errors.join('\n'));
+      return;
+    }
+    
     console.log('Checkout data:', { items, total, paymentMethod, formData });
     // TODO: Implement payment processing
     alert('Pedido processado com sucesso! (Simulação)');
@@ -195,7 +331,17 @@ const Checkout: React.FC = () => {
                     required
                     value={formData.cpf}
                     onChange={(e) => handleInputChange('cpf', e.target.value)}
+                    maxLength={14}
                     placeholder="123.456.789-00"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Telefone</label>
+                  <input
+                    type="text"
+                    value={formData.phone}
+                    onChange={(e) => handleInputChange('phone', e.target.value)}
+                    placeholder="(11) 11111-1111"
                   />
                 </div>
               </div>
@@ -280,7 +426,6 @@ const Checkout: React.FC = () => {
                       value={formData.cardNumber}
                       onChange={(e) => handleInputChange('cardNumber', e.target.value)}
                       placeholder="1234 5678 9012 3456"
-                      maxLength={19}
                     />
                   </div>
                   <div className="form-group">
@@ -302,7 +447,6 @@ const Checkout: React.FC = () => {
                         value={formData.cardExpiry}
                         onChange={(e) => handleInputChange('cardExpiry', e.target.value)}
                         placeholder="MM/AA"
-                        maxLength={5}
                       />
                     </div>
                     <div className="form-group">
@@ -313,7 +457,6 @@ const Checkout: React.FC = () => {
                         value={formData.cardCvv}
                         onChange={(e) => handleInputChange('cardCvv', e.target.value)}
                         placeholder="123"
-                        maxLength={4}
                       />
                     </div>
                   </div>
@@ -324,8 +467,8 @@ const Checkout: React.FC = () => {
                 <div className="pix-info">
                   <div className="pix-message">
                     <FiSmartphone className="pix-icon" />
-                    <p>Ao confirmar, você será redirecionado para a página do PIX para completar o pagamento.</p>
-                    <p>O código PIX será gerado após a confirmação do pedido.</p>
+                    <p className="text-white">Ao confirmar, você será redirecionado para a página do PIX para completar o pagamento.</p>
+                    <p className="text-white">O código PIX será gerado após a confirmação do pedido.</p>
                   </div>
                 </div>
               )}

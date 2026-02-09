@@ -101,11 +101,11 @@ const UserProfile: React.FC = () => {
             <div className="dropdown-user-info flex-grow-1">
               <div className="dropdown-name fw-semibold text-white">{displayName}</div>
               {userInfo?.email && (
-                <div className="dropdown-email text-muted small">{userInfo.email}</div>
+                <div className="dropdown-email text-text-secondary small">{userInfo.email}</div>
               )}
               <div className="dropdown-status d-flex align-items-center mt-1">
                 <span className="status-indicator rounded-circle bg-success me-2"></span>
-                <span className="status-text text-muted small">Online</span>
+                <span className="status-text text-text-secondary small">Online</span>
               </div>
             </div>
           </div>
@@ -121,21 +121,21 @@ const UserProfile: React.FC = () => {
                 <FiShoppingBag />
               </div>
               <div className="stat-value fw-bold text-white">{cartItemsCount}</div>
-              <div className="stat-label text-muted small">Carrinho</div>
+              <div className="stat-label text-text-secondary small">Carrinho</div>
             </div>
             <div className="stat-item text-center p-2 border-end">
               <div className="stat-icon text-success mb-2">
                 <FiHeart />
               </div>
               <div className="stat-value fw-bold text-white">0</div>
-              <div className="stat-label text-muted small">Favoritos</div>
+              <div className="stat-label text-text-secondary small">Favoritos</div>
             </div>
             <div className="stat-item text-center p-2">
               <div className="stat-icon text-success mb-2">
                 <FiClock />
               </div>
               <div className="stat-value fw-bold text-white">0</div>
-              <div className="stat-label text-muted small">Pedidos</div>
+              <div className="stat-label text-text-secondary small">Pedidos</div>
             </div>
           </div>
         </li>
@@ -144,40 +144,40 @@ const UserProfile: React.FC = () => {
         
         <li className="dropdown-menu-list p-0">
           <button className="dropdown-item d-flex align-items-center px-3 py-2" type="button" onClick={handleProfileClick}>
-            <FiUser className="me-3 text-muted" />
+            <FiUser className="me-3 text-text-secondary" />
             <div className="item-content flex-grow-1 text-start">
               <div>Meu Perfil</div>
-              <small className="text-muted">Gerenciar informações pessoais</small>
+              <small className="text-text-secondary">Gerenciar informações pessoais</small>
             </div>
           </button>
           <button className="dropdown-item d-flex align-items-center px-3 py-2" type="button" onClick={handleLibraryClick}>
-            <FiShoppingBag className="me-3 text-muted" />
+            <FiShoppingBag className="me-3 text-text-secondary" />
             <div className="item-content flex-grow-1 text-start">
               <div>Minha Biblioteca</div>
-              <small className="text-muted">Jogos adquiridos</small>
+              <small className="text-text-secondary">Jogos adquiridos</small>
             </div>
           </button>
           <button className="dropdown-item d-flex align-items-center px-3 py-2" type="button" onClick={handleWishlistClick}>
-            <FiHeart className="me-3 text-muted" />
+            <FiHeart className="me-3 text-text-secondary" />
             <div className="item-content flex-grow-1 text-start">
               <div>Lista de Desejos</div>
-              <small className="text-muted">Jogos favoritos</small>
+              <small className="text-text-secondary">Jogos favoritos</small>
             </div>
           </button>
           <button className="dropdown-item d-flex align-items-center px-3 py-2" type="button" onClick={handleOrdersClick}>
-            <FiClock className="me-3 text-muted" />
+            <FiClock className="me-3 text-text-secondary" />
             <div className="item-content flex-grow-1 text-start">
               <div>Histórico de Pedidos</div>
-              <small className="text-muted">Ver compras anteriores</small>
+              <small className="text-text-secondary">Ver compras anteriores</small>
             </div>
           </button>
-          <button className="dropdown-item d-flex align-items-center px-3 py-2" type="button" onClick={handleSettingsClick}>
-            <FiSettings className="me-3 text-muted" />
+          {/* <button className="dropdown-item d-flex align-items-center px-3 py-2" type="button" onClick={handleSettingsClick}>
+            <FiSettings className="me-3 text-text-secondary" />
             <div className="item-content flex-grow-1 text-start">
               <div>Configurações</div>
-              <small className="text-muted">Preferências da conta</small>
+              <small className="text-text-secondary">Preferências da conta</small>
             </div>
-          </button>
+          </button> */}
         </li>
         
         <li><div className="dropdown-divider border-top my-0"></div></li>
@@ -203,7 +203,7 @@ const UserProfile: React.FC = () => {
             <FiLogOut className="me-3" />
             <div className="item-content flex-grow-1 text-start">
               <div>Sair</div>
-              <small className="text-muted">Encerrar sessão</small>
+              <small className="text-text-secondary">Encerrar sessão</small>
             </div>
           </button>
         </li>

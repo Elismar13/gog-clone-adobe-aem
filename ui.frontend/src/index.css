@@ -40,6 +40,21 @@
 /* Reset de Corpo e Links */
 body {
     color: var(--color-text-light) !important;
+    height: 100%;
+}
+
+/* Layout principal para garantir altura total - compatível com AEM */
+#root {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 800px;
 }
 
 a {

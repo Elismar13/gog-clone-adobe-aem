@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { useAuth } from '../../state/AuthContext';
-import { FiUser, FiLogOut, FiSettings, FiChevronDown, FiShoppingBag, FiHeart, FiClock, FiGift } from 'react-icons/fi';
+import { FiUser, FiLogOut, FiChevronDown, FiShoppingBag, FiHeart, FiClock, FiGift } from 'react-icons/fi';
 import { useCart } from '../../state/CartContext';
 import './UserProfile.css';
 
@@ -14,29 +14,10 @@ declare global {
 }
 
 const UserProfile: React.FC = () => {
-  const { authenticated, initialized, logout, token } = useAuth();
+  const { authenticated, initialized, logout, userInfo } = useAuth();
   const { items } = useCart();
-  const [userInfo, setUserInfo] = useState<{ name?: string; email?: string; preferred_username?: string; sub?: string } | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (authenticated && token) {
-      // Extrair informações do token JWT
-      try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        setUserInfo({
-          name: payload.name || payload.preferred_username,
-          email: payload.email,
-          preferred_username: payload.preferred_username,
-          sub: payload.sub
-        });
-      } catch (error) {
-        console.error('Error parsing token:', error);
-      }
-    } else {
-      setUserInfo(null);
-    }
-  }, [authenticated, token]);
 
   const handleLogout = () => {
     logout({ redirectUri: window.location.href });
@@ -45,11 +26,6 @@ const UserProfile: React.FC = () => {
   const handleProfileClick = () => {
     // TODO: Navegar para página de perfil
     console.log('Navigate to profile');
-  };
-
-  const handleSettingsClick = () => {
-    // TODO: Navegar para página de configurações
-    console.log('Navigate to settings');
   };
 
   const handleLibraryClick = () => {

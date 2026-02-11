@@ -5,10 +5,18 @@ import Keycloak from 'keycloak-js';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type KeycloakInstance = any;
 
+export type UserInfo = {
+  sub: string;
+  name?: string;
+  email?: string;
+  preferred_username?: string;
+};
+
 export type AuthContextType = {
   initialized: boolean;
   authenticated: boolean;
   token?: string;
+  userInfo?: UserInfo | null;
   login: (options?: { redirectUri?: string }) => void;
   logout: (options?: { redirectUri?: string }) => void;
 };
@@ -39,7 +47,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [initialized, setInitialized] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
   const [token, setToken] = useState<string | undefined>(undefined);
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const kcRef = useRef<KeycloakInstance | null>(null);
+
+  // Função para extrair informações do token
+  const parseToken = (token: string): UserInfo | null => {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return {
+        sub: payload.sub,
+        name: payload.name || payload.preferred_username,
+        email: payload.email,
+        preferred_username: payload.preferred_username
+      };
+    } catch (error) {
+      console.error('[Auth] Error parsing token:', error);
+      return null;
+    }
+  };
 
   useEffect(() => {
     const cfg = getKeycloakConfig();
@@ -64,6 +89,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           console.log('[Auth] Keycloak callback processed, authenticated:', auth);
           setAuthenticated(auth);
           setToken(kc.token);
+          if (kc.token) {
+            setUserInfo(parseToken(kc.token));
+          }
           setInitialized(true);
         })
         .catch((e: unknown) => {
@@ -84,11 +112,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .then((auth: boolean) => {
         setAuthenticated(auth);
         setToken(kc.token);
+        if (kc.token) {
+          setUserInfo(parseToken(kc.token));
+        }
         setInitialized(true);
 
         const refresh = () => {
           kc.updateToken(30).then((refreshed: boolean) => {
-            if (refreshed) setToken(kc.token);
+            if (refreshed) {
+              setToken(kc.token);
+              if (kc.token) {
+                setUserInfo(parseToken(kc.token));
+              }
+            }
           }).catch(() => console.warn('[Auth] token refresh failed'));
         };
         const id = window.setInterval(refresh, 20 * 1000);
@@ -104,6 +140,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     initialized,
     authenticated,
     token,
+    userInfo,
     login: (options?: { redirectUri?: string }) => {
       console.log('[Auth] Login called, kcRef.current:', !!kcRef.current);
       const kc = kcRef.current;
@@ -116,9 +153,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     },
     logout: (options?: { redirectUri?: string }) => {
       const kc = kcRef.current;
-      if (kc) kc.logout({ redirectUri: options?.redirectUri });
+      if (kc) {
+        kc.logout({ redirectUri: options?.redirectUri });
+      }
+      // Limpar estado local imediatamente
+      setAuthenticated(false);
+      setToken(undefined);
+      setUserInfo(null);
     }
-  }), [initialized, authenticated, token]);
+  }), [initialized, authenticated, token, userInfo]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

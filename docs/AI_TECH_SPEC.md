@@ -47,11 +47,20 @@ Defined in README and used by components/pages:
 - `src/components/Navigation/Navigation.tsx`
   - Header/nav, embeds `MiniCart` and `UserProfile`
   - Conditional login button (shows when not authenticated)
+  - Functional search bar with redirect to `/search.html?q=term`
+  - Search integration with URL parameters and automatic routing
+- `src/components/SearchFilter/SearchFilter.tsx`
+  - Search page component with URL parameter reading
+  - Automatic search execution when URL contains `?q=term`
+  - Integration with existing filters and GraphQL API
+  - Game filtering with sidebar (genre, developer, score, discount)
+  - Grid display of search results with Gameitem components
 - `src/components/UserProfile/UserProfile.tsx`
   - User avatar and name from Keycloak JWT
   - Dropdown menu with: profile, library, wishlist, orders, settings
   - Logout functionality
   - Quick stats (cart items, favorites, orders)
+  - Updated color scheme using CSS variables (`--color-accent`, `--color-accent-hover`)
 - `src/components/Cart/MiniCart.tsx`
   - Mini-cart dropdown: list items, edit quantities, remove, clear
   - Button "Finalizar compra"
@@ -66,6 +75,15 @@ Defined in README and used by components/pages:
     - `EmptyCart`: Tela para carrinho vazio
   - Integração com `useAuth` e `useCart`
   - Cálculo automático de desconto de 10%
+  - Advanced form validation and real-time formatting:
+    - CPF: `123.456.789-11` automatic formatting
+    - Credit card: `1234 5678 9012 3456` spacing
+    - Expiry: `MM/AA` format
+    - CEP: `12345-678` formatting
+    - Phone: `(11) 11111-1111` automatic formatting
+    - Email auto-lowercase and state uppercase conversion
+  - Comprehensive validation with detailed error messages
+  - Updated color scheme to GOG purple theme
 - `src/components/LoginPrompt/LoginPrompt.tsx`
   - Componente AEM com propriedades configuráveis:
     - `gotoPath`: Destino pós-login
@@ -75,6 +93,7 @@ Defined in README and used by components/pages:
     - `showLogout`: Exibir botão de logout
   - Countdown visual com barra de progresso
   - Interface moderna com glassmorphism
+  - Updated color scheme using CSS variables for better visual consistency
 - `src/state/CartContext.ts`
   - `CartProvider` with reducer/persistence
   - Public API via hook `useCart()`:
@@ -108,7 +127,14 @@ Defined in README and used by components/pages:
 ## 8. Routes and Navigation
 - `/checkout` – Checkout page with payment forms (requires auth)
 - `/login` – Login page with Keycloak integration
+- `/search.html` – Search page with URL parameter support (`?q=term`)
 - `/` fallback → AEM SPA (pages handled by AEM SPA editor)
+
+### 8.1 Search Flow
+1. User types in Navigation search bar → "Cyberpunk"
+2. Presses Enter → Redirects to `/search.html?q=Cyberpunk`
+3. SearchFilter component reads URL parameter and auto-executes search
+4. Results displayed with existing filters available
 
 ## 9. Keycloak Authentication Configuration
 - Environment variables for Keycloak:
@@ -158,24 +184,36 @@ Defined in README and used by components/pages:
 - README mentions Redux; current cart uses Context/Reducer (no Redux store configured)
 - Missing automated tests
 - Keycloak integration works but could benefit from token refresh optimization
+- **RESOLVED**: Layout height issues with single-component pages (fixed with flexbox CSS)
+- **RESOLVED**: Color scheme inconsistency (standardized to GOG purple theme)
+- **RESOLVED**: Search functionality was non-functional (now fully implemented with URL routing)
 
 ## 15. Key Files Index
 - `ui.frontend/src/index.js` – SPA bootstrap, Router, Providers
 - `ui.frontend/src/App.js` – AEM page wrapper
+- `ui.frontend/src/index.css` – Global CSS with flexbox layout and GOG color variables
 - `ui.frontend/src/state/AuthContext.tsx` – Keycloak authentication
 - `ui.frontend/src/state/CartContext.ts` – Shopping cart state
-- `ui.frontend/src/components/Navigation/Navigation.tsx` – Header + MiniCart + UserProfile
+- `ui.frontend/src/components/Navigation/Navigation.tsx` – Header + MiniCart + UserProfile + Search
+- `ui.frontend/src/components/SearchFilter/SearchFilter.tsx` – Search page with URL integration
 - `ui.frontend/src/components/UserProfile/UserProfile.tsx` – User dropdown menu
 - `ui.frontend/src/components/Cart/MiniCart.tsx` – Mini-cart UI and checkout trigger
 - `ui.frontend/src/components/Checkout/Checkout.tsx` – Checkout page orchestrator
 - `ui.frontend/src/components/Checkout/OrderSummary/` – Order summary component
 - `ui.frontend/src/components/Checkout/PaymentForm/` – Payment form component
 - `ui.frontend/src/components/LoginPrompt/LoginPrompt.tsx` – AEM login component with redirect
+- `ui.frontend/src/components/Footer/Footer.tsx` – Footer component with proper layout
 - `ui.frontend/src/constants/constants.ts` – AEM host/paths
 
 ## 16. Acceptance Heuristics for Agents
 - The app renders AEM-driven pages under `/`, and functional `/checkout` and `/login`
+- `/search.html` page works with URL parameters and auto-search
 - Cart operations persist and compute `total` correctly
 - User authentication works via Keycloak
 - Authenticated users see UserProfile in header with dropdown menu
 - LoginPrompt component respects AEM-configured redirect settings
+- Navigation search bar redirects to search page with proper URL encoding
+- Search results display correctly with filters and pagination
+- Form validation works in checkout with proper formatting
+- All pages maintain proper height and layout (no vh/vw units)
+- Color scheme is consistent across all components (GOG purple theme)

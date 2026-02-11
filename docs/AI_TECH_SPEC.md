@@ -1,7 +1,7 @@
 # GOG Clone – Technical Specification for AI Agents
 
 ## 1. Purpose and Scope
-This document provides an authoritative, machine-actionable overview of the current AEM SPA project so AI agents can navigate, extend, and maintain it safely. It describes architecture, key modules, data flows, configuration, and constraints.
+This document provides an authoritative, machine-actionable overview of the current AEM SPA project so AI agents can navigate, extend, and maintain it safely. It describes architecture, key modules, data flows, configuration, and constraints. Always update this file when making changes to the project structure or dependencies, adding new features, or modifying existing functionality.
 
 ## 2. System Architecture
 - Frontend: React SPA embedded in Adobe Experience Manager (AEM) using AEM SPA Editor.

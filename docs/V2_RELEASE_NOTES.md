@@ -119,12 +119,6 @@ gogstore/
    - Criação de Content Fragment
    - Limpeza do carrinho
    - Redirecionamento
-
-6. **Acompanhamento**
-   - Histórico de pedidos
-   - Status em tempo real
-   - Detalhes completos
-
 ---
 
 ## 📊 **Modelos de Dados**
@@ -244,11 +238,6 @@ GET  /bin/gogstore/orders-cf      # Listar pedidos (com filtros)
    - Filtros avançados
    - Status tracking
 
-5. **Performance**
-   - Lazy loading de componentes
-   - Cache de dados
-   - Otimização de assets
-
 ---
 
 ## 🔧 **Configuração e Deploy**
@@ -257,12 +246,6 @@ GET  /bin/gogstore/orders-cf      # Listar pedidos (com filtros)
 ```bash
 # Build do projeto
 mvn clean install -PautoInstallPackage
-
-# Deploy apenas do frontend
-cd ui.frontend && npm run build
-
-# Deploy apenas do backend
-cd core && mvn install
 ```
 
 ### ⚙️ **Variáveis de Ambiente**

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Component"
+    jcr:title="Order History"
+    jcr:description="Component to display user's order history"
+    componentGroup="GOG Store"
+    sling:resourceSuperType="gogstore/components/base"
+    cq:isContainer="false">
+    
+    <cq:dialog
+        jcr:primaryType="nt:unstructured"
+        jcr:title="Order History Configuration"
+        sling:resourceType="cq/gui/components/authoring/dialog">
+        
+        <content
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/foundation/container">
+            
+            <layout
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/foundation/layouts/tabs"
+                type="nav"/>
+                
+            <items jcr:primaryType="nt:unstructured">
+                
+                <orders
+                    jcr:primaryType="nt:unstructured"
+                    jcr:title="Orders Configuration"
+                    sling:resourceType="granite/ui/components/foundation/section">
+                    
+                    <layout
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"
+                        margin="{Boolean}false"/>
+                        
+                    <items jcr:primaryType="nt:unstructured">
+                        
+                        <column
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/foundation/container">
+                            
+                            <items jcr:primaryType="nt:unstructured">
+                                
+                                <title
+                                    jcr:primaryType="nt:unstructured"
+                                    jcr:title="Section Title"
+                                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                    fieldDescription="Title for the order history section"
+                                    name="./title"
+                                    defaultValue="Meus Pedidos"/>
+                                    
+                                <emptyMessage
+                                    jcr:primaryType="nt:unstructured"
+                                    jcr:title="Empty Message"
+                                    sling:resourceType="granite/ui/components/coral/foundation/form/textarea"
+                                    fieldDescription="Message to show when user has no orders"
+                                    name="./emptyMessage"
+                                    defaultValue="Você ainda não fez nenhuma compra. Explore nossa loja e encontre seus jogos favoritos!"/>
+                                    
+                                <itemsPerPage
+                                    jcr:primaryType="nt:unstructured"
+                                    jcr:title="Items Per Page"
+                                    sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                                    fieldDescription="Number of orders to display per page"
+                                    name="./itemsPerPage"
+                                    defaultValue="10"
+                                    min="1"
+                                    max="50"/>
+                                    
+                                <showDateFilter
+                                    jcr:primaryType="nt:unstructured"
+                                    jcr:title="Show Date Filter"
+                                    sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                    fieldDescription="Enable date range filter for orders"
+                                    name="./showDateFilter"
+                                    value="{Boolean}true"/>
+                                    
+                            </items>
+                        </column>
+                    </items>
+                </orders>
+            </items>
+        </content>
+    </cq:dialog>
+</jcr:root>

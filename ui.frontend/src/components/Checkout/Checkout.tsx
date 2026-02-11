@@ -3,10 +3,12 @@ import { useCart } from '../../state/CartContext';
 import { useAuth } from '../../state/AuthContext';
 import { FiCreditCard, FiSmartphone, FiShoppingCart, FiUser, FiMapPin, FiMail, FiLock } from 'react-icons/fi';
 import './Checkout.css';
+import calculateDiscount from '../../util/calculateDiscount';
+import { CHECKOUT_PAGE_PATH } from '../../constants/constants';
 
 const Checkout: React.FC = () => {
-  const { items, total, updateQuantity, removeItem } = useCart();
-  const { authenticated, initialized, login } = useAuth();
+  const { items, total, updateQuantity, removeItem, clear } = useCart();
+  const { authenticated, initialized, login, userInfo } = useAuth();
   
   const [paymentMethod, setPaymentMethod] = useState<'credit' | 'pix'>('credit');
   const [formData, setFormData] = useState({
@@ -25,7 +27,18 @@ const Checkout: React.FC = () => {
     termsAccepted: false
   });
 
-  const checkoutPath = '/content/gogstore/us/en/gamecheckout.html';
+  const checkoutPath = CHECKOUT_PAGE_PATH;
+
+  // Calculate total discount from individual items
+  const getTotalDiscount = () => {
+    return items.reduce((sum, item) => {
+      return sum + ((item.discountValue || 0) * item.quantity);
+    }, 0);
+  };
+
+  const getFinalTotal = () => {
+    return total - getTotalDiscount();
+  };
 
   const handleLogin = () => {
     const url = new URL(window.location.href);
@@ -165,7 +178,7 @@ const Checkout: React.FC = () => {
     return errors;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     const errors = validateForm();
@@ -174,9 +187,75 @@ const Checkout: React.FC = () => {
       return;
     }
     
-    console.log('Checkout data:', { items, total, paymentMethod, formData });
-    // TODO: Implement payment processing
-    alert('Pedido processado com sucesso! (Simulação)');
+    try {
+      // Calculate totals
+      const totalAmount = total;
+      const discountAmount = getTotalDiscount();
+      const finalAmount = getFinalTotal();
+
+      // Prepare order data in the format expected by OrderFragmentServlet
+      const orderData = {
+        userId: userInfo?.sub,
+        items: items.map(item => ({
+          gameId: item.id,
+          title: item.title,
+          price: item.price,
+          quantity: item.quantity,
+          image: item.image
+        })),
+        totalAmount: totalAmount,
+        discountAmount: discountAmount,
+        finalAmount: finalAmount,
+        paymentMethod: paymentMethod,
+        customerInfo: {
+          fullName: formData.fullName,
+          email: formData.email,
+          cpf: formData.cpf,
+          phone: formData.phone,
+          address: formData.address,
+          city: formData.city,
+          state: formData.state,
+          zipCode: formData.zipCode
+        },
+        // Payment details for credit card
+        ...(paymentMethod === 'credit' && {
+          cardInfo: {
+            number: formData.cardNumber.replace(/\s/g, ''), // Remove spaces
+            name: formData.cardName,
+            expiry: formData.cardExpiry,
+            cvv: formData.cardCvv
+          }
+        })
+      };
+
+      // Send order to servlet
+      const response = await fetch('/bin/gogstore/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        // Clear cart after successful order
+        clear();
+        
+        // Show success message
+        alert(`Pedido #${result.orderNumber} criado com sucesso!\n\nObrigado pela sua compra!`);
+        
+        // Redirect to order history or home page
+        window.location.href = '/content/gogstore/us/en/home.html';
+      } else {
+        throw new Error(result.error || 'Erro ao processar pedido');
+      }
+
+    } catch (error) {
+      console.error('Checkout error:', error);
+      alert('Erro ao processar pedido: ' + (error instanceof Error ? error.message : 'Erro desconhecido'));
+    }
   };
 
   if (!initialized) {
@@ -234,7 +313,8 @@ const Checkout: React.FC = () => {
         <div className="checkout-main">
           {/* Order Summary */}
           <div className="order-summary">
-            <h2>Resumo do Pedido</h2>
+          <h2>Resumo do Pedido</h2>
+          <div className="order-summary-content d-sm-row">
             <div className="order-items">
               {items.map((item) => (
                 <div key={item.id} className="order-item">
@@ -260,7 +340,15 @@ const Checkout: React.FC = () => {
                         </button>
                       </div>
                       <div className="item-price">
-                        R$ {(item.price * item.quantity).toFixed(2)}
+                        {item.discountValue && item.discountValue > 0 ? (
+                          <>
+                            <span className="original-price">R$ {(item.price * item.quantity).toFixed(2)}</span>
+                            <span className="discount-indicator">-R$ {(calculateDiscount(item.price, item.discountValue).differenceNoFormatted * item.quantity).toFixed(2)}</span>
+                            <span className="final-price">R$ {(calculateDiscount(item.price, item.discountValue).currentNoFormmated * item.quantity).toFixed(2)}</span>
+                          </>
+                        ) : (
+                          <span>R$ {(item.price * item.quantity).toFixed(2)}</span>
+                        )}
                       </div>
                       <button 
                         onClick={() => removeItem(item.id)}
@@ -278,22 +366,18 @@ const Checkout: React.FC = () => {
                 <span>Subtotal:</span>
                 <span>R$ {total.toFixed(2)}</span>
               </div>
-              <div className="total-line discount">
-                <span>
-                  <span className="discount-badge">Desconto 10%</span>
-                  <span className="discount-text">Promoção especial!</span>
-                </span>
-                <span className="discount-amount">-R$ {(total * 0.1).toFixed(2)}</span>
-              </div>
-              <div className="total-line">
-                <span>Tax:</span>
-                <span>R$ 0.00</span>
-              </div>
+              {getTotalDiscount() > 0 && (
+                <div className="total-line discount">
+                  <span>Desconto extra:</span>
+                  <span className="discount-amount">-R$ {0.00.toFixed(2)}</span>
+                </div>
+              )}
               <div className="total-line final">
                 <span>Total:</span>
-                <span>R$ {(total * 0.9).toFixed(2)}</span>
+                <span>R$ {total.toFixed(2)}</span>
               </div>
             </div>
+          </div>
           </div>
 
           {/* Payment Form */}
@@ -484,7 +568,7 @@ const Checkout: React.FC = () => {
                     checked={formData.termsAccepted}
                     onChange={(e) => handleInputChange('termsAccepted', e.target.checked)}
                   />
-                  <span>Eu concordo com os <a href="#" className="terms-link">termos de serviço</a> e <a href="#" className="terms-link">política de privacidade</a></span>
+                  <span>Eu concordo com os <button type="button" className="terms-link" onClick={(e) => { e.preventDefault(); alert('Termos de serviço - Em desenvolvimento'); }}>termos de serviço</button> e <button type="button" className="terms-link" onClick={(e) => { e.preventDefault(); alert('Política de privacidade - Em desenvolvimento'); }}>política de privacidade</button></span>
                 </label>
               </div>
               

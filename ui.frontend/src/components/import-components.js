@@ -55,6 +55,7 @@ import GameDetail from "./Gamedetail/Gamedetail";
 import SearchFilter from "./SearchFilter/SearchFilter";
 import Checkout from "./Checkout/Checkout";
 import LoginPrompt from "./LoginPrompt/LoginPrompt";
+import OrderHistory from "./OrderHistory/OrderHistory";
 
 //lazyload / code splitting example of an internal component
 const LazyTextComponent = withAsyncImport(() => import(`./Text/Text`));
@@ -93,7 +94,7 @@ MapTo('gogstore/components/content/gamedetail')(GameDetail, { isEmpty: false });
 MapTo('gogstore/components/content/searchfilter')(SearchFilter, { isEmpty: false });
 MapTo('gogstore/components/content/checkout')(Checkout, { isEmpty: false });
 MapTo('gogstore/components/content/loginprompt')(LoginPrompt, { isEmpty: false });
-
+MapTo('gogstore/components/content/orderhistory')(OrderHistory, { isEmpty: false });
 
 //lazy load of internal component (hello world)
 

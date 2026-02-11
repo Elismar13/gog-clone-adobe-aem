@@ -39,8 +39,7 @@ const UserProfile: React.FC = () => {
   };
 
   const handleOrdersClick = () => {
-    // TODO: Navegar para histórico de pedidos
-    console.log('Navigate to orders');
+    window.location.href = '/content/gogstore/us/en/orders.html';
   };
 
   if (!initialized || !authenticated) {

@@ -178,7 +178,7 @@ const OrderHistory: React.FC<OrderHistoryProps> = ({
   }
 
   return (
-    <div className="order-history">
+    <div className="container order-history">
       <div className="order-history-header">
         <h2 className="order-history-title">
           <FiIcons.FiShoppingBag className="me-2" />

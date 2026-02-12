@@ -250,7 +250,7 @@ const OrderHistory: React.FC<OrderHistoryProps> = ({
                     </div>
                   </div>
                   <div className="order-total">
-                    <div className="total-amount">{formatCurrency(order.finalAmount)}</div>
+                    <div className="total-amount">{formatCurrency(order.totalAmount)}</div>
                     <div className="payment-method">{getPaymentMethodText(order.paymentMethod)}</div>
                   </div>
                 </div>

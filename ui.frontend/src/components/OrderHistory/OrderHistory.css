@@ -62,7 +62,7 @@
 }
 
 .order-card {
-  background: var(--color-surface);
+  background: var(--color-light-dark);
   border: 5px solid var(--color-border);
   border-radius: 12px;
   overflow: hidden;

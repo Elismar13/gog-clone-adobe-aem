@@ -4,9 +4,13 @@ import { useAuth } from '../../state/AuthContext';
 import { FiCreditCard, FiSmartphone, FiShoppingCart, FiUser, FiMapPin, FiMail, FiLock } from 'react-icons/fi';
 import './Checkout.css';
 import calculateDiscount from '../../util/calculateDiscount';
-import { CHECKOUT_PAGE_PATH } from '../../constants/constants';
+import { CHECKOUT_PAGE_PATH, STORE_PAGE_PATH } from '../../constants/constants';
 
-const Checkout: React.FC = () => {
+interface CheckoutProps {
+  gotoPath: string;
+}
+
+const Checkout: React.FC<CheckoutProps> = ({ gotoPath }) => {
   const { items, total, updateQuantity, removeItem, clear } = useCart();
   const { authenticated, initialized, login, userInfo } = useAuth();
   
@@ -37,7 +41,7 @@ const Checkout: React.FC = () => {
   };
 
   const getFinalTotal = () => {
-    return total - getTotalDiscount();
+    return total;
   };
 
   const handleLogin = () => {
@@ -247,7 +251,7 @@ const Checkout: React.FC = () => {
         alert(`Pedido #${result.orderNumber} criado com sucesso!\n\nObrigado pela sua compra!`);
         
         // Redirect to order history or home page
-        window.location.href = '/content/gogstore/us/en/home.html';
+        window.location.href = gotoPath || STORE_PAGE_PATH;
       } else {
         throw new Error(result.error || 'Erro ao processar pedido');
       }

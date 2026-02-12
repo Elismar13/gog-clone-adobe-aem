@@ -18,12 +18,14 @@
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="granite/ui/components/coral/foundation/container">
                 <items jcr:primaryType="nt:unstructured">
-                    <gotoPath
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                        fieldLabel="Goto path (destino pós-login)"
-                        name="./gotoPath"
-                        emptyText="/content/gogstore/us/en/gamecheckout.html"/>
+                    <postLoginDestination
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                            fieldLabel="Página de destino após login"
+                            name="./postLoginDestination"
+                            emptyText="/content/gogstore/us/en/home"
+                            rootPath="/content/gogstore"
+                            suffix=".html"/>
                     <showSummary
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"

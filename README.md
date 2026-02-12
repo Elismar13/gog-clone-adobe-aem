@@ -1,34 +1,108 @@
 # GOG Clone - AEM SPA Project
 
 ## Project Overview
-A GOG.com inspired game store built with Adobe Experience Manager (AEM) as a Single Page Application (SPA) using React.
+A GOG.com inspired game store built with Adobe Experience Manager (AEM) as a Single Page Application (SPA) using React. This project demonstrates a full-featured e-commerce platform with authentication, shopping cart, and content management capabilities.
 
-## Current Implementation
+## 📚 Documentation
+For detailed technical specifications and configuration guides, please refer to the documentation in the `docs/` folder:
+- **[Technical Specification](docs/tech_spec.md)** - Comprehensive architecture, components, and development guidelines
+- **[Keycloak Configuration](docs/keycloak_config.md)** - Authentication server setup and configuration
+- **[Project Roadmap](docs/roadmap.md)** - Development phases, completed features, and future plans
 
-### Content Fragments
+## 🚀 Quick Start
 
-#### Jogo
-	 - title
-	 - description
-	 - price
-	 - score
-	 - discountValue
-	 - releaseDate
-	 - genre (selector)
-	 - developer
-	 - imageList
+### Prerequisites
+- **Java 11+** - Required for AEM and Maven
+- **Maven 3.6.3+** - Build tool for AEM project
+- **Node.js 14+** - Frontend development
+- **Docker & Docker Compose** - For Keycloak authentication server
+- **AEM 6.5+** - Adobe Experience Manager instance
 
-#### Desenvolvedor
-	 - title
-	 - image
+### Local Development Setup
 
-#### Destaque
-	- title
-	- externalLink
-	- image
+#### 1. Clone the Repository
+```bash
+git clone <repository-url>
+cd gogstore
+```
 
+#### 2. Start Authentication Server
+```bash
+# Navigate to docs folder for Keycloak setup
+cd docs
+docker-compose up -d
+```
+This will start Keycloak with PostgreSQL backend. See [Keycloak Configuration](docs/keycloak_config.md) for detailed setup instructions.
 
-### Implemented Components
+#### 3. Configure Environment Variables
+Create a `.env.local` file in the project root with the following variables:
+```bash
+REACT_APP_KEYCLOAK_URL=http://localhost:8080
+REACT_APP_KEYCLOAK_REALM=gogstore
+REACT_APP_KEYCLOAK_CLIENT_ID=gogstore-frontend
+REACT_APP_PROXY_ENABLED=true
+REACT_APP_PAGE_MODEL_PATH=/content/gogstore/us/en.model.json
+REACT_APP_API_HOST=http://localhost:4502
+REACT_APP_ROOT=/content/gogstore/us/en/home.html
+```
+
+#### 4. Build and Deploy to AEM
+```bash
+# Build the entire project
+mvn clean install -PautoInstallPackage
+
+# Deploy to AEM (ensure AEM instance is running on localhost:4502)
+# The build process will automatically deploy packages to AEM
+```
+
+#### 5. Start Frontend Development
+```bash
+cd ui.frontend
+npm install
+npm start
+```
+
+#### 6. Access the Application
+- **AEM Author**: http://localhost:4502/editor.html/content/gogstore/us/en/home.html
+- **Published Site**: http://localhost:4503/content/gogstore/us/en/home.html
+- **Keycloak Admin**: http://localhost:8080 (admin/admin_password)
+
+## 🏗️ Project Structure
+
+### AEM Modules
+- **`core/`** - Backend Java logic, Sling Models, and services
+- **`ui.apps/`** - AEM components, templates, and client libraries
+- **`ui.content/`** - Content structure, pages, and initial content
+- **`ui.config/`** - OSGi configurations and context-aware configurations
+- **`ui.frontend/`** - React SPA frontend application
+- **`dispatcher/`** - Dispatcher configuration for publishing
+- **`all/`** - Parent POM that aggregates all modules
+
+### Content Model (AEM Content Fragments)
+
+#### Jogo (Game)
+- `title` - Game title
+- `description` - Game description
+- `price` - Base price
+- `score` - Rating score
+- `discountValue` - Discount percentage
+- `releaseDate` - Release date
+- `genre` - Game genre (selector)
+- `developer` - Developer reference
+- `imageList` - Game screenshots and artwork
+
+#### Desenvolvedor (Developer)
+- `title` - Developer name
+- `image` - Developer logo
+
+#### Destaque (Highlight)
+- `title` - Highlight title
+- `externalLink` - External URL
+- `image` - Banner image
+
+## 🎯 Implemented Features
+
+### Core Components
 
 1. **Carousel**
    - Title
@@ -119,127 +193,226 @@ A GOG.com inspired game store built with Adobe Experience Manager (AEM) as a Sin
     - AEM SPA Editor compatible (no vh/vw units)
     - Consistent dark theme styling
 
-## Technical Implementation
+## 🛠️ Technical Architecture
 
-### Frontend
-- Built with React + TypeScript
-- Bootstrap 5 and CSS for styling
-- Context API for state management (Cart, Auth)
-- Responsive Design
-- Keycloak integration for authentication
-- GOG purple color scheme with CSS variables
-- Advanced form validation and formatting
-- Functional search with URL routing
-- AEM SPA Editor compatible layout (flexbox, no vh/vw)
+### Frontend Stack
+- **React 16** with TypeScript support
+- **Bootstrap 5** for responsive design
+- **React Router v5** for navigation
+- **Context API** for state management
+- **Keycloak-js** for authentication
+- **AEM SPA Editor** integration
 
-### Backend
-- AEM SPA Editor
-- Sling Models with exporter framework
-- Content Fragments
-- Experience Fragments
-- Keycloak authentication server
+### Backend Stack
+- **AEM 6.5+** as content management system
+- **Sling Models** for component logic
+- **Content Fragments** for structured content
+- **OSGi Services** for business logic
+- **GraphQL** for data queries
 
-## Roadmap
+### State Management
+- **CartContext** - Shopping cart state with localStorage persistence
+- **AuthContext** - Authentication state with Keycloak integration
+- **Component state** - Local component-level state
 
-### Phase 1: Core Shopping Experience ✅ COMPLETED
-- [x] Basic Game Listing
-- [x] Game Detail Pages
-- [x] Search & Filter Functionality
-- [x] Responsive Design
-- [x] Shopping Cart (Full)
-- [x] Add to Cart
-- [x] Remove from Cart
-- [x] Update Quantity
-- [x] Mini-cart Preview
-- [x] Checkout Page with Payment Forms
+### Integration Points
+- **AEM SPA Editor** - Content authoring capabilities
+- **Keycloak** - Authentication and user management
+- **GraphQL API** - Content retrieval
+- **REST APIs** - Backend services
 
-### Phase 2: User Accounts & Authentication ✅ COMPLETED
-- [x] User Authentication - Keycloak
-  - Login/Logout
-  - JWT Token Integration
-  - User Profile Component
-- [x] Protected Routes
-- [x] Login Prompt Component with configurable redirect
-- [x] Header with conditional login button
+## 🔧 Development Guidelines
 
-### Phase 3: Enhanced Features ✅ COMPLETED
-- [x] **Functional Search System**
-  - Navigation search bar with URL redirect
-  - Search page with automatic parameter reading
-  - Integration with existing filters
-- [x] **Advanced Form Validation**
-  - Real-time formatting (CPF, cartão, CEP, telefone)
-  - Comprehensive validation with error messages
-  - Professional UX patterns
-- [x] **UI/UX Improvements**
-  - Standardized GOG purple color scheme
-  - Fixed layout height issues (AEM compatible)
-  - Improved visual consistency
+### Code Organization
+- Frontend code in `ui.frontend/src/`
+- Components organized by feature
+- Shared utilities and constants
+- TypeScript for type safety
 
-### Phase 4: User Dashboard (In Progress)
-- [ ] User Dashboard
-  - Order History
-  - Wishlist
-  - Payment Methods
-  - Account Settings
-- [ ] Reviews & Ratings
-  - User Reviews
-  - Star Ratings
-  - Helpful Votes
-- [ ] Backend payment integration
+### Styling Approach
+- Bootstrap 5 as base framework
+- CSS custom properties for theming
+- Component-specific styles
+- Responsive design principles
 
-### Phase 5: Infrastructure & Optimization
-- [ ] Migrar para o cloud
-- [ ] Testes unitários (JUnit)
-- [ ] Estratégias de Busca dinâmica
-- [ ] Multi-language Support
-- [ ] Regional Pricing
-- [ ] E2E Tests
+### Authentication Flow
+1. User clicks login button
+2. Redirect to Keycloak login page
+3. Authentication with JWT tokens
+4. Redirect back with token
+5. User profile loaded in header
 
-## Recent Improvements
+### Search Implementation
+1. User searches via navigation bar
+2. Redirect to `/search.html?q=term`
+3. SearchFilter reads URL parameters
+4. Execute search via GraphQL
+5. Display results with filters
 
-### ✅ Completed Features
+## 📋 Build & Deployment
 
-1. **Search System**
-   - Navigation search bar now functional
-   - URL-based search with parameter passing
-   - Automatic search execution on page load
-   - Integration with existing filter system
+### Local Development
+```bash
+# Frontend development
+cd ui.frontend
+npm install
+npm start
 
-2. **Form Validation & UX**
-   - Real-time input formatting (CPF, cartão, CEP, telefone)
-   - Comprehensive validation with detailed error messages
-   - Professional form handling patterns
-   - Improved accessibility and usability
+# Full project build
+mvn clean install
 
-3. **Visual Consistency**
-   - Standardized GOG purple color scheme across all components
-   - CSS variables for consistent theming
-   - Fixed layout height issues for single-component pages
-   - AEM SPA Editor compatible (no vh/vw units)
+# Deploy to AEM
+mvn clean install -PautoInstallPackage
+```
 
-4. **Layout Improvements**
-   - Flexbox-based layout for proper height management
-   - Footer component with proper positioning
-   - Responsive design maintenance
-   - Cross-browser compatibility
+### Production Build
+```bash
+# Optimized frontend build
+cd ui.frontend
+npm run build
 
-## Technical Debt & Improvements
-- [ ] Unit Tests
-- [ ] E2E Tests
+# Full production build
+mvn clean install -Pproduction
+```
 
-## Getting Started
+### Environment Configuration
+- Development: `.env.development`
+- Production: `.env.production`
+- Local overrides: `.env.local`
 
-### Prerequisites
-- Java 11+
-- Maven 3.6.3+
-- Node.js 14+
-- AEM 6.5+
+## 🧪 Testing
 
-### Installation
-1. Clone the repository
-2. Run `mvn clean install`
-3. Deploy to AEM
-4. Install the UI package
-5. Start the development server
+### Frontend Testing
+```bash
+cd ui.frontend
+npm test
+npm run test:coverage
+```
+
+### Backend Testing
+```bash
+mvn test
+mvn verify
+```
+
+### E2E Testing
+```bash
+cd ui.tests
+npm run cypress:open
+npm run cypress:run
+```
+
+## 🔐 Security Considerations
+
+- **Authentication** - Keycloak OAuth2 with JWT tokens
+- **Authorization** - Role-based access control
+- **Data Validation** - Input sanitization and validation
+- **CORS** - Proper cross-origin configuration
+- **HTTPS** - SSL/TLS encryption in production
+
+## 🚀 Deployment Options
+
+### Local Development
+- AEM Author: http://localhost:4502
+- AEM Publish: http://localhost:4503
+- Frontend Dev: http://localhost:3000
+
+### Cloud Deployment
+- Adobe Cloud Manager
+- Docker containers
+- Kubernetes orchestration
+
+### Infrastructure Requirements
+- **Minimum RAM**: 4GB for AEM
+- **Recommended RAM**: 8GB+ for development
+- **Disk Space**: 10GB+ for AEM repository
+- **Network**: Stable internet connection for dependencies
+
+## 📚 Additional Resources
+
+### Documentation References
+- **[Technical Specification](docs/tech_spec.md)** - Detailed architecture and component documentation
+- **[Keycloak Configuration](docs/keycloak_config.md)** - Authentication server setup guide
+- **[Project Roadmap](docs/roadmap.md)** - Development phases, completed features, and future plans
+
+### External Documentation
+- [AEM SPA Editor Documentation](https://experienceleague.adobe.com/docs/experience-manager-learn/getting-started-wknd-tutorial-develop/spa-editor.html)
+- [React Documentation](https://reactjs.org/docs/)
+- [Bootstrap 5 Documentation](https://getbootstrap.com/docs/)
+- [Keycloak Documentation](https://www.keycloak.org/documentation)
+
+### Community & Support
+- AEM Community Forums
+- React Community
+- Stack Overflow tags: `aem`, `react`, `keycloak`
+
+## 🤝 Contributing
+
+### Development Workflow
+1. Fork the repository
+2. Create feature branch
+3. Make changes with tests
+4. Submit pull request
+5. Code review and merge
+
+### Code Standards
+- ESLint for JavaScript/TypeScript
+- Prettier for code formatting
+- Conventional commits for messages
+- Documentation updates required
+
+## 📈 Project Status
+
+### Completed Features ✅
+- Core shopping experience
+- User authentication
+- Search functionality
+- Form validation
+- Responsive design
+- Content management
+
+### In Progress 🚧
+- User dashboard
+- Order history
+- Payment integration
+- Unit tests
+
+### Planned Features 📋
+- Multi-language support
+- Regional pricing
+- Advanced analytics
+- Performance optimization
+- Cloud migration
+
+## 🐛 Troubleshooting
+
+### Common Issues
+- **Build failures**: Check Java version and Maven configuration
+- **Authentication errors**: Verify Keycloak is running and configured
+- **AEM connection**: Ensure AEM instance is accessible
+- **Frontend errors**: Check environment variables and dependencies
+
+### Debug Commands
+```bash
+# Check AEM logs
+tail -f crx-quickstart/logs/error.log
+
+# Check frontend build
+cd ui.frontend && npm run build --verbose
+
+# Test Keycloak connection
+curl http://localhost:8080/realms/gogstore
+```
+
+### Support Channels
+- Project maintainers
+- AEM support team
+- Community forums
+- Stack Overflow
+
+---
+
+**Last Updated**: $(date)  
+**Version**: 1.0.0  
+**Maintainers**: AEM Development Team
 

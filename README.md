@@ -193,6 +193,37 @@ npm start
     - AEM SPA Editor compatible (no vh/vw units)
     - Consistent dark theme styling
 
+13. **OrderHistory** (User Dashboard Component)
+    - Complete order history display
+    - Date filtering functionality
+    - Pagination support
+    - Order status tracking (completed, processing, cancelled)
+    - Payment method display
+    - Order items with images and details
+    - Discount information
+    - Responsive design
+    - Integration with Keycloak authentication
+
+14. **Banner** (Content Display Component)
+    - Dynamic banner content display
+    - AEM content fragment integration
+    - Responsive image handling
+    - Click-through support for external links
+
+<!-- 15. **AuthRequired** (Authentication Component)
+    - Reusable authentication gate
+    - Customizable messages and icons
+    - Multiple icon options (lock, shopping-bag, package)
+    - Integration with Keycloak
+    - Responsive design
+
+16. **Loading** (UI State Component)
+    - Customizable loading states
+    - Multiple icon options (cart, package, refresh, loader)
+    - Size variations (small, medium, large)
+    - Custom message support
+    - Spinner animation options -->
+
 ## 🛠️ Technical Architecture
 
 ### Frontend Stack
@@ -209,6 +240,7 @@ npm start
 - **Content Fragments** for structured content
 - **OSGi Services** for business logic
 - **GraphQL** for data queries
+- **Servlets** for REST API endpoints
 
 ### State Management
 - **CartContext** - Shopping cart state with localStorage persistence
@@ -219,7 +251,9 @@ npm start
 - **AEM SPA Editor** - Content authoring capabilities
 - **Keycloak** - Authentication and user management
 - **GraphQL API** - Content retrieval
-- **REST APIs** - Backend services
+- **REST APIs** - Backend services and order processing
+- **Content Fragment Servlets** - Order creation and management
+- **AEM Content Fragments** - Order data persistence
 
 ## 🔧 Development Guidelines
 
@@ -249,7 +283,91 @@ npm start
 4. Execute search via GraphQL
 5. Display results with filters
 
-## 📋 Build & Deployment
+## � Authentication & Security Flow
+
+```mermaid
+graph TD
+    A[User Access] --> B{Check Auth State}
+    B -->|Not Authenticated| C[Show Login Options]
+    B -->|Authenticated| D[Load Protected Content]
+    
+    C --> E[Keycloak Login]
+    E --> F[Keycloak Auth Server]
+    F --> G[User Credentials]
+    G --> H[JWT Token Response]
+    H --> I[AuthContext Update]
+    I --> J[User Profile Loaded]
+    J --> D
+    
+    D --> K[Component Protection Check]
+    K --> L{Component Type}
+    
+    L -->|Checkout| M[Checkout Component]
+    L -->|OrderHistory| N[OrderHistory Component]
+    L -->|UserProfile| O[UserProfile Component]
+    L -->|MiniCart| P[MiniCart Component]
+    L -->|Navigation| Q[Navigation Component]
+    
+    M --> R{Cart Items?}
+    R -->|Empty| S[EmptyCart State]
+    R -->|Has Items| T[Payment Form]
+    
+    N --> U{User Orders?}
+    U -->|No Orders| V[Empty State]
+    U -->|Has Orders| W[Order List]
+    
+    O --> X[User Menu]
+    X --> Y[Profile Options]
+    Y --> Z[Logout Action]
+    
+    P --> AA{Cart Items?}
+    AA -->|Empty| BB[MiniCart Empty]
+    AA -->|Has Items| CC[Cart Preview]
+    
+    Q --> DD[Search Bar]
+    Q --> EE[User Avatar]
+    EE --> FF[Login/Logout Toggle]
+    
+    Z --> GG[Clear Auth State]
+    GG --> HH[Keycloak Logout]
+    HH --> II[Redirect to Login]
+    II --> A
+    
+    style A fill:#e1f5fe
+    style F fill:#4caf50
+    style I fill:#ff9800
+    style D fill:#4caf50
+    style M fill:#9c27b0
+    style N fill:#9c27b0
+    style O fill:#9c27b0
+    style P fill:#9c27b0
+    style Q fill:#9c27b0
+```
+
+### Security Components Integration
+
+| Component | Auth Usage | Protection Level | Features |
+|-----------|-------------|------------------|----------|
+| **AuthContext** | Central auth state | Global | JWT parsing, token refresh, Keycloak integration |
+| **Checkout** | Required | Full | Payment protection, user validation |
+| **OrderHistory** | Required | Full | Order access control, user-specific data |
+| **UserProfile** | Required | Full | Profile management, logout functionality |
+| **MiniCart** | Conditional | Partial | Checkout button protection |
+| **Navigation** | Conditional | Partial | Login state display, search access |
+| **LoginPrompt** | Optional | Component | Configurable redirects, countdown timers |
+| **AuthRequired** | Global | Full | Reusable auth gates, customizable messages |
+
+### Security Flow Details
+
+1. **Initialization**: AuthContext initializes with Keycloak configuration
+2. **SSO Check**: Automatic SSO verification on app load
+3. **Token Management**: JWT parsing and automatic refresh (30s intervals)
+4. **Component Protection**: Each component checks auth state before rendering
+5. **Route Protection**: Protected routes redirect to login if not authenticated
+6. **User Data**: Profile information extracted from JWT token
+7. **Logout Flow**: Complete state clearing and Keycloak logout
+
+## �📋 Build & Deployment
 
 ### Local Development
 ```bash
@@ -365,17 +483,23 @@ npm run cypress:run
 
 ### Completed Features ✅
 - Core shopping experience
-- User authentication
-- Search functionality
-- Form validation
+- User authentication with Keycloak
+- Search functionality with URL routing
+- Form validation and formatting
 - Responsive design
 - Content management
+- **Order management system** (NEW v2)
+- **Order history and tracking** (NEW v2)
+- **Complete checkout flow** (NEW v2)
+- **Payment processing integration** (NEW v2)
+- **Global reusable components** (NEW v2)
 
 ### In Progress 🚧
-- User dashboard
-- Order history
-- Payment integration
+- User dashboard enhancements
+- Advanced order analytics
+- Payment gateway integration (real payment processing)
 - Unit tests
+- Integration tests
 
 ### Planned Features 📋
 - Multi-language support
@@ -383,6 +507,10 @@ npm run cypress:run
 - Advanced analytics
 - Performance optimization
 - Cloud migration
+- Email notifications for orders
+- Order cancellation and refunds
+- Wishlist functionality
+- Product reviews and ratings
 
 ## 🐛 Troubleshooting
 

@@ -27,8 +27,8 @@ function getEnv(name: string, fallback?: string) {
   // CRA exposes REACT_APP_* envs in process.env
   // Guard for TS in browser without @types/node
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const p: any = (globalThis as any).process;
-  const value = p?.env?.[name];
+  const value = process?.env?.[name];
+  console.log('getEnv', process?.env);
   return value || fallback;
 }
 

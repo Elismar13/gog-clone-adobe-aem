@@ -1,16 +1,76 @@
-<!-- This file is only used during development -->
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
     <head>
-        <meta charset="utf-8" />
+        <!-- Meta tags fundamentais -->
+        <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#000000" />
-        <meta name="description" content="gogstore" />
+        
+        <!-- SEO Basic Meta Tags -->
+        <title>GOG Store - Compre Jogos de PC DRM-Free | Downloads Digitais</title>
+        <meta name="description" content="Compre jogos de PC DRM-Free na GOG Store. Os melhores jogos com descontos, downloads digitais seguros e garantia de devolução em 30 dias." />
+        <meta name="keywords" content="gog store, jogos pc, jogos drm-free, downloads digitais, jogos online, comprar jogos" />
+        
+        <!-- Canonical URL -->
+        <link rel="canonical" href="https://www.gog.com/" />
+        
+        <!-- Robots Meta Tag -->
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+        
+        <!-- GEO Tags -->
+        <meta name="geo.region" content="BR-SP" />
+        <meta name="geo.placename" content="Sao Paulo" />
+        <meta name="author" content="GOG Store" />
+        <meta name="publisher" content="CD Projekt Red" />
+        <meta name="copyright" content="2025 CD Projekt Red" />
+        
+        <!-- Open Graph Meta Tags -->
+        <meta property="og:title" content="GOG Store - Compre Jogos de PC DRM-Free" />
+        <meta property="og:description" content="Os melhores jogos de PC DRM-Free com descontos exclusivos. Downloads digitais seguros e garantia de devolução." />
+        <meta property="og:image" content="https://www.gog.com/static/gog-logo-og.png" />
+        <meta property="og:url" content="https://www.gog.com/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="GOG Store" />
+        <meta property="og:locale" content="pt_BR" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="GOG Store Logo" />
+        
+        <!-- Twitter Card Meta Tags -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@gogcom" />
+        <meta name="twitter:creator" content="@gogcom" />
+        <meta name="twitter:title" content="GOG Store - Compre Jogos de PC DRM-Free" />
+        <meta name="twitter:description" content="Os melhores jogos de PC DRM-Free com descontos exclusivos. Downloads digitais seguros." />
+        <meta name="twitter:image" content="https://www.gog.com/static/gog-logo-twitter.png" />
+        <meta name="twitter:image:alt" content="GOG Store Logo" />
+        
+        <!-- Icons e Theme -->
+        <meta name="theme-color" content="#5A2C00" />
         <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
         <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
         <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-        <title>gogstore</title>
+
+        <!-- Schema.org JSON-LD Organization -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "GOG Store",
+          "url": "https://www.gog.com",
+          "logo": "https://www.gog.com/static/gog-logo.png",
+          "sameAs": [
+            "https://www.facebook.com/GOGcom",
+            "https://www.twitter.com/gogcom",
+            "https://www.instagram.com/gogcom"
+          ],
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+55-11-3003-4444",
+            "contactType": "customer service",
+            "availableLanguage": ["Portuguese", "English"]
+          }
+        }
+        </script>
 
         <!-- AEM page model -->
         <meta

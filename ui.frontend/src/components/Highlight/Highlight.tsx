@@ -18,25 +18,31 @@ const Highlight: FunctionComponent<HighlightProps> = ({
   }
   
   return ( 
-    <div className="container">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <p className="text-white text-start fs-4 fw-bold mb-0">{title}</p>
-      </div>
+    <section className="container" aria-label={`Destaques: ${title}`}>
+      <header className="d-flex justify-content-between align-items-center mb-3">
+        <h2 className="text-white text-start fs-4 fw-bold mb-0">{title}</h2>
+      </header>
 
-      <hr />
+      <hr className="border-secondary" />
+      
       <a 
-        className="w-100"
+        className="w-100 d-block text-decoration-none"
         href={externalLink}
         target="_blank"
         rel="noopener noreferrer"
+        aria-label={`Ver mais sobre ${title} - abre em nova aba`}
         >
-          <img 
-            className="w-100 d-block d-sm-block"
-            src={resolveImage(highlightPath)}
-            alt={title}
-          />
+          <figure>
+            <img 
+              className="w-100 d-block d-sm-block"
+              src={resolveImage(highlightPath)}
+              alt={title}
+              loading="lazy"
+            />
+            <figcaption className="visually-hidden">{title}</figcaption>
+          </figure>
         </a>
-    </div>
+    </section>
   );
 }
  

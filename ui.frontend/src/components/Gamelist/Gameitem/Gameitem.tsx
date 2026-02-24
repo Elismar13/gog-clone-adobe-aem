@@ -20,45 +20,54 @@ const Gameitem: FunctionComponent<GameitemProps> = ({ game }) => {
   const imagePath = game.imageList && `${AEM_HOST}${game.imageList[0]._path}`;
 
   return (
-    <div className="col gog-card-hover" key={game._id} onClick={() => handleRedirect(game.title)}>
+    <article className="col gog-card-hover" key={game._id}>
+      <button 
+        className="btn btn-link p-0 w-100 h-100 text-decoration-none"
+        onClick={() => handleRedirect(game.title)}
+        aria-label={`Ver detalhes de ${game.title} por ${discountInfo.current}`}
+      >
+        <div className="card h-100 bg-dark border-secondary rounded-3 overflow-hidden">
+          <figure>
+            <img
+              className="card-img-top"
+              src={imagePath}
+              alt={`Capa do jogo ${game.title}`}
+              loading="lazy"
+              width="300"
+              height="400"
+            />
+          </figure>
 
-      <div className="card h-100 bg-dark border-secondary rounded-3 overflow-hidden">
-        <img
-          className="card-img-top"
-          src={imagePath}
-          alt={game.title}
-        />
+          <div className="card-body p-2 d-flex flex-column justify-content-between">
 
-        <div className="card-body p-2 d-flex flex-column justify-content-between">
+            <h3 className="card-title text-white fs-5 text-truncate mb-2" title={game.title}>
+              {game.title}
+            </h3>
 
-          <h5 className="card-title text-white fs-5 text-truncate mb-2" title={game.title}>
-            {game.title}
-          </h5>
+            <div className="d-flex justify-content-end align-items-end p-1 mt-auto">
 
-          <div className="d-flex justify-content-end align-items-end p-1 mt-auto">
-
-            {game.discountValue > 0 && (
-              <span className="badge gog-discount-bg rounded me-2 text-white fw-bold fs-6">
-                {discountInfo.percentage}
-              </span>
-            )}
-
-            <div className="d-flex flex-column text-end">
               {game.discountValue > 0 && (
-                <span className="text-light text-decoration-line-through opacity-75">
-                  {discountInfo.old}
+                <span className="badge gog-discount-bg rounded me-2 text-white fw-bold fs-6" role="status" aria-label={`Desconto de ${discountInfo.percentage}`}>
+                  {discountInfo.percentage}
                 </span>
               )}
-              <span className="gog-card-price fs-6">
-                <strong>{discountInfo.current}</strong>
-              </span>
-            </div>
 
+              <div className="d-flex flex-column text-end">
+                {game.discountValue > 0 && (
+                  <span className="text-light text-decoration-line-through opacity-75" aria-label="Preço original">
+                    {discountInfo.old}
+                  </span>
+                )}
+                <span className="gog-card-price fs-6" aria-label="Preço atual">
+                  <strong>{discountInfo.current}</strong>
+                </span>
+              </div>
+
+            </div>
           </div>
         </div>
-
-      </div>
-    </div>
+      </button>
+    </article>
   );
 }
 

@@ -25,3 +25,28 @@ body {
 .card-body {
   background-color: #212121 !important;
 }
+
+/* Correção para proporção das imagens dos jogos */
+.card-img-top {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  aspect-ratio: 3/4;
+}
+
+.card {
+  overflow: hidden;
+}
+
+.card .figure {
+  margin: 0;
+  padding: 0;
+}
+
+.card .figure img {
+  transition: transform 0.3s ease;
+}
+
+.gog-card-hover:hover .figure img {
+  transform: scale(1.05);
+}

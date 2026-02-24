@@ -38,8 +38,7 @@ const Banner = (props: any) => {
   }
 
   return (
-    // ✅ data-bs-ride="carousel" JÁ ESTÁ AQUI para habilitar o movimento automático
-    <div id="gameList" className="container carousel slide" data-bs-ride="carousel">
+    <header id="gameList" className="container carousel slide" data-bs-ride="carousel" role="banner" aria-label="Ofertas de jogos em destaque">
       {/* Indicadores Dinâmicos */}
       <ol className="carousel-indicators">
         {games.map((game, index) => (
@@ -49,12 +48,12 @@ const Banner = (props: any) => {
             data-bs-slide-to={index}
             className={`bg-primary ${index === 0 ? 'active' : ''}`}
             aria-current={index === 0 ? 'true' : 'false'}
-            aria-label={`Slide ${index + 1}`}
+            aria-label={`Slide ${index + 1}: ${game.title}`}
           />
         ))}
       </ol>
 
-      <div className="carousel-inner" role="listbox">
+      <section className="carousel-inner" aria-label="Lista de jogos em oferta">
         {games.map((game, index) => {
           const discountInfo = calculateDiscount(game.price, game.discountValue);
 
@@ -65,12 +64,17 @@ const Banner = (props: any) => {
           if (!imagePath) return null;
 
           return (
-            <div key={game._id} className={`carousel-item ${index === 0 ? 'active' : ''}`} data-bs-interval="5000">
-              <img
-                src={resolveImage(imagePath)}
-                className="w-100 d-block opacity-75"
-                alt={game.title}
-              />
+            <article key={game._id} className={`carousel-item ${index === 0 ? 'active' : ''}`} data-bs-interval="5000" role="tabpanel" aria-roledescription="Slide">
+              <figure>
+                <img
+                  src={resolveImage(imagePath)}
+                  className="w-100 d-block opacity-75"
+                  alt={`Capa do jogo ${game.title}`}
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  width="1920"
+                  height="600"
+                />
+              </figure>
 
               <div className="carousel-caption text-start py-md-5">
                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-end align-items-md-end">
@@ -85,7 +89,7 @@ const Banner = (props: any) => {
                     <div className="d-flex align-items-center mb-1">
                       {isDiscounted && (
                         <p className="badge discount-percentage h-100 rounded me-3 text-dark fs-5">
-                          <FiTag className="me-1" /> {discountInfo.percentage}
+                          <FiTag className="me-1" aria-hidden="true" /> {discountInfo.percentage}
                         </p>
                       )}
                       <div className="d-flex flex-column text-end">
@@ -102,28 +106,29 @@ const Banner = (props: any) => {
                         className="btn btn-success btn-lg fw-bold d-flex align-items-center"
                         to={`${GAME_DETAIL_PAGE_PATH}?gameTitle=${encodeURIComponent(game.title)}`}
                         role="button"
+                        aria-label={`Comprar ${game.title} por ${discountInfo.current}`}
                       >
-                        <FiShoppingBag className="me-2" /> Comprar
+                        <FiShoppingBag className="me-2" aria-hidden="true" /> Comprar
                       </Link>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </article>
           );
         })}
-      </div>
+      </section>
 
       {/* Controles de navegação - Estão corretos para o Bootstrap */}
-      <button className="carousel-control-prev" type="button" data-bs-target="#gameList" data-bs-slide="prev">
+      <button className="carousel-control-prev" type="button" data-bs-target="#gameList" data-bs-slide="prev" aria-label="Slide anterior">
         <span className="carousel-control-prev-icon" aria-hidden="true"></span>
         <span className="visually-hidden">Previous</span>
       </button>
-      <button className="carousel-control-next" type="button" data-bs-target="#gameList" data-bs-slide="next">
+      <button className="carousel-control-next" type="button" data-bs-target="#gameList" data-bs-slide="next" aria-label="Próximo slide">
         <span className="carousel-control-next-icon" aria-hidden="true"></span>
         <span className="visually-hidden">Next</span>
       </button>
-    </div>
+    </header>
   );
 }
 

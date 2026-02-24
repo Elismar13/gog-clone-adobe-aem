@@ -80,8 +80,49 @@ const GameDetail = ({ gameTitle }) => {
   };
 
   return (
-    // 1. Container Geral com background semi-transparente
-    <div className="bg-dark text-white gog-details-page-wrapper">
+    <main className="bg-dark text-white gog-details-page-wrapper">
+
+      {/* Schema.org Product JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": game.title,
+            "image": game.imageList?.map(img => resolveImage(img._path)) || [],
+            "description": game.description?.html?.replace(/<[^>]*>/g, '') || `Compre ${game.title} na GOG Store`,
+            "sku": game._id,
+            "brand": {
+              "@type": "Brand",
+              "name": game.developer?.name || "GOG"
+            },
+            "offers": {
+              "@type": "Offer",
+              "url": window.location.href,
+              "priceCurrency": "BRL",
+              "price": parseFloat(game.price) || 0,
+              "priceValidUntil": new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+              "availability": "https://schema.org/InStock",
+              "itemCondition": "https://schema.org/NewCondition",
+              "seller": {
+                "@type": "Organization",
+                "name": "GOG Store"
+              }
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": game.score || 0,
+              "bestRating": 100,
+              "worstRating": 0
+            },
+            "manufacturer": {
+              "@type": "Organization",
+              "name": game.developer?.name || "Unknown"
+            }
+          })
+        }}
+      />
 
       {/* Banner de Fundo (Blurry effect do GOG) */}
       <div
@@ -95,92 +136,111 @@ const GameDetail = ({ gameTitle }) => {
 
           {/* COLUNA ESQUERDA: Capa, Título e Descrição */}
           <div className="col-12 col-lg-8">
-            <div className="d-flex mb-4">
-              <img
-                src={coverImageUrl}
-                alt={`Capa de ${game.title}`}
-                className="img-fluid rounded shadow-lg me-4"
-                style={{ width: '300px', height: 'auto' }}
-              />
-
-              <div className="text-white">
-                <h1 className="text-white fw-bold mb-2">{game.title}</h1>
-                <p className="text-white small d-flex align-items-center mb-1"><FiUser className="me-2" /> Desenvolvedor: {game.developer.name}</p>
-                <p className="text-white small d-flex align-items-center mb-1"><FiCalendar className="me-2" /> Lançamento: {game.releaseDate}</p>
-                <div className="d-flex">
-                  <span className="badge bg-success p-2 me-2 d-flex align-items-center"><FiStar className="me-1" /> Nota: {game.score}/100</span>
-                  <span className="badge bg-info p-2">DRM-FREE</span>
-                </div>
-              </div>
-            </div>
-
-            <hr className="border-secondary" />
-
-            <div className="gog-description mt-4">
-              <h2>Sobre o Jogo</h2>
-              <div
-                className="text-light"
-                dangerouslySetInnerHTML={{ __html: game.description.html }}
-              />
-            </div>
-
-            <h3 className="mt-5 text-white">Imagens</h3>
-            <div className="row row-cols-2 row-cols-md-3 g-3">
-              {game.imageList.map((img, i) => (
-                <div className="col" key={i}>
+            <article>
+              <header className="d-flex mb-4">
+                <figure>
                   <img
-                    src={resolveImage(img._path)}
-                    alt={`Screenshot ${i + 1}`}
-                    className="img-fluid rounded"
-                    style={{ aspectRatio: '16/9', objectFit: 'cover' }}
+                    src={coverImageUrl}
+                    alt={`Capa de ${game.title}`}
+                    className="img-fluid rounded shadow-lg me-4"
+                    style={{ width: '300px', height: 'auto' }}
+                    loading="eager"
                   />
+                </figure>
+
+                <div className="text-white">
+                  <h1 className="text-white fw-bold mb-2">{game.title}</h1>
+                  <p className="text-white small d-flex align-items-center mb-1">
+                    <FiUser className="me-2" aria-hidden="true" /> Desenvolvedor: {game.developer.name}
+                  </p>
+                  <p className="text-white small d-flex align-items-center mb-1">
+                    <FiCalendar className="me-2" aria-hidden="true" /> Lançamento: {game.releaseDate}
+                  </p>
+                  <div className="d-flex">
+                    <span className="badge bg-success p-2 me-2 d-flex align-items-center">
+                      <FiStar className="me-1" aria-hidden="true" /> Nota: {game.score}/100
+                    </span>
+                    <span className="badge bg-info p-2">DRM-FREE</span>
+                  </div>
                 </div>
-              ))}
-            </div>
+              </header>
+
+              <hr className="border-secondary" />
+
+              <section className="gog-description mt-4" aria-labelledby="game-description">
+                <h2 id="game-description">Sobre o Jogo</h2>
+                <div
+                  className="text-light"
+                  dangerouslySetInnerHTML={{ __html: game.description.html }}
+                />
+              </section>
+
+              <section className="mt-5" aria-labelledby="game-screenshots">
+                <h2 id="game-screenshots">Imagens</h2>
+                <div className="row row-cols-2 row-cols-md-3 g-3" role="list" aria-label="Screenshots do jogo">
+                  {game.imageList.map((img, i) => (
+                    <div className="col" key={i}>
+                      <figure>
+                        <img
+                          src={resolveImage(img._path)}
+                          alt={`Screenshot ${i + 1} de ${game.title}`}
+                          className="img-fluid rounded"
+                          style={{ aspectRatio: '16/9', objectFit: 'cover' }}
+                          loading="lazy"
+                        />
+                      </figure>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </article>
           </div>
 
           {/* COLUNA DIREITA (SIDEBAR): Card de Compra e Detalhes Técnicos */}
-          <div className="col-12 col-lg-4">
-            <div className="card bg-secondary text-white border-0 p-3 rounded-3 mb-4">
-              <h4 className="card-title text-center fw-bold">Comprar Jogo</h4>
+          <aside className="col-12 col-lg-4">
+            <section className="card bg-secondary text-white border-0 p-3 rounded-3 mb-4" aria-labelledby="purchase-title">
+              <h3 id="purchase-title" className="card-title text-center fw-bold">Comprar Jogo</h3>
               <hr />
 
               <div className="d-flex align-items-center mb-3">
                 {isDiscounted && (
-                  <span className={`badge ${discountClass} p-3 rounded me-3 fs-4`}>
+                  <span className={`badge ${discountClass} p-3 rounded me-3 fs-4`} role="status" aria-label={`Desconto de ${percentage}`}>
                     {percentage}
                   </span>
                 )}
                 <div className="d-flex flex-column">
                   {isDiscounted && (
-                    <span className="text-decoration-line-through">{old}</span>
+                    <span className="text-decoration-line-through" aria-label="Preço original">{old}</span>
                   )}
-                  <span className={`fs-3 fw-bold ${priceColorClass}`}>
+                  <span className={`fs-3 fw-bold ${priceColorClass}`} aria-label="Preço atual">
                     {current}
                   </span>
                 </div>
               </div>
 
-              <button className="btn btn-success text-light btn-lg fw-bold d-flex align-items-center justify-content-center" onClick={handleAddToCart}>
-                <FiShoppingCart className="me-2" /> Adicionar
+              <button 
+                className="btn btn-success text-light btn-lg fw-bold d-flex align-items-center justify-content-center w-100" 
+                onClick={handleAddToCart}
+                aria-label={`Adicionar ${game.title} ao carrinho por ${current}`}
+              >
+                <FiShoppingCart className="me-2" aria-hidden="true" /> Adicionar
               </button>
 
               <p className="text-center text-white small mt-3">DRM-FREE &bull; Dinheiro de volta em 30 dias</p>
-            </div>
+            </section>
 
-            <div className="card bg-secondary text-white border-0 p-3 rounded-3">
-              <h5 className="text-white text-center mb-3">Detalhes</h5>
+            <section className="card bg-secondary text-white border-0 p-3 rounded-3" aria-labelledby="details-title">
+              <h3 id="details-title" className="text-white text-center mb-3">Detalhes</h3>
               <hr />
               <ul className="list-unstyled small">
                 <li>Desenvolvedor: {game.developer.name}</li>
                 <li>Editora: {game.developer.name}</li>
               </ul>
-            </div>
-
-          </div>
+            </section>
+          </aside>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 

@@ -16,24 +16,26 @@ const Gamelist: FunctionComponent<GamelistProps> = (props: GamelistProps) => {
   const { data: games, loading } = useGamesByGenre(gameGenre);
 
   return (
-    <div className="container text-white my-5">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <p className="text-white text-start fs-4 fw-bold mb-0">{title}</p>
-        <span className="text-end">Veja mais</span>
-      </div>
+    <section className="container text-white my-5" aria-label={`Lista de jogos: ${title}`}>
+      <header className="d-flex justify-content-between align-items-center mb-3">
+        <h2 className="text-white text-start fs-4 fw-bold mb-0">{title}</h2>
+        <button className="text-end text-white text-decoration-none bg-transparent border-0" aria-label={`Ver mais jogos de ${title}`}>
+          Veja mais
+        </button>
+      </header>
 
-      <hr />
+      <hr className="border-secondary" />
 
-      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-        {loading && <div className="text-white">Carregando...</div>}
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" aria-label={`Jogos na categoria ${title}`}>
+        {loading && <div className="text-white" aria-live="polite">Carregando...</div>}
         {!loading && games.map((game, index) => (
           <Gameitem
-            key={index}
+            key={game._id || `game-${index}`}
             game={game}
           />
         ))}
       </div>
-    </div>
+    </section>
   );
 }
 

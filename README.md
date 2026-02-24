@@ -4,10 +4,58 @@
 A GOG.com inspired game store built with Adobe Experience Manager (AEM) as a Single Page Application (SPA) using React. This project demonstrates a full-featured e-commerce platform with authentication, shopping cart, and content management capabilities.
 
 ## 📚 Documentation
-For detailed technical specifications and configuration guides, please refer to the documentation in the `docs/` folder:
+For detailed technical specifications and configuration guides, please refer to documentation in `docs/` folder:
 - **[Technical Specification](docs/tech_spec.md)** - Comprehensive architecture, components, and development guidelines
 - **[Keycloak Configuration](docs/keycloak_config.md)** - Authentication server setup and configuration
 - **[Project Roadmap](docs/roadmap.md)** - Development phases, completed features, and future plans
+- **[SEO & GEO Implementation](docs/seo-improvements.md)** - Complete SEO optimization guide and implementation details
+
+## 🔍 SEO & GEO Optimization
+
+This project implements comprehensive SEO (Search Engine Optimization) and GEO (Generative Engine Optimization) strategies to maximize search visibility and user experience.
+
+### ✅ Implemented Features
+
+#### **HTML Base Optimization**
+- Meta tags fundamentais (charset, viewport, lang, title, description, keywords)
+- Open Graph meta tags for social media sharing
+- Twitter Card meta tags for rich social previews
+- Schema.org JSON-LD structured data for Organization
+- Canonical tags and robots meta directives
+- GEO tags for regional targeting (BR-SP)
+
+#### **Component-Level SEO**
+- **Banner**: Semantic HTML5, ARIA accessibility, optimized images
+- **Gamelist/Gameitem**: Proper heading hierarchy, lazy loading, image optimization
+- **Highlight**: Semantic structure, external link handling
+- **Gamedetail**: Schema.org Product JSON-LD, comprehensive accessibility
+
+#### **Performance Optimizations**
+- Core Web Vitals improvement (LCP, FID, CLS)
+- Image lazy loading and proper aspect ratios
+- Explicit image dimensions to prevent layout shift
+- Optimized loading strategies (eager vs lazy)
+
+#### **Accessibility (A11y)**
+- WCAG compliance with ARIA attributes
+- Screen reader support and keyboard navigation
+- Semantic HTML5 structure
+- Focus management and visual accessibility
+
+### 📊 SEO Benefits
+- **Rich Results**: Schema markup enables enhanced search snippets
+- **Social Sharing**: Optimized Open Graph and Twitter Cards
+- **Local SEO**: GEO tags for Brazilian market targeting
+- **Mobile Optimization**: Responsive design and mobile-friendly markup
+- **Performance**: Core Web Vitals optimization for better rankings
+
+### 🔧 Technical Implementation
+- **Semantic HTML5**: Proper use of header, main, article, section, aside
+- **Structured Data**: JSON-LD for Organization and Product schemas
+- **Image Optimization**: Alt text, lazy loading, proper dimensions
+- **Meta Tags**: Comprehensive meta information for search engines
+
+For complete implementation details, code examples, and validation guidelines, see the **[SEO & GEO Implementation Guide](docs/seo-improvements.md)**.
 
 ## 🚀 Quick Start
 

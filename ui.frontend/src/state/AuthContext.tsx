@@ -29,6 +29,8 @@ function getEnv(name: string, fallback?: string) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const p: any = (globalThis as any).process;
   const value = p?.env?.[name];
+  p?.stdout?.write?.('getEnv', name, value);
+  console.log('getEnv', name, value);
   return value || fallback;
 }
 

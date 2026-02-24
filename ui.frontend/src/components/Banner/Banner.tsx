@@ -38,7 +38,7 @@ const Banner = (props: any) => {
   }
 
   return (
-    <header id="gameList" className="container carousel slide" data-bs-ride="carousel" role="banner" aria-label="Ofertas de jogos em destaque">
+    <section id="gameList" className="container carousel slide" data-bs-ride="carousel" aria-label="Ofertas de jogos em destaque">
       {/* Indicadores Dinâmicos */}
       <ol className="carousel-indicators">
         {games.map((game, index) => (
@@ -128,7 +128,7 @@ const Banner = (props: any) => {
         <span className="carousel-control-next-icon" aria-hidden="true"></span>
         <span className="visually-hidden">Next</span>
       </button>
-    </header>
+    </section>
   );
 }
 

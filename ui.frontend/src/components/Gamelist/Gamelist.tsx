@@ -17,12 +17,12 @@ const Gamelist: FunctionComponent<GamelistProps> = (props: GamelistProps) => {
 
   return (
     <section className="container text-white my-5" aria-label={`Lista de jogos: ${title}`}>
-      <header className="d-flex justify-content-between align-items-center mb-3">
+      <div className="d-flex justify-content-between align-items-center mb-3">
         <h2 className="text-white text-start fs-4 fw-bold mb-0">{title}</h2>
         <button className="text-end text-white text-decoration-none bg-transparent border-0" aria-label={`Ver mais jogos de ${title}`}>
           Veja mais
         </button>
-      </header>
+      </div>
 
       <hr className="border-secondary" />
 

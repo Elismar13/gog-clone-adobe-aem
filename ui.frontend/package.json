@@ -34,7 +34,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "aem-clientlib-generator": "^1.5.0",
+    "aem-clientlib-generator": "^1.8.0",
     "aemsync": "^4.0.0",
     "ajv": "^6.10.0",
     "autoprefixer": "^10.4.21",

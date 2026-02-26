@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.1.2
+    container_name: keycloak
+    restart: unless-stopped
+
+    environment:
+      # === Admin ===
+      KEYCLOAK_ADMIN: elismar
+      KEYCLOAK_ADMIN_PASSWORD: elismar-poc-gogstore
+
+      # === H2 (file mode - persistente) ===
+      KC_DB: dev-file
+
+      # === Networking / Proxy ===
+      KC_PROXY: edge
+      KC_HTTP_ENABLED: true
+      KC_HOSTNAME: your-random-subdomain.trycloudflare.com
+
+      # === JVM otimizada para 512MB ===
+      JAVA_OPTS_APPEND: "-Xms96m -Xmx192m -XX:+UseSerialGC -XX:MaxRAMPercentage=70"
+
+      # === Desligar coisas desnecessárias ===
+      KC_METRICS_ENABLED: false
+      KC_HEALTH_ENABLED: false
+
+    command:
+      - start-dev
+
+    ports:
+      - "127.0.0.1:8080:8080"
+
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: "0.5"
+
+volumes:
+  keycloak_data:
